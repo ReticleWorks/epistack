@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>LHC case evidence — Epistack</title>
+  <style>
+    :root {
+      --ink: #112b36;
+      --muted: #52656c;
+      --paper: #f5f1e8;
+      --surface: #fffdf8;
+      --navy: #082b3a;
+      --teal: #08645f;
+      --teal-pale: #d9efea;
+      --line: #a6b0af;
+      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --serif: Iowan Old Style, Baskerville, Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.55; }
+    body { margin: 0; }
+    .doc-header {
+      padding: 1.15rem clamp(1rem, 4vw, 3rem);
+      color: #fff;
+      background: linear-gradient(135deg, var(--navy) 0%, #0b3a4a 100%);
+      border-bottom: 4px solid var(--teal);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .doc-header .brand { display: flex; align-items: baseline; gap: .8rem; }
+    .doc-header .wordmark { margin: 0; font-family: var(--serif); font-weight: 700; font-size: 1.55rem; letter-spacing: -.01em; color: #fff; text-decoration: none; }
+    .doc-header .doc-crumb { margin: 0; color: #9fe8df; font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .doc-header .back { color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.55); padding: .55rem 1rem; font-weight: 800; font-size: .82rem; text-decoration: none; }
+    .doc-header .back:hover { background: rgba(255,255,255,.12); }
+    main { max-width: 820px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem); }
+    main h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.9rem, 4vw, 2.75rem); line-height: 1.1; letter-spacing: -.01em; margin-top: 0; margin-bottom: 1rem; }
+    main h2 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.4rem, 2.8vw, 1.85rem); line-height: 1.15; margin-top: 2rem; margin-bottom: .7rem; }
+    main h3 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.35rem); margin-top: 1.6rem; margin-bottom: .5rem; }
+    main p { margin: 0 0 1rem; }
+    main strong { font-weight: 700; color: var(--ink); }
+    main a { color: var(--teal); }
+    main code { background: rgba(8,100,95,.09); padding: .1rem .35rem; border-radius: 3px; font-size: .9em; }
+    main pre { background: var(--navy); color: #eaf1f3; padding: 1rem 1.1rem; overflow-x: auto; }
+    main pre code { background: transparent; color: inherit; padding: 0; }
+    main blockquote { border-left: 4px solid var(--teal); padding: .35rem 0 .35rem 1rem; margin: 1rem 0; color: var(--muted); }
+    main table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    main th, main td { padding: .55rem .7rem; border: 1px solid var(--line); text-align: left; vertical-align: top; font-size: .95rem; }
+    main th { background: var(--teal-pale); }
+    main ul, main ol { margin: 0 0 1rem; padding-left: 1.5rem; }
+    main hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+    .doc-footer {
+      padding: 1rem clamp(1rem, 4vw, 3rem);
+      color: #dcebed;
+      background: var(--navy);
+      font-size: .78rem;
+    }
+    .doc-footer a { color: #9fe8df; }
+    .source-link { display: inline-block; margin-top: 1rem; color: var(--muted); font-size: .82rem; }
+    @media (prefers-color-scheme: dark) {
+      /* keep light — content is designed for print/light */
+    }
+    @media print {
+      .doc-header .back, .doc-footer { display: none; }
+      main { max-width: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="doc-header">
+    <div class="brand">
+      <a class="wordmark" href="../../index.html">Epistack</a>
+      <p class="doc-crumb">EVIDENCE / LHC</p>
+    </div>
+    <a class="back" href="../../index.html">← Back to walkthrough</a>
+  </header>
+  <main>
+    <h1>LHC case evidence</h1>
+<h2>Scope</h2>
+<p>The LHC case is not a new collider-safety assessment. It tests whether Epistack can preserve a layered, largely settled safety argument and distinguish documented source relationships from claims the documents do not support.</p>
+<p>The <a href="source-manifest.json">source manifest</a> records six sources totaling 78,481 words in the panel text, with retrieval URLs, fingerprints, and per-source word counts. Full source texts are not redistributed here.</p>
+<h2>Conditional safety structure</h2>
+<p>Direct reading of the six-source record supports this structure:</p>
+<pre><code class="language-text">Standard physics does not expect dangerous black-hole production.
+|
++- If speculative production occurs:
+   +- Expected result: rapid Hawking evaporation.
+   +- If a microscopic black hole is stable:
+      +- If charged, cosmic-ray analogues should be trapped in Earth or the Sun.
+      +- If effectively neutral, dense stars should trap analogues;
+         old white dwarfs and neutron stars constrain dangerous accretion scenarios.</code></pre>
+<p>The 2008 official report expressly considers the possibility that Hawking evaporation is wrong and directs readers to astrophysical arguments that do not depend on it (<code>src-0001</code>, lines 151–155 and 402–406 in the preserved extraction). The Giddings–Mangano paper develops the stable-black-hole test through cosmic-ray collisions, accretion models, and the survival of compact stars (<code>src-0002</code>, lines 371 and 2437–2523).</p>
+<p>The supplied sources do not give a numerical probability for the joint failure of these defenses. The evidence supports a conditional argument map, not a catastrophe estimate.</p>
+<h2>Documented relationships</h2>
+<table><thead><tr><th>Relationship</th><th>Direct documentary support</th><th>What it does not establish</th></tr></thead><tbody><tr><td>Shared authorship</td><td>Michelangelo Mangano appears on the official report&#x27;s byline (<code>src-0001</code>, line 27) and the fallback paper&#x27;s byline (<code>src-0002</code>, line 34).</td><td>Shared data, invalid reasoning, bias, or falsity.</td></tr><tr><td>Acknowledged advice</td><td>The fallback paper thanks the other four official-report authors, among others, for guidance and advice (<code>src-0002</code>, lines 2538–2544).</td><td>The subject of each conversation, review of the final argument, or endorsement of the safety conclusion.</td></tr><tr><td>Citation relationship</td><td>The official report points to the fallback paper for detailed accretion scenarios (<code>src-0001</code>, lines 402–406 and reference [2] at line 1022).</td><td>That the two documents are equivalent or wholly dependent.</td></tr><tr><td>Outside specialist input</td><td>The fallback paper names outside specialists consulted about accretion, white dwarfs, and neutron-star systems (<code>src-0002</code>, lines 2547–2550).</td><td>That those specialists reviewed or endorsed the full safety conclusion.</td></tr></tbody></table>
+<p>These relationships justify closer inspection of how separate the report and its principal supporting paper are. They do not show that the physics is wrong or that the documents use one dataset.</p>
+<h2>Retrieval-depth experiment</h2>
+<p>The preserved panel retained two passages per reviewer because passages from the same file shared a source identifier and the filtering stage treated them as duplicates. An isolated treatment retained twelve passages per reviewer while preserving the question, source allocation, rank order, and all six baseline passages.</p>
+<p>The additional evidence contained both Mangano bylines. The two completed judgments did not connect them. The adviser acknowledgment was still absent from the retrieved evidence, and the third judgment was refused by the evidence checker. The result establishes that retrieval had hidden relevant bylines and that deeper retrieval alone did not complete the relationship check.</p>
+<p>The <a href="retrieval-depth.json">experiment record</a> preserves the baseline and treatment hashes, counts, and claim boundaries. It does not include internal service configuration, logs, code snapshots, database details, or proprietary implementation.</p>
+<hr>
+<p>© 2026 Reticle Works. All rights reserved. Prose licensed under CC BY 4.0. Code in <code>demo-crux/</code> licensed under MIT. See <a href="../../LICENSE">../../LICENSE</a>.</p>
+    <a class="source-link" href="README.md">View markdown source · README.md</a>
+  </main>
+  <footer class="doc-footer">
+    © 2026 Reticle Works. All rights reserved. Prose under CC BY 4.0; <code>demo-crux/</code> code under MIT.
+    See <a href="../../LICENSE">LICENSE</a>. Return to <a href="../../index.html">walkthrough</a>.
+  </footer>
+</body>
+</html>

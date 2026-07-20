@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Proposal-ready findings from the Deep Research comparison — Epistack</title>
+  <style>
+    :root {
+      --ink: #112b36;
+      --muted: #52656c;
+      --paper: #f5f1e8;
+      --surface: #fffdf8;
+      --navy: #082b3a;
+      --teal: #08645f;
+      --teal-pale: #d9efea;
+      --line: #a6b0af;
+      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --serif: Iowan Old Style, Baskerville, Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.55; }
+    body { margin: 0; }
+    .doc-header {
+      padding: 1.15rem clamp(1rem, 4vw, 3rem);
+      color: #fff;
+      background: linear-gradient(135deg, var(--navy) 0%, #0b3a4a 100%);
+      border-bottom: 4px solid var(--teal);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .doc-header .brand { display: flex; align-items: baseline; gap: .8rem; }
+    .doc-header .wordmark { margin: 0; font-family: var(--serif); font-weight: 700; font-size: 1.55rem; letter-spacing: -.01em; color: #fff; text-decoration: none; }
+    .doc-header .doc-crumb { margin: 0; color: #9fe8df; font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .doc-header .back { color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.55); padding: .55rem 1rem; font-weight: 800; font-size: .82rem; text-decoration: none; }
+    .doc-header .back:hover { background: rgba(255,255,255,.12); }
+    main { max-width: 820px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem); }
+    main h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.9rem, 4vw, 2.75rem); line-height: 1.1; letter-spacing: -.01em; margin-top: 0; margin-bottom: 1rem; }
+    main h2 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.4rem, 2.8vw, 1.85rem); line-height: 1.15; margin-top: 2rem; margin-bottom: .7rem; }
+    main h3 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.35rem); margin-top: 1.6rem; margin-bottom: .5rem; }
+    main p { margin: 0 0 1rem; }
+    main strong { font-weight: 700; color: var(--ink); }
+    main a { color: var(--teal); }
+    main code { background: rgba(8,100,95,.09); padding: .1rem .35rem; border-radius: 3px; font-size: .9em; }
+    main pre { background: var(--navy); color: #eaf1f3; padding: 1rem 1.1rem; overflow-x: auto; }
+    main pre code { background: transparent; color: inherit; padding: 0; }
+    main blockquote { border-left: 4px solid var(--teal); padding: .35rem 0 .35rem 1rem; margin: 1rem 0; color: var(--muted); }
+    main table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    main th, main td { padding: .55rem .7rem; border: 1px solid var(--line); text-align: left; vertical-align: top; font-size: .95rem; }
+    main th { background: var(--teal-pale); }
+    main ul, main ol { margin: 0 0 1rem; padding-left: 1.5rem; }
+    main hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+    .doc-footer {
+      padding: 1rem clamp(1rem, 4vw, 3rem);
+      color: #dcebed;
+      background: var(--navy);
+      font-size: .78rem;
+    }
+    .doc-footer a { color: #9fe8df; }
+    .source-link { display: inline-block; margin-top: 1rem; color: var(--muted); font-size: .82rem; }
+    @media (prefers-color-scheme: dark) {
+      /* keep light — content is designed for print/light */
+    }
+    @media print {
+      .doc-header .back, .doc-footer { display: none; }
+      main { max-width: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="doc-header">
+    <div class="brand">
+      <a class="wordmark" href="../../index.html">Epistack</a>
+      <p class="doc-crumb">EVIDENCE / PERPLEXITY</p>
+    </div>
+    <a class="back" href="../../index.html">← Back to walkthrough</a>
+  </header>
+  <main>
+    <h1>Proposal-ready findings from the Deep Research comparison</h1>
+<h2>Suggested core passage</h2>
+<p>We gave Perplexity Deep Research the same COVID question and the same ten-source starting corpus. We also asked it directly to name the claim carrying its conclusion and to check whether the sources behind that claim were independent. The output we received was a useful 258-word synthesis. It named ascertainment bias as the hinge and noticed shared authorship and debate ancestry among several sources.</p>
+<p>It also showed why a structured lineage check matters. Deep Research said three papers shared &quot;a single case dataset.&quot; They do share authors, but not one dataset: one studies December case locations, another uses early viral genomes and epidemic simulations, and the third analyzes genomic features. The returned answer supplied no source spans or source-use table with which to inspect that relationship. A person following the Epistack workflow would record <strong>shared authorship</strong> as the relationship, attach the supporting bylines, and leave the distinct data sources intact.</p>
+<p>This is not an overall win for Epistack. Deep Research produced the better single narrative and found the hinge when asked. Epistack changes the form of the work: AI reviews remain separate, and a person records the hinge and the lineage of its support in a case record that another reader can challenge and revise. Our current artifacts demonstrate separate judgments, corpus provenance, an acceptance target, and a manual source-lineage correction. They do not establish that this workflow produces better answers in general.</p>
+<h2>Compact comparison table</h2>
+<table><thead><tr><th>Same COVID question and ten-source starting corpus</th><th>Perplexity Deep Research, one instructed run</th><th>Epistack evidence supplied with this submission</th></tr></thead><tbody><tr><td>Readable answer</td><td>Strong, concise synthesis</td><td>Separate reviews rather than one final narrative</td></tr><tr><td>Names the hinge</td><td>Yes, after being asked directly</td><td>A person names it; the local mechanical demonstration missed the COVID target</td></tr><tr><td>Checks source lineage</td><td>Found useful relationships, but merged shared authorship into a false shared-dataset claim</td><td>A person demonstrated a source-spanned lineage correction on the LHC case</td></tr><tr><td>Makes the check inspectable</td><td>The returned answer had no claim-linked spans or source-use table</td><td>Hashed corpus and raw judgments exist; the proposed case record keeps relationship types and supporting spans</td></tr><tr><td>What remains unproved</td><td>The single run does not establish typical Deep Research behavior</td><td>The supplied work does not establish general uplift or an automated end-to-end method</td></tr></tbody></table>
+<h2>Required caveats</h2>
+<ul><li>Call this a genuine <code>pplx_deep_research</code> run, not the earlier <code>pplx_best</code> baseline.</li><li>Say &quot;the output we received,&quot; not &quot;Perplexity Deep Research never provides,&quot; because the local tool returned only a summary and URL list.</li><li>State that the prompt explicitly requested hinge and dependency analysis. Do not imply that these appeared unprompted.</li><li>Do not use Perplexity&#x27;s 65–80% figure as a scientific result; the returned record did not show how it was calibrated.</li><li>Do not claim a win, benchmark result, or typical behavior from one run.</li><li>Describe Epistack as a human-AI workflow: AI produces separate source-cited reviews; a person identifies the load-bearing claim and checks lineage.</li></ul>
+<hr>
+<p>© 2026 Reticle Works. All rights reserved. Prose licensed under CC BY 4.0. Code in <code>demo-crux/</code> licensed under MIT. See <a href="../../LICENSE">../../LICENSE</a>.</p>
+    <a class="source-link" href="PROPOSAL-READY-FINDINGS.md">View markdown source · PROPOSAL-READY-FINDINGS.md</a>
+  </main>
+  <footer class="doc-footer">
+    © 2026 Reticle Works. All rights reserved. Prose under CC BY 4.0; <code>demo-crux/</code> code under MIT.
+    See <a href="../../LICENSE">LICENSE</a>. Return to <a href="../../index.html">walkthrough</a>.
+  </footer>
+</body>
+</html>

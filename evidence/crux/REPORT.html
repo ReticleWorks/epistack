@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Crux component validation — Epistack</title>
+  <style>
+    :root {
+      --ink: #112b36;
+      --muted: #52656c;
+      --paper: #f5f1e8;
+      --surface: #fffdf8;
+      --navy: #082b3a;
+      --teal: #08645f;
+      --teal-pale: #d9efea;
+      --line: #a6b0af;
+      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --serif: Iowan Old Style, Baskerville, Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.55; }
+    body { margin: 0; }
+    .doc-header {
+      padding: 1.15rem clamp(1rem, 4vw, 3rem);
+      color: #fff;
+      background: linear-gradient(135deg, var(--navy) 0%, #0b3a4a 100%);
+      border-bottom: 4px solid var(--teal);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .doc-header .brand { display: flex; align-items: baseline; gap: .8rem; }
+    .doc-header .wordmark { margin: 0; font-family: var(--serif); font-weight: 700; font-size: 1.55rem; letter-spacing: -.01em; color: #fff; text-decoration: none; }
+    .doc-header .doc-crumb { margin: 0; color: #9fe8df; font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .doc-header .back { color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.55); padding: .55rem 1rem; font-weight: 800; font-size: .82rem; text-decoration: none; }
+    .doc-header .back:hover { background: rgba(255,255,255,.12); }
+    main { max-width: 820px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem); }
+    main h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.9rem, 4vw, 2.75rem); line-height: 1.1; letter-spacing: -.01em; margin-top: 0; margin-bottom: 1rem; }
+    main h2 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.4rem, 2.8vw, 1.85rem); line-height: 1.15; margin-top: 2rem; margin-bottom: .7rem; }
+    main h3 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.35rem); margin-top: 1.6rem; margin-bottom: .5rem; }
+    main p { margin: 0 0 1rem; }
+    main strong { font-weight: 700; color: var(--ink); }
+    main a { color: var(--teal); }
+    main code { background: rgba(8,100,95,.09); padding: .1rem .35rem; border-radius: 3px; font-size: .9em; }
+    main pre { background: var(--navy); color: #eaf1f3; padding: 1rem 1.1rem; overflow-x: auto; }
+    main pre code { background: transparent; color: inherit; padding: 0; }
+    main blockquote { border-left: 4px solid var(--teal); padding: .35rem 0 .35rem 1rem; margin: 1rem 0; color: var(--muted); }
+    main table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    main th, main td { padding: .55rem .7rem; border: 1px solid var(--line); text-align: left; vertical-align: top; font-size: .95rem; }
+    main th { background: var(--teal-pale); }
+    main ul, main ol { margin: 0 0 1rem; padding-left: 1.5rem; }
+    main hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+    .doc-footer {
+      padding: 1rem clamp(1rem, 4vw, 3rem);
+      color: #dcebed;
+      background: var(--navy);
+      font-size: .78rem;
+    }
+    .doc-footer a { color: #9fe8df; }
+    .source-link { display: inline-block; margin-top: 1rem; color: var(--muted); font-size: .82rem; }
+    @media (prefers-color-scheme: dark) {
+      /* keep light — content is designed for print/light */
+    }
+    @media print {
+      .doc-header .back, .doc-footer { display: none; }
+      main { max-width: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="doc-header">
+    <div class="brand">
+      <a class="wordmark" href="../../index.html">Epistack</a>
+      <p class="doc-crumb">EVIDENCE / CRUX</p>
+    </div>
+    <a class="back" href="../../index.html">← Back to walkthrough</a>
+  </header>
+  <main>
+    <h1>Crux component validation</h1>
+<h2>Outcome</h2>
+<p>The deterministic reference component extracts a concrete disputed claim from the preserved three-reviewer COVID panel.</p>
+<p>The baseline record met <strong>2/5</strong> declared checks; the current record meets <strong>5/5</strong>. These are structural and evidentiary checks, not a general semantic-accuracy score.</p>
+<p>The extracted claim is the market specialist&#x27;s own proposition that the spatial concentration of early cases around Huanan is moderately strong, though not conclusive, evidence that the market was the pandemic&#x27;s epicenter. The other specialists are represented as challenging that weight or assigning it some weight subject to ascertainment bias. The extractor classifies the dispute as <code>different weighting / likelihood ratio</code>, resolves each position&#x27;s cited files, and carries forward explicit evidence that could change the judgment.</p>
+<h2>What the component returns</h2>
+<p>The current component:</p>
+<ol><li>reads each judgment&#x27;s <code>Position</code> section;</li><li>selects the proposition most directly responsive to the common query;</li><li>labels each specialist <code>supports</code>, <code>challenges</code>, or <code>insufficient_evidence</code>;</li><li>resolves cited ids to source filenames and URLs carried in retrieved facts;</li><li>classifies the dispute and reports the basis and confidence of that label;</li><li>extracts explicit statements about evidence that would change the judgment;</li><li>distinguishes true support/challenge disagreement from support plus abstention.</li></ol>
+<p>The declared reference answer was unchanged (SHA-256 <code>04376455d6079bb590e535d8f63cbeb2663039d33f48b93a2551bd18f304164b</code>) and was not passed to the extractor.</p>
+<h2>Verification</h2>
+<ul><li>Four standard-library tests pass, including an unrelated clinical-trial panel</li></ul>
+<p>and a support-plus-abstention case.</p>
+<ul><li>The evaluator reproduces the preserved COVID output and scores all five declared</li></ul>
+<p>checks as passing.</p>
+<ul><li>An independent code review examined specificity, abstention behavior, and the</li></ul>
+<p>basis for disagreement labels. The final test suite covers its material findings.</p>
+<ul><li>The review&#x27;s remaining caveat is adopted here: 5/5 shows that the extractor emits</li></ul>
+<p>the required concrete and inspectable fields. It does not establish semantic accuracy across arbitrary domains.</p>
+<h2>Run it</h2>
+<p>From <code>../../demo-crux/</code>:</p>
+<pre><code class="language-sh">python3 run_demo.py covid</code></pre>
+<p>No database, model call, network request, or reference-answer input is used during extraction.</p>
+<h2>Evidence files</h2>
+<ul><li><code>after_crux_map.json</code> — current output over the preserved panel</li><li><code>before_after.json</code> — complete baseline and current outputs</li><li><code>oracle_score.json</code> — check-by-check score and evidence</li><li><code>exact_code_diff.patch</code> — exact baseline-to-current code diff</li><li><code>run_manifest.json</code> — implementation, input paths, hashes, and configuration</li><li><code>run_evaluation.py</code> — reproducible evaluator</li><li><code>INDEPENDENT-COMPONENT-REVIEW.md</code> — independent code and evidence review</li></ul>
+<h2>Boundary</h2>
+<p>The component is included in the demo package. The supplied record does not establish that this version is merged into the deployed Atlas service. The preserved panel came from a corpus-grounded run; rerunning the extractor does not rerun ingestion or the model panel. It deterministically processes that captured record.</p>
+<hr>
+<p>© 2026 Reticle Works. All rights reserved. Prose licensed under CC BY 4.0. Code in <code>demo-crux/</code> licensed under MIT. See <a href="../../LICENSE">../../LICENSE</a>.</p>
+    <a class="source-link" href="REPORT.md">View markdown source · REPORT.md</a>
+  </main>
+  <footer class="doc-footer">
+    © 2026 Reticle Works. All rights reserved. Prose under CC BY 4.0; <code>demo-crux/</code> code under MIT.
+    See <a href="../../LICENSE">LICENSE</a>. Return to <a href="../../index.html">walkthrough</a>.
+  </footer>
+</body>
+</html>

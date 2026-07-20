@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Audited comparison — Epistack</title>
+  <style>
+    :root {
+      --ink: #112b36;
+      --muted: #52656c;
+      --paper: #f5f1e8;
+      --surface: #fffdf8;
+      --navy: #082b3a;
+      --teal: #08645f;
+      --teal-pale: #d9efea;
+      --line: #a6b0af;
+      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --serif: Iowan Old Style, Baskerville, Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.55; }
+    body { margin: 0; }
+    .doc-header {
+      padding: 1.15rem clamp(1rem, 4vw, 3rem);
+      color: #fff;
+      background: linear-gradient(135deg, var(--navy) 0%, #0b3a4a 100%);
+      border-bottom: 4px solid var(--teal);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .doc-header .brand { display: flex; align-items: baseline; gap: .8rem; }
+    .doc-header .wordmark { margin: 0; font-family: var(--serif); font-weight: 700; font-size: 1.55rem; letter-spacing: -.01em; color: #fff; text-decoration: none; }
+    .doc-header .doc-crumb { margin: 0; color: #9fe8df; font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .doc-header .back { color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.55); padding: .55rem 1rem; font-weight: 800; font-size: .82rem; text-decoration: none; }
+    .doc-header .back:hover { background: rgba(255,255,255,.12); }
+    main { max-width: 820px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem); }
+    main h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.9rem, 4vw, 2.75rem); line-height: 1.1; letter-spacing: -.01em; margin-top: 0; margin-bottom: 1rem; }
+    main h2 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.4rem, 2.8vw, 1.85rem); line-height: 1.15; margin-top: 2rem; margin-bottom: .7rem; }
+    main h3 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.35rem); margin-top: 1.6rem; margin-bottom: .5rem; }
+    main p { margin: 0 0 1rem; }
+    main strong { font-weight: 700; color: var(--ink); }
+    main a { color: var(--teal); }
+    main code { background: rgba(8,100,95,.09); padding: .1rem .35rem; border-radius: 3px; font-size: .9em; }
+    main pre { background: var(--navy); color: #eaf1f3; padding: 1rem 1.1rem; overflow-x: auto; }
+    main pre code { background: transparent; color: inherit; padding: 0; }
+    main blockquote { border-left: 4px solid var(--teal); padding: .35rem 0 .35rem 1rem; margin: 1rem 0; color: var(--muted); }
+    main table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    main th, main td { padding: .55rem .7rem; border: 1px solid var(--line); text-align: left; vertical-align: top; font-size: .95rem; }
+    main th { background: var(--teal-pale); }
+    main ul, main ol { margin: 0 0 1rem; padding-left: 1.5rem; }
+    main hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+    .doc-footer {
+      padding: 1rem clamp(1rem, 4vw, 3rem);
+      color: #dcebed;
+      background: var(--navy);
+      font-size: .78rem;
+    }
+    .doc-footer a { color: #9fe8df; }
+    .source-link { display: inline-block; margin-top: 1rem; color: var(--muted); font-size: .82rem; }
+    @media (prefers-color-scheme: dark) {
+      /* keep light — content is designed for print/light */
+    }
+    @media print {
+      .doc-header .back, .doc-footer { display: none; }
+      main { max-width: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="doc-header">
+    <div class="brand">
+      <a class="wordmark" href="../../index.html">Epistack</a>
+      <p class="doc-crumb">EVIDENCE / PERPLEXITY</p>
+    </div>
+    <a class="back" href="../../index.html">← Back to walkthrough</a>
+  </header>
+  <main>
+    <h1>Audited comparison</h1>
+<h2>What the run did well</h2>
+<p>The single Deep Research run produced the stronger integrated narrative. After the prompt directly requested it, the result named the practical hinge: whether the observed geographic pattern reflects transmission or ascertainment bias. It also noticed real source relationships, including shared authorship and debate ancestry. Epistack cannot claim that either capability is unique.</p>
+<h2>What the returned record lacked</h2>
+<p>The result was a 258-word answer plus fifteen URLs, not the requested full report and source-use table. It did not attach exact supporting passages to its claims, did not clearly identify a decision-changing observation, and did not provide a method for its 65–80% confidence range. The returned structure also did not identify which search results supported which sentence.</p>
+<h2>Relationship claim checked against the fixed sources</h2>
+<p>The result said sources 1–3 &quot;share authors and a single case dataset.&quot;</p>
+<p><strong>Supported:</strong> the three papers share authors. The source record lists Andersen, Rambaut, Holmes, and Garry on sources 1 and 3, and those four among the authors of source 2.</p>
+<p><strong>Not established:</strong> one case dataset across all three papers. The fixed sources centrally use different evidence:</p>
+<ul><li>source 1 analyzes December case locations, environmental samples, wildlife-sale evidence, and related population and mobility data;</li><li>source 2 analyzes early viral genomes, phylogenetic rooting, phylodynamic models, and epidemic simulations; and</li><li>source 3 analyzes viral genomic features and predates the two 2022 market papers.</li></ul>
+<p>The public source record therefore labels this relationship <strong>shared authorship</strong>, not <strong>one shared case dataset</strong>. That correction does not show that the papers are wrong. It prevents one relationship type from silently becoming another.</p>
+<h2>Comparison boundary</h2>
+<p>This is one instructed run. It does not establish typical Perplexity behavior or overall Epistack superiority. Deep Research produced a useful answer and found the hinge. Epistack produces a different artifact: separate judgments, a proposed claim, typed relationship records, exact supporting locations, and corrections remain available for inspection.</p>
+<p>Whether that artifact helps readers reason better requires a comparative user study that has not been run.</p>
+<hr>
+<p>© 2026 Reticle Works. All rights reserved. Prose licensed under CC BY 4.0. Code in <code>demo-crux/</code> licensed under MIT. See <a href="../../LICENSE">../../LICENSE</a>.</p>
+    <a class="source-link" href="comparison.md">View markdown source · comparison.md</a>
+  </main>
+  <footer class="doc-footer">
+    © 2026 Reticle Works. All rights reserved. Prose under CC BY 4.0; <code>demo-crux/</code> code under MIT.
+    See <a href="../../LICENSE">LICENSE</a>. Return to <a href="../../index.html">walkthrough</a>.
+  </footer>
+</body>
+</html>
