@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light">
-  <title>Workflow specification — Epistack</title>
+  <title>Epistack — Compact workflow specification — Epistack</title>
   <style>
     :root {
       --ink: #112b36;
@@ -35,23 +35,20 @@
     .doc-header .back:hover { background: rgba(255,255,255,.12); }
     main { max-width: 820px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem); }
     main h1 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.9rem, 4vw, 2.75rem); line-height: 1.1; letter-spacing: -.01em; margin-top: 0; margin-bottom: 1rem; }
-    main h2 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.4rem, 2.8vw, 1.85rem); line-height: 1.15; margin-top: 2.4rem; margin-bottom: .7rem; }
+    main h2 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.4rem, 2.8vw, 1.85rem); line-height: 1.15; margin-top: 2rem; margin-bottom: .7rem; }
     main h3 { font-family: var(--serif); font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.35rem); margin-top: 1.6rem; margin-bottom: .5rem; }
     main p { margin: 0 0 1rem; }
     main strong { font-weight: 700; color: var(--ink); }
     main a { color: var(--teal); }
     main code { background: rgba(8,100,95,.09); padding: .1rem .35rem; border-radius: 3px; font-size: .9em; }
-    main pre { background: var(--navy); color: #eaf1f3; padding: 1.1rem 1.2rem; overflow-x: auto; border-radius: 6px; }
-    main pre code { background: transparent; color: inherit; padding: 0; font-size: .92rem; line-height: 1.6; }
+    main pre { background: var(--navy); color: #eaf1f3; padding: 1rem 1.1rem; overflow-x: auto; }
+    main pre code { background: transparent; color: inherit; padding: 0; }
     main blockquote { border-left: 4px solid var(--teal); padding: .35rem 0 .35rem 1rem; margin: 1rem 0; color: var(--muted); }
+    main table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    main th, main td { padding: .55rem .7rem; border: 1px solid var(--line); text-align: left; vertical-align: top; font-size: .95rem; }
+    main th { background: var(--teal-pale); }
+    main ul, main ol { margin: 0 0 1rem; padding-left: 1.5rem; }
     main hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
-    .hero { padding-bottom: .5rem; }
-    .eyebrow { margin: 0 0 .5rem; font-size: .78rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--teal); }
-    .lead { font-size: 1.1rem; color: var(--muted); max-width: 62ch; }
-    .diagram-frame { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 1rem clamp(.75rem, 3vw, 1.5rem); overflow-x: auto; }
-    .diagram-frame svg { min-width: 640px; color: var(--ink); }
-    .caption { color: var(--muted); font-size: .88rem; margin-top: .6rem; }
-    .source-link { display: inline-block; margin-top: 1rem; color: var(--muted); font-size: .82rem; }
     .doc-footer {
       padding: 1rem clamp(1rem, 4vw, 3rem);
       color: #dcebed;
@@ -59,6 +56,7 @@
       font-size: .78rem;
     }
     .doc-footer a { color: #9fe8df; }
+    .source-link { display: inline-block; margin-top: 1rem; color: var(--muted); font-size: .82rem; }
     @media (prefers-color-scheme: dark) {
       /* keep light — content is designed for print/light */
     }
@@ -72,113 +70,26 @@
   <header class="doc-header">
     <div class="brand">
       <a class="wordmark" href="index.html">Epistack</a>
-      <p class="doc-crumb">WORKFLOW SPECIFICATION</p>
+      <p class="doc-crumb">EPISTACK</p>
     </div>
     <a class="back" href="index.html">← Back to walkthrough</a>
   </header>
   <main>
-    <div class="hero">
-      <p class="eyebrow">Compact specification</p>
-      <h1>The six-stage Epistack workflow</h1>
-      <p class="lead">Epistack combines existing research functions around a common case record. Some collect and preserve sources. Some find relevant passages and produce separate judgments. A deterministic comparison component proposes the load-bearing claim. Other implemented facilities follow citations and organize source relationships. For relationships those facilities do not encode, the case record requires a typed relationship and its supporting passage. Each function leaves an inspectable artifact, so a later investigator can see where a result came from and where a later stage stopped.</p>
-    </div>
-
-    <h2>Workflow diagram</h2>
-    <div class="diagram-frame">
-<svg role="img" viewBox="0 0 900 180" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
-  <title>Epistack workflow: six stages from a narrow question to a versioned case record</title>
-  <desc>A horizontal flow of six stages. Stage 1, narrow question, stands alone. Stages 2 and 3, traceable corpus and separate judgments, are grouped as Atlas, the existing toolkit. Stages 4 and 5, crux extractor and typed relationships, are grouped as what Epistack adds. Stage 6, versioned case record, is the output.</desc>
-  <defs>
-    <marker id="epi-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-      <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
-    </marker>
-  </defs>
-  <path d="M160,90 L160,72 L440,72 L440,90" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.2"/>
-  <text x="300" y="60" text-anchor="middle" font-size="12" fill="currentColor" fill-opacity="0.75">Atlas (existing toolkit)</text>
-  <path d="M460,90 L460,72 L740,72 L740,90" fill="none" stroke="#08645f" stroke-width="1.2"/>
-  <text x="600" y="60" text-anchor="middle" font-size="12" fill="#08645f" font-weight="600">Epistack adds</text>
-  <line x1="140" y1="120" x2="157" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#epi-arrow)"/>
-  <line x1="290" y1="120" x2="307" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#epi-arrow)"/>
-  <line x1="440" y1="120" x2="457" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#epi-arrow)"/>
-  <line x1="590" y1="120" x2="607" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#epi-arrow)"/>
-  <line x1="740" y1="120" x2="757" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#epi-arrow)"/>
-  <g>
-    <rect x="10" y="90" width="130" height="60" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.4"/>
-    <circle cx="28" cy="104" r="9" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
-    <text x="28" y="107" text-anchor="middle" font-size="10" fill="currentColor">1</text>
-    <text x="75" y="123" text-anchor="middle" font-size="11" fill="currentColor">Narrow</text>
-    <text x="75" y="137" text-anchor="middle" font-size="11" fill="currentColor">question</text>
-  </g>
-  <g>
-    <rect x="160" y="90" width="130" height="60" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.4"/>
-    <circle cx="178" cy="104" r="9" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
-    <text x="178" y="107" text-anchor="middle" font-size="10" fill="currentColor">2</text>
-    <text x="225" y="123" text-anchor="middle" font-size="11" fill="currentColor">Traceable</text>
-    <text x="225" y="137" text-anchor="middle" font-size="11" fill="currentColor">corpus</text>
-  </g>
-  <g>
-    <rect x="310" y="90" width="130" height="60" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.4"/>
-    <circle cx="328" cy="104" r="9" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
-    <text x="328" y="107" text-anchor="middle" font-size="10" fill="currentColor">3</text>
-    <text x="375" y="123" text-anchor="middle" font-size="11" fill="currentColor">Separate</text>
-    <text x="375" y="137" text-anchor="middle" font-size="11" fill="currentColor">judgments</text>
-  </g>
-  <g>
-    <rect x="460" y="90" width="130" height="60" rx="6" fill="#08645f" fill-opacity="0.14" stroke="#08645f" stroke-width="1.2"/>
-    <circle cx="478" cy="104" r="9" fill="none" stroke="#08645f"/>
-    <text x="478" y="107" text-anchor="middle" font-size="10" fill="#08645f">4</text>
-    <text x="525" y="123" text-anchor="middle" font-size="11" fill="currentColor">Crux</text>
-    <text x="525" y="137" text-anchor="middle" font-size="11" fill="currentColor">extractor</text>
-  </g>
-  <g>
-    <rect x="610" y="90" width="130" height="60" rx="6" fill="#08645f" fill-opacity="0.14" stroke="#08645f" stroke-width="1.2"/>
-    <circle cx="628" cy="104" r="9" fill="none" stroke="#08645f"/>
-    <text x="628" y="107" text-anchor="middle" font-size="10" fill="#08645f">5</text>
-    <text x="675" y="123" text-anchor="middle" font-size="11" fill="currentColor">Typed</text>
-    <text x="675" y="137" text-anchor="middle" font-size="11" fill="currentColor">relationships</text>
-  </g>
-  <g>
-    <rect x="760" y="90" width="130" height="60" rx="6" fill="#08645f" fill-opacity="0.22" stroke="#08645f" stroke-width="1.6"/>
-    <circle cx="778" cy="104" r="9" fill="#08645f"/>
-    <text x="778" y="107" text-anchor="middle" font-size="10" fill="#fff">6</text>
-    <text x="825" y="123" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">Versioned</text>
-    <text x="825" y="137" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">case record</text>
-  </g>
-</svg>
-    </div>
-    <p class="caption"><em>Six stages producing an inspectable, versioned case record.</em></p>
-
-    <h2>Compact specification</h2>
-    <p>This is Appendix B of the v3.2 proposal, reproduced verbatim below as a standalone artifact so it can be cited directly:</p>
-    <pre><code>INPUT
-  narrow question
-  versioned source records with provenance
-  two or more reviewers using the shared verdict contract
-
-1. preserve each raw judgment before synthesis
-2. extract a concrete claim responsive to the common question
-3. label each judgment supports | challenges | insufficient_evidence
-4. attach the cited files and decision-changing evidence
-5. allow an analyst to revise or reject the extracted claim
-6. trace important support through typed documentary relationships
-7. require exact passages for every recorded relationship
-8. publish the crux card, lineage map, missing-evidence note, and revisions
-
-IF JUDGMENTS ALIGN
-  map conditional defenses and shared assumptions
-  do not manufacture a dispute
-
-IF THE RECORD CANNOT SUPPORT A CLAIM
-  return insufficient_evidence and identify what is missing</code></pre>
-
-    <h2>How to read this spec</h2>
-    <p>The eight steps above produce the six case-record objects described in the proposal's "What another investigator receives" section. Steps 1–3 build the source ledger (stable identifiers, source types, retrieval records, exclusions, duplicates, and hashes) and the separate judgments (each reviewer's position, warrant, citations, counter-evidence, uncertainty, and change conditions). Step 2 extracts the crux card: the load-bearing claim, alternative candidates, position labels, disagreement type, and the evidence attached to each side. Steps 5–7 build the support and relationship map — typed relationships among claims, documents, data, authors, advisers, institutions, methods, and assumptions, each tied to an exact passage. Step 4 anchors the missing-evidence note: the observation or record most likely to change the present judgments. Step 8 publishes the revision history — objections, corrected edges, replacement judgments, and unresolved questions.</p>
-
-    <p class="source-link"><a href="WORKFLOW-SPEC.md">View markdown source · WORKFLOW-SPEC.md</a></p>
+    <h1>Epistack — Compact workflow specification</h1>
+<p><em>Extracted verbatim from the v3.2 proposal (Appendix B). Referenced as a standalone artifact so an FLF reviewer can cite the workflow specification directly.</em></p>
+<h2>Appendix B — Compact specification</h2>
+<p>~~~text INPUT narrow question versioned source records with provenance two or more reviewers using the shared verdict contract</p>
+<ol><li>preserve each raw judgment before synthesis</li><li>extract a concrete claim responsive to the common question</li><li>label each judgment supports | challenges | insufficient_evidence</li><li>attach the cited files and decision-changing evidence</li><li>allow an analyst to revise or reject the extracted claim</li><li>trace important support through typed documentary relationships</li><li>require exact passages for every recorded relationship</li><li>publish the crux card, lineage map, missing-evidence note, and revisions</li></ol>
+<p>IF JUDGMENTS ALIGN map conditional defenses and shared assumptions do not manufacture a dispute</p>
+<p>IF THE RECORD CANNOT SUPPORT A CLAIM return insufficient_evidence and identify what is missing ~~~</p>
+<hr>
+<p>For the full workflow rationale, case runs, evidence, and limitations, see <a href="README.html">README.md</a>.</p>
+<hr>
+<p>© 2026 Reticle Works. Released under the MIT License — see <a href="LICENSE">LICENSE</a>.</p>
+    <a class="source-link" href="WORKFLOW-SPEC.md">View markdown source · WORKFLOW-SPEC.md</a>
   </main>
   <footer class="doc-footer">
-    © 2026 Reticle Works. All rights reserved. Prose under CC BY 4.0; demo-crux code under MIT.
-    See <a href="LICENSE">LICENSE</a>. Return to <a href="index.html">walkthrough</a>.
+    © 2026 Reticle Works. Released under the MIT License — see <a href="LICENSE">LICENSE</a>. Return to <a href="index.html">walkthrough</a>.
   </footer>
 </body>
 </html>

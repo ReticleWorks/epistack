@@ -34,4 +34,4 @@ Do not discuss Epistack or compare research products. Perform the research task 
 
 ---
 
-© 2026 Reticle Works. All rights reserved. Prose licensed under CC BY 4.0. Code in `demo-crux/` licensed under MIT. See [../../LICENSE](../../LICENSE).
+© 2026 Reticle Works. Released under the MIT License — see [LICENSE](../../LICENSE).

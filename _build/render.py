@@ -359,8 +359,7 @@ TEMPLATE = """<!DOCTYPE html>
     <a class="source-link" href="{md_href}">View markdown source · {md_href}</a>
   </main>
   <footer class="doc-footer">
-    © 2026 Reticle Works. All rights reserved. Prose under CC BY 4.0; <code>demo-crux/</code> code under MIT.
-    See <a href="{license_href}">LICENSE</a>. Return to <a href="{root_index}">walkthrough</a>.
+    © 2026 Reticle Works. Released under the MIT License — see <a href="{license_href}">LICENSE</a>. Return to <a href="{root_index}">walkthrough</a>.
   </footer>
 </body>
 </html>
