@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Epistack landing/deck alternatives — for morning review</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --panel: #ffffff;
+    --ink: #1a1a1a;
+    --mute: #666;
+    --line: #e5e5e5;
+    --accent: #0d7377;
+    --accent-soft: #e6f2f2;
+    --code-bg: #f3f3f3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #141414;
+      --panel: #1c1c1c;
+      --ink: #e8e8e8;
+      --mute: #9a9a9a;
+      --line: #2a2a2a;
+      --accent: #4dbcc0;
+      --accent-soft: #1a2f30;
+      --code-bg: #0f0f0f;
+    }
+  }
+  html { background: var(--bg); color: var(--ink); }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    line-height: 1.5;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+  header { border-bottom: 1px solid var(--line); padding-bottom: 1.25rem; margin-bottom: 1.5rem; }
+  h1 { font-size: 1.5rem; font-weight: 600; margin: 0 0 .5rem; letter-spacing: -0.01em; }
+  header .tag {
+    display: inline-block;
+    font-size: .72rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: .15rem .5rem;
+    border-radius: 3px;
+    margin-bottom: .5rem;
+  }
+  .intro { color: var(--mute); font-size: .95rem; max-width: 65ch; }
+  .intro code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: .82rem;
+    background: var(--code-bg);
+    padding: .08rem .3rem;
+    border-radius: 3px;
+    color: var(--ink);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1.1rem 1.15rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    transition: border-color .12s ease;
+  }
+  .card:hover { border-color: var(--accent); }
+  .card .label {
+    font-size: .68rem;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--mute);
+    margin-bottom: .35rem;
+  }
+  .card h2 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin: 0 0 .5rem;
+    letter-spacing: -0.005em;
+  }
+  .card h2 a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .card h2 a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+  .card .flavor {
+    font-size: .88rem;
+    color: var(--ink);
+    margin: 0 0 .85rem;
+  }
+  .card dl {
+    margin: 0 0 1rem;
+    font-size: .78rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: .25rem .65rem;
+  }
+  .card dt {
+    color: var(--mute);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-size: .68rem;
+    padding-top: .12rem;
+  }
+  .card dd { margin: 0; color: var(--ink); }
+  .card .view {
+    margin-top: auto;
+    align-self: flex-start;
+    font-size: .85rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+  }
+  .card .view:hover { border-bottom-color: var(--accent); }
+  .card.reference {
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--panel),
+      var(--panel) 10px,
+      var(--accent-soft) 10px,
+      var(--accent-soft) 11px
+    );
+  }
+  .promote {
+    margin-top: 2.5rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1.5rem;
+  }
+  .promote h3 {
+    font-size: .82rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--mute);
+    margin: 0 0 .75rem;
+    font-weight: 600;
+  }
+  .promote p { font-size: .9rem; color: var(--ink); margin: 0 0 .75rem; max-width: 65ch; }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: .85rem 1rem;
+    overflow-x: auto;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: .8rem;
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0;
+  }
+  footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--line);
+    font-size: .75rem;
+    color: var(--mute);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="tag">Control panel</div>
+  <h1>Epistack landing/deck alternatives — for morning review</h1>
+</header>
+
+<p class="intro">
+  Each alternative below is a complete, standalone site variant. Click a title (or the <em>View</em> link) to open it in a new tab. When you've picked one, a single command promotes it into <code>publication/index.html</code>. The exact command is at the bottom of this page.
+</p>
+
+<div class="grid">
+
+  <article class="card reference">
+    <div class="label">Reference</div>
+    <h2><a href="reference-codex-original/index.html" target="_blank" rel="noopener">Codex original</a></h2>
+    <p class="flavor">Codex's original 7-slide dense design — no separate landing page — restored here as the baseline reference point.</p>
+    <dl>
+      <dt>Palette</dt><dd>Codex defaults (near-black, off-white)</dd>
+      <dt>Type</dt><dd>System serif / sans mix</dd>
+      <dt>Hero</dt><dd>None — deck-first</dd>
+    </dl>
+    <a class="view" href="reference-codex-original/index.html" target="_blank" rel="noopener">View →</a>
+  </article>
+
+  <article class="card">
+    <div class="label">v1</div>
+    <h2><a href="v1-codex-plus/index.html" target="_blank" rel="noopener">Codex-Plus</a></h2>
+    <p class="flavor">A minimal hero laid over the Codex baseline — smallest possible deviation, adds a landing surface without altering the deck.</p>
+    <dl>
+      <dt>Palette</dt><dd>Codex + light accent</dd>
+      <dt>Type</dt><dd>Inherits Codex</dd>
+      <dt>Hero</dt><dd>Minimal, one-line</dd>
+    </dl>
+    <a class="view" href="v1-codex-plus/index.html" target="_blank" rel="noopener">View →</a>
+  </article>
+
+  <article class="card">
+    <div class="label">v2</div>
+    <h2><a href="v2-editorial/index.html" target="_blank" rel="noopener">Editorial</a></h2>
+    <p class="flavor">Magazine-cover / longform aesthetic — treats the pitch like a feature essay with masthead, standfirst, and generous rag.</p>
+    <dl>
+      <dt>Palette</dt><dd>Cream, ink, one hot accent</dd>
+      <dt>Type</dt><dd>Serif display + humanist sans</dd>
+      <dt>Hero</dt><dd>Full-bleed cover</dd>
+    </dl>
+    <a class="view" href="v2-editorial/index.html" target="_blank" rel="noopener">View →</a>
+  </article>
+
+  <article class="card">
+    <div class="label">v3</div>
+    <h2><a href="v3-product/index.html" target="_blank" rel="noopener">Product</a></h2>
+    <p class="flavor">SaaS product-landing aesthetic — hero + value props + logo strip + CTA. Reads as a launched thing you can buy.</p>
+    <dl>
+      <dt>Palette</dt><dd>White, near-black, brand accent</dd>
+      <dt>Type</dt><dd>Geometric sans throughout</dd>
+      <dt>Hero</dt><dd>Product-shot, CTA-first</dd>
+    </dl>
+    <a class="view" href="v3-product/index.html" target="_blank" rel="noopener">View →</a>
+  </article>
+
+  <article class="card">
+    <div class="label">v4</div>
+    <h2><a href="v4-dossier/index.html" target="_blank" rel="noopener">Dossier</a></h2>
+    <p class="flavor">Case-file / research-report aesthetic — classified-style header, monospaced metadata, numbered sections. Reads as an investigative brief.</p>
+    <dl>
+      <dt>Palette</dt><dd>Paper, ink, red stamp accent</dd>
+      <dt>Type</dt><dd>Serif body + monospace chrome</dd>
+      <dt>Hero</dt><dd>Cover sheet w/ metadata block</dd>
+    </dl>
+    <a class="view" href="v4-dossier/index.html" target="_blank" rel="noopener">View →</a>
+  </article>
+
+</div>
+
+<section class="promote">
+  <h3>Promote command</h3>
+  <p>Once you've picked a winner, replace <code>vN</code> below with the version number (e.g. <code>v2-editorial</code>). Run from <code>publication/</code>:</p>
+<pre>cp publication/alternatives/vN/index.html publication/index.html \
+  &amp;&amp; git add -A \
+  &amp;&amp; git commit -m "promote vN" \
+  &amp;&amp; git push</pre>
+</section>
+
+<footer>
+  &copy; 2026 Reticle Works — internal preview
+</footer>
+
+</body>
+</html>
