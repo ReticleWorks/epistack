@@ -376,9 +376,12 @@ def build_page(md_path: Path) -> str:
 
     md_text = md_path.read_text(encoding="utf-8")
     page_title = html.escape(extract_title(md_text, md_path.stem))
-    breadcrumb = html.escape(breadcrumb_for(rel_dir_parts))
+    if not rel_dir_parts and md_path.stem == "README":
+        breadcrumb = "PROPOSAL"
+    else:
+        breadcrumb = html.escape(breadcrumb_for(rel_dir_parts))
     root_index = f"{prefix}index.html" if prefix else "index.html"
-    license_href = f"{prefix}LICENSE" if prefix else "LICENSE"
+    license_href = "https://github.com/ReticleWorks/epistack/blob/main/LICENSE"
     md_href = md_path.name
     rendered_body = render_body(md_text)
 

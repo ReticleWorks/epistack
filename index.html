@@ -145,6 +145,7 @@
 
     .lhc-layout { display: grid; grid-template-columns: 1.12fr .88fr; gap: 1rem; }
     .branch { padding: 1rem 1.15rem; background: var(--surface); border: 1px solid var(--line); }
+    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
     .branch-line { margin: 0; padding: .38rem 0; }
     .branch-line.indent-1 { padding-left: 1.65rem; color: var(--muted); }
     .branch-line.indent-2 { padding-left: 3.3rem; }
@@ -386,7 +387,7 @@
               <div class="landing-usage">
                 <p class="usage-title">How to use this page</p>
                 <p>This page is a short walkthrough of the Epistack submission. Advance slide by slide with the arrow keys, spacebar, click, or swipe. The final slide is a repository index that links to every downstream artifact.</p>
-                <p>If you prefer to inspect the source materials directly, the same content lives in the Git repository at <a href="https://github.com/ReticleWorks/epistack">github.com/ReticleWorks/epistack</a>. The prose proposal is in <a href="README.html">README</a>; the runnable Crux component is in <a href="demo-crux/README.html">demo-crux/</a>; the evidence appendix is in <a href="evidence/README.html">evidence/</a>; the workflow specification is in <a href="WORKFLOW-SPEC.html">WORKFLOW-SPEC</a>.</p>
+                <p>If you prefer to inspect the source materials directly, the same content lives in the Git repository at <a href="https://github.com/ReticleWorks/epistack">github.com/ReticleWorks/epistack</a>. The prose proposal is in <a href="README.html">README</a>; the runnable crux component is in <a href="demo-crux/README.html">demo-crux/</a>; the evidence appendix is in <a href="evidence/README.html">evidence/</a>; the workflow specification is in <a href="WORKFLOW-SPEC.html">WORKFLOW-SPEC</a>.</p>
               </div>
               <nav class="landing-links" aria-label="Direct links to package sections">
                 <a href="README.html">Full proposal</a>
@@ -395,7 +396,7 @@
                 <a href="WORKFLOW-SPEC.html">Workflow specification</a>
                 <a href="epistack-deck.pptx">Slide deck (PPTX)</a>
               </nav>
-              <p class="landing-copyright">© 2026 Reticle Works. Released under the MIT License — see <a href="LICENSE">LICENSE</a>.</p>
+              <p class="landing-copyright">© 2026 Reticle Works. Released under the MIT License — see <a href="https://github.com/ReticleWorks/epistack/blob/main/LICENSE">LICENSE</a>.</p>
             </div>
           </div>
         </div>
@@ -406,7 +407,7 @@
           <div class="slide-topline"><p class="eyebrow">Epistack · inspectable research case</p><p class="slide-number">01 / 07</p></div>
           <h2>Keep the work behind an answer inspectable.</h2>
           <p class="lead"><strong>Atlas is the existing research toolkit beneath Epistack.</strong> It stores traceable source records, retrieves relevant passages, preserves separate judgments, and checks generated claims against cited evidence.</p>
-          <p class="note">"Crux" is the load-bearing claim on which the largest part of the panel's disagreement depends. The extractor is a deterministic component that proposes this claim from preserved judgments.</p>
+          <p class="note">The "crux" is the load-bearing claim on which the largest part of the panel's disagreement depends. The extractor is a deterministic component that proposes this claim from preserved judgments.</p>
           <div class="workflow" role="img" aria-label="Sources enter Atlas, which provides source records, passage retrieval, separate judgments, and evidence checks. Epistack adds deterministic Crux comparison and a typed relationship audit. The output is a revisable case record.">
             <div class="flow-node dark"><p class="flow-kicker">Input</p><h3>Sources</h3></div>
             <div class="flow-arrow" aria-hidden="true">→</div>
@@ -452,7 +453,7 @@
               <ol class="sequence">
                 <li><span>Build a traceable corpus and record exclusions.</span></li>
                 <li><span>Keep source-cited judgments separate before synthesis.</span></li>
-                <li><span>Compare those judgments to propose a concrete Crux.</span></li>
+                <li><span>Compare those judgments to propose a concrete crux.</span></li>
                 <li><span>Record source relationships only with supporting passages.</span></li>
                 <li><span>Package evidence, objections, missing evidence, and revisions as a case.</span></li>
               </ol>
@@ -497,7 +498,7 @@
             <article class="branch">
               <h3>Preserve the branching defense</h3>
               <p class="branch-line"><strong>Standard physics does not expect dangerous production.</strong></p>
-              <p class="branch-line indent-1">↓ if speculative production occurs</p>
+              <p class="branch-line indent-1"><span aria-hidden="true">↓</span><span class="sr-only"> then </span> if speculative production occurs</p>
               <p class="branch-line indent-2"><strong>Rapid Hawking evaporation</strong></p>
               <p class="branch-line indent-3">↓ if a microscopic black hole is stable</p>
               <p class="branch-line indent-2">Charged: cosmic-ray analogues</p>
@@ -530,7 +531,7 @@
             <article class="panel amber">
               <h3>Epistack preserves a better record.</h3>
               <ul>
-                <li>Separate judgments, cited passages, and the proposed Crux remain inspectable.</li>
+                <li>Separate judgments, cited passages, and the proposed crux remain inspectable.</li>
                 <li>Relationship types and corrections remain attached to source evidence.</li>
                 <li>The comparison audit corrected an unsupported expansion from shared authorship to a shared-dataset claim.</li>
               </ul>
