@@ -1,0 +1,233 @@
+{
+  "schema": "epistack.crux_map.v1",
+  "query": "How strong is the inference from the early concentration of known COVID-19 cases around the Huanan market, and what most changes that inference?",
+  "stance_seed": null,
+  "reviewers": [
+    "covid_market_review",
+    "covid_skeptical_review",
+    "covid_method_review"
+  ],
+  "source_support": {
+    "positions": [
+      {
+        "reviewer_id": "covid_market_review",
+        "position": "supports",
+        "cited_sources": [
+          "1d935b2ce2a3c8d5",
+          "a5cafdf10e5ec24b",
+          "4594a17a872512b1",
+          "32957344edf80bdd"
+        ],
+        "source_refs": [
+          {
+            "source_id": "1d935b2ce2a3c8d5",
+            "file": "covid-review-01.txt",
+            "url": "https://doi.org/10.1016/j.cell.2021.08.017"
+          },
+          {
+            "source_id": "a5cafdf10e5ec24b",
+            "file": "covid-market-origin-01.txt",
+            "url": "https://doi.org/10.1126/science.abp8715"
+          },
+          {
+            "source_id": "4594a17a872512b1",
+            "file": "covid-market-origin-02-fulltext.txt",
+            "url": "https://doi.org/10.1126/science.abp8337"
+          },
+          {
+            "source_id": "32957344edf80bdd",
+            "file": "covid-natural-genomic-01.txt",
+            "url": "https://doi.org/10.1038/s41591-020-0820-9"
+          }
+        ],
+        "uncertainty_band": "LOW"
+      },
+      {
+        "reviewer_id": "covid_skeptical_review",
+        "position": "challenges",
+        "cited_sources": [
+          "53d3c6337321c98c",
+          "af1d4a9c844099ef",
+          "ce4cb2ba83c82dea"
+        ],
+        "source_refs": [
+          {
+            "source_id": "53d3c6337321c98c",
+            "file": "covid-bayesian-skeptical-01.txt",
+            "url": "https://michaelweissman.substack.com/p/an-inconvenient-probability-v50"
+          },
+          {
+            "source_id": "af1d4a9c844099ef",
+            "file": "covid-rootclaim-response-01.txt",
+            "url": "https://blog.rootclaim.com/rootclaims-covid-19-origins-debate-results/"
+          },
+          {
+            "source_id": "ce4cb2ba83c82dea",
+            "file": "covid-lab-origin-alt-01.txt",
+            "url": "https://www.rootclaim.com/analysis/What-is-the-source-of-COVID-19-SARS-CoV-2"
+          }
+        ],
+        "uncertainty_band": "LOW"
+      },
+      {
+        "reviewer_id": "covid_method_review",
+        "position": "supports",
+        "cited_sources": [
+          "47ea96c8a435654f",
+          "0052c9d7ae20e97e",
+          "c5b2e92bfff0e945"
+        ],
+        "source_refs": [
+          {
+            "source_id": "47ea96c8a435654f",
+            "file": "covid-debate-judgment-01.txt",
+            "url": "https://www.astralcodexten.com/p/practically-a-book-review-rootclaim"
+          },
+          {
+            "source_id": "0052c9d7ae20e97e",
+            "file": "covid-debate-judgment-02.txt",
+            "url": "https://docs.google.com/document/d/1qzLC55jRfdS55oSqXJZTFItsvFsawWgNlgLxWqhCuyo/edit"
+          },
+          {
+            "source_id": "c5b2e92bfff0e945",
+            "file": "covid-skeptical-method-01.txt",
+            "url": "https://doi.org/10.1093/jrsssa/qnae021"
+          }
+        ],
+        "uncertainty_band": "LOW"
+      }
+    ],
+    "divergence_signal": "different_citations"
+  },
+  "cruxes": [
+    {
+      "crux_id": "crux:the-spatial-concentration-early-covid-cases-the-huanan-seafood-market",
+      "claim": "The spatial concentration of early COVID-19 cases around the Huanan Seafood Market constitutes a moderately strong but not conclusive inference that the market was the epicenter of the pandemic's emergence, supported by convergent epidemiological, phylogenetic, and environmental evidence — but the inference is weakened by data gaps, sampling limitations, and the absence of direct virological evidence from animals at the site.",
+      "question": "How strong is the inference from the early concentration of known COVID-19 cases around the Huanan market, and what most changes that inference?",
+      "disagreement_type": "different weighting / likelihood ratio",
+      "disagreement_type_basis": "explicit_method_or_evidence_language",
+      "disagreement_type_confidence": "MEDIUM",
+      "positions": [
+        {
+          "reviewer_id": "covid_market_review",
+          "position": "supports",
+          "position_statement": "The spatial concentration of early COVID-19 cases around the Huanan Seafood Market constitutes a moderately strong but not conclusive inference that the market was the epicenter of the pandemic's emergence, supported by convergent epidemiological, phylogenetic, and environmental evidence — but the inference is weakened by data gaps, sampling limitations, and the absence of direct virological evidence from animals at the site.",
+          "judgment_excerpt": "# Toulmin Analysis: Inference from Early COVID-19 Case Concentration Around Huanan Market --- ## Position The spatial concentration of early COVID-19 cases around the Huanan Seafood Market constitutes a moderately strong but not conclusive inference that the market was the epicenter of the pandemic's emergence, supported by convergent epidemiological, phylogenetic, and environmental evidence — but the inference is weakened by data gaps, sampling limitations, and the absence of direct virological evidence from animals at the site. --- ## Why **Warrant:** Multiple independent lines of evidence converge on the Huanan market as the geographic and epidemiological origin point, making coincidence an increasingly implausible explanation. **Specific facts the warrant rests on:** - Two of the three earliest documented COVID-19 cases were directly linked to the Huanan market, and 28% of all December 2019 cases were linked to it (WHO, 2021, as cited in Fact 1). - 55% of December 2019 cases had exposure to the Huanan market or other Wuhan markets, with market-linked cases more prevalent in the first half of December (Fact 1). - Geographic mapping of early cases shows clustering around the Huan",
+          "uncertainty_band": "LOW",
+          "cited_sources": [
+            "1d935b2ce2a3c8d5",
+            "a5cafdf10e5ec24b",
+            "4594a17a872512b1",
+            "32957344edf80bdd"
+          ],
+          "source_refs": [
+            {
+              "source_id": "1d935b2ce2a3c8d5",
+              "file": "covid-review-01.txt",
+              "url": "https://doi.org/10.1016/j.cell.2021.08.017"
+            },
+            {
+              "source_id": "a5cafdf10e5ec24b",
+              "file": "covid-market-origin-01.txt",
+              "url": "https://doi.org/10.1126/science.abp8715"
+            },
+            {
+              "source_id": "4594a17a872512b1",
+              "file": "covid-market-origin-02-fulltext.txt",
+              "url": "https://doi.org/10.1126/science.abp8337"
+            },
+            {
+              "source_id": "32957344edf80bdd",
+              "file": "covid-natural-genomic-01.txt",
+              "url": "https://doi.org/10.1038/s41591-020-0820-9"
+            }
+          ],
+          "would_change_judgment_if": [
+            "No direct animal virological evidence (critical gap): Fact 3 explicitly states: \"we lack direct evidence of a virus closely related to SARS-CoV-2 in non-human mammals at the Huanan market or its supply chain.\" Animal carcasses tested retrospectively were negative, and crucially, they did not include raccoon dogs or other susceptible species (Fact 1)."
+          ],
+          "stance_seed": null
+        },
+        {
+          "reviewer_id": "covid_skeptical_review",
+          "position": "challenges",
+          "position_statement": "The early geographic concentration of known COVID-19 cases around the Huanan Seafood Market (HSM) provides only weak-to-moderate support for a zoonotic spillover at that location, because the inference is substantially undermined by documented ascertainment bias in case collection, methodological critiques of the spatial statistics used, and parallel evidence that wet markets frequently appear as first-ascertained outbreak clusters even for viruses that did not originate there.",
+          "judgment_excerpt": "# Toulmin Analysis: Inference from Early COVID-19 Case Concentration Around Huanan Seafood Market (HSM) --- ## Position The early geographic concentration of known COVID-19 cases around the Huanan Seafood Market (HSM) provides only weak-to-moderate support for a zoonotic spillover at that location, because the inference is substantially undermined by documented ascertainment bias in case collection, methodological critiques of the spatial statistics used, and parallel evidence that wet markets frequently appear as first-ascertained outbreak clusters even for viruses that did not originate there. --- ## Why The primary warrant for the market-origin inference is the Worobey et al. argument: given hundreds of plausible superspreading locations in Wuhan, the probability of HSM being the first ascertained spreading site by chance is approximately 1-in-400, making its prominence a meaningful signal. However, three specific facts from the provided sources directly erode this warrant: 1. **Ascertainment bias**: The case data used by Worobey et al. omitted approximately 35% of clinically reported cases, and proximity and ties to HSM were explicitly used as criteria for detecting cases in th",
+          "uncertainty_band": "LOW",
+          "cited_sources": [
+            "53d3c6337321c98c",
+            "af1d4a9c844099ef",
+            "ce4cb2ba83c82dea"
+          ],
+          "source_refs": [
+            {
+              "source_id": "53d3c6337321c98c",
+              "file": "covid-bayesian-skeptical-01.txt",
+              "url": "https://michaelweissman.substack.com/p/an-inconvenient-probability-v50"
+            },
+            {
+              "source_id": "af1d4a9c844099ef",
+              "file": "covid-rootclaim-response-01.txt",
+              "url": "https://blog.rootclaim.com/rootclaims-covid-19-origins-debate-results/"
+            },
+            {
+              "source_id": "ce4cb2ba83c82dea",
+              "file": "covid-lab-origin-alt-01.txt",
+              "url": "https://www.rootclaim.com/analysis/What-is-the-source-of-COVID-19-SARS-CoV-2"
+            }
+          ],
+          "would_change_judgment_if": [
+            "What most changes the inference: The single factor that would most change the inference is resolution of the ascertainment bias question—specifically, whether a complete, unbiased case series (including the ~35% omitted clinical cases) shows the same spatial concentration."
+          ],
+          "stance_seed": null
+        },
+        {
+          "reviewer_id": "covid_method_review",
+          "position": "supports",
+          "position_statement": "The early geographic concentration of known COVID-19 cases around the Huanan Seafood Market (HSM) provides some inferential weight toward a market-linked origin event, but that inference is materially weakened by proximity ascertainment bias, the base-rate properties of wet markets as superspreader venues, and the existence of reported pre-market cases — leaving the evidential value of the clustering genuinely contested rather than decisive.",
+          "judgment_excerpt": "## Position The early geographic concentration of known COVID-19 cases around the Huanan Seafood Market (HSM) provides *some* inferential weight toward a market-linked origin event, but that inference is materially weakened by proximity ascertainment bias, the base-rate properties of wet markets as superspreader venues, and the existence of reported pre-market cases — leaving the evidential value of the clustering genuinely contested rather than decisive. --- ## Why **Facts the inference rests on:** - Worobey (2022, *Science*) argued the HSM was the early epicenter based on case-location clustering (cited in Fact 3). - One probabilistic analysis (Fact 2) treats the centering of early cases at the HSM as a key likelihood ratio driver: removing it shifts the posterior from roughly 1:24 (zoonosis-favoring) to roughly 10:1 (lab-leak-favoring), indicating the clustering evidence is load-bearing in that model. - The HSM had structural features — high foot traffic (>10,000 visitors/day), repeat vendors, poor ventilation, cold wet surfaces, indoor setting — that are consistent with early amplification there (Fact 1). **Warrant:** If a novel pathogen spilled over at the HSM, one would expec",
+          "uncertainty_band": "LOW",
+          "cited_sources": [
+            "47ea96c8a435654f",
+            "0052c9d7ae20e97e",
+            "c5b2e92bfff0e945"
+          ],
+          "source_refs": [
+            {
+              "source_id": "47ea96c8a435654f",
+              "file": "covid-debate-judgment-01.txt",
+              "url": "https://www.astralcodexten.com/p/practically-a-book-review-rootclaim"
+            },
+            {
+              "source_id": "0052c9d7ae20e97e",
+              "file": "covid-debate-judgment-02.txt",
+              "url": "https://docs.google.com/document/d/1qzLC55jRfdS55oSqXJZTFItsvFsawWgNlgLxWqhCuyo/edit"
+            },
+            {
+              "source_id": "c5b2e92bfff0e945",
+              "file": "covid-skeptical-method-01.txt",
+              "url": "https://doi.org/10.1093/jrsssa/qnae021"
+            }
+          ],
+          "would_change_judgment_if": [],
+          "stance_seed": null
+        }
+      ],
+      "would_change_judgment_if": [
+        {
+          "reviewer_id": "covid_market_review",
+          "evidence": [
+            "No direct animal virological evidence (critical gap): Fact 3 explicitly states: \"we lack direct evidence of a virus closely related to SARS-CoV-2 in non-human mammals at the Huanan market or its supply chain.\" Animal carcasses tested retrospectively were negative, and crucially, they did not include raccoon dogs or other susceptible species (Fact 1)."
+          ]
+        },
+        {
+          "reviewer_id": "covid_skeptical_review",
+          "evidence": [
+            "What most changes the inference: The single factor that would most change the inference is resolution of the ascertainment bias question—specifically, whether a complete, unbiased case series (including the ~35% omitted clinical cases) shows the same spatial concentration."
+          ]
+        }
+      ],
+      "divergence_signal": "contested_claim"
+    }
+  ],
+  "failures": []
+}

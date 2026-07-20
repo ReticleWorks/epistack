@@ -1,0 +1,30 @@
+{
+  "run_date_project_timezone": "2026-07-19",
+  "utc_call_interval": {
+    "start": "2026-07-20T00:09:39.702Z",
+    "end": "2026-07-20T00:12:19.410Z"
+  },
+  "product_mode": "Perplexity Deep Research",
+  "registered_model": "perplexity/deep-research",
+  "registered_mode": "research",
+  "conversation_uuid": "68c791f3-b53c-4e01-b741-8d6bd130629d",
+  "deep_research_calls": 1,
+  "publication_notes": [
+    "The exact substantive prompt is byte-identical to the private source record.",
+    "The public protocol removes internal cross-references without changing the predeclared question, source conditions, requested output, or comparison fields.",
+    "The public result preserves the complete returned answer and all fifteen returned search-result URLs while omitting the raw connector transcript.",
+    "The public comparison preserves the material findings and boundaries while omitting internal workflow commentary."
+  ],
+  "private_source_hashes": {
+    "predeclared_protocol_sha256": "314c46d872b7f17e6ef8fcd17682f78f39f8834bda53b19d634ce54a6659b7f9",
+    "exact_prompt_sha256": "07d6c57eb91fc7be05e36970d8e03dc0cce109ec360ebe4c879d0a61bea53e9c",
+    "returned_result_sha256": "798dc79ac66918688aca50ac83f19640afb4e57a8a42585aad985285657d729b",
+    "audited_comparison_sha256": "67f5665258a4f1edeeca263136e3a3844b7704649ec392708009fc0b7d6ff74e"
+  },
+  "public_file_hashes": {
+    "protocol.md": "c564a0bf48385568f5cb0a4c6724c45c494d1d66c0b1b0591e876249a1e752cc",
+    "exact-prompt.md": "07d6c57eb91fc7be05e36970d8e03dc0cce109ec360ebe4c879d0a61bea53e9c",
+    "result.md": "136b4cf9edbc82c5a596d385e7c561dff4d221697dceee4a9867591b427330d5",
+    "comparison.md": "5822aa7b8da05da9ef5313fa7fcd1430b4463963d888e25cc5a9e03f2e6fca12"
+  }
+}

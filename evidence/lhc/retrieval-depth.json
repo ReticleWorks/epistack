@@ -1,0 +1,29 @@
+{
+  "date": "2026-07-19",
+  "scope": "isolated LHC passage-retention experiment",
+  "baseline": {
+    "passages_per_reviewer": 2,
+    "panel_sha256": "fe2dcf3667fef5ed62f33e5ac15ce4ebdfc9c22b1782aa00461d8c462319a6f1"
+  },
+  "treatment": {
+    "passages_per_reviewer": 12,
+    "panel_sha256": "a0a38db2ad0b379cfd5b2d4528ffa3bea4bde762ad8191ac7867d2fd272df868",
+    "baseline_passages_retained": true,
+    "completed_judgments": 2,
+    "refused_judgments": 1
+  },
+  "established": [
+    "passages from one file shared a source identifier in the baseline path",
+    "the treatment exposed both bylines needed to observe shared Mangano authorship",
+    "the completed judgments did not connect those bylines",
+    "the adviser acknowledgment was not retrieved",
+    "the third judgment was refused"
+  ],
+  "not_established": [
+    "that deeper retrieval generally improves accuracy",
+    "that the panel automatically detects authorship or advice relationships",
+    "that twelve passages is an optimal depth",
+    "that graph-based retrieval ran",
+    "that any documented relationship invalidates the safety argument"
+  ]
+}
