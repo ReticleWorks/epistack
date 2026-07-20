@@ -48,7 +48,7 @@ The treatment retained the preserved run's:
 - faithfulness mode `act` and verifier `gpt-4.1-mini`; and
 - panel concurrency of one.
 
-No synthesis override was present in the non-interactive Trailhead environment after the run, and the run script set none. The direct embedding shim is byte-identical to the preserved one: SHA-256 `edb7da9e9050714cb0c54c2a2e78e508fbb38ff328635aaa9d0ed4cd2771fc93`.
+No synthesis override was present in the non-interactive run environment after the run, and the run script set none. The direct embedding shim is byte-identical to the preserved one: SHA-256 `edb7da9e9050714cb0c54c2a2e78e508fbb38ff328635aaa9d0ed4cd2771fc93`.
 
 All six copied texts are byte-identical to the canonical corpus:
 

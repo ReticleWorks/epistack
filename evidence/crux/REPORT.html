@@ -77,31 +77,67 @@
   <main>
     <h1>Crux component validation</h1>
 <h2>Outcome</h2>
-<p>The deterministic reference component extracts a concrete disputed claim from the preserved three-reviewer COVID panel.</p>
-<p>The baseline record met <strong>2/5</strong> declared checks; the current record meets <strong>5/5</strong>. These are structural and evidentiary checks, not a general semantic-accuracy score.</p>
-<p>The extracted claim is the market specialist&#x27;s own proposition that the spatial concentration of early cases around Huanan is moderately strong, though not conclusive, evidence that the market was the pandemic&#x27;s epicenter. The other specialists are represented as challenging that weight or assigning it some weight subject to ascertainment bias. The extractor classifies the dispute as <code>different weighting / likelihood ratio</code>, resolves each position&#x27;s cited files, and carries forward explicit evidence that could change the judgment.</p>
+<p>The deterministic reference component extracts a concrete disputed claim from
+the preserved three-reviewer COVID panel.</p>
+<p>The baseline record met <strong>2/5</strong> declared checks; the current record meets
+<strong>5/5</strong>. These are structural and evidentiary checks, not a general
+semantic-accuracy score.</p>
+<p>The extracted claim is the market specialist's own proposition that the spatial
+concentration of early cases around Huanan is moderately strong, though not
+conclusive, evidence that the market was the pandemic's epicenter. The other
+specialists are represented as challenging that weight or assigning it some
+weight subject to ascertainment bias. The extractor classifies the dispute as
+<code>different weighting / likelihood ratio</code>, resolves each position's cited files,
+and carries forward explicit evidence that could change the judgment.</p>
 <h2>What the component returns</h2>
 <p>The current component:</p>
-<ol><li>reads each judgment&#x27;s <code>Position</code> section;</li><li>selects the proposition most directly responsive to the common query;</li><li>labels each specialist <code>supports</code>, <code>challenges</code>, or <code>insufficient_evidence</code>;</li><li>resolves cited ids to source filenames and URLs carried in retrieved facts;</li><li>classifies the dispute and reports the basis and confidence of that label;</li><li>extracts explicit statements about evidence that would change the judgment;</li><li>distinguishes true support/challenge disagreement from support plus abstention.</li></ol>
-<p>The declared reference answer was unchanged (SHA-256 <code>04376455d6079bb590e535d8f63cbeb2663039d33f48b93a2551bd18f304164b</code>) and was not passed to the extractor.</p>
+<ol>
+<li>reads each judgment's <code>Position</code> section;</li>
+<li>selects the proposition most directly responsive to the common query;</li>
+<li>labels each specialist <code>supports</code>, <code>challenges</code>, or <code>insufficient_evidence</code>;</li>
+<li>resolves cited ids to source filenames and URLs carried in retrieved facts;</li>
+<li>classifies the dispute and reports the basis and confidence of that label;</li>
+<li>extracts explicit statements about evidence that would change the judgment;</li>
+<li>distinguishes true support/challenge disagreement from support plus abstention.</li>
+</ol>
+<p>The declared reference answer was unchanged (SHA-256
+<code>04376455d6079bb590e535d8f63cbeb2663039d33f48b93a2551bd18f304164b</code>)
+and was not passed to the extractor.</p>
 <h2>Verification</h2>
-<ul><li>Four standard-library tests pass, including an unrelated clinical-trial panel</li></ul>
-<p>and a support-plus-abstention case.</p>
-<ul><li>The evaluator reproduces the preserved COVID output and scores all five declared</li></ul>
-<p>checks as passing.</p>
-<ul><li>An independent code review examined specificity, abstention behavior, and the</li></ul>
-<p>basis for disagreement labels. The final test suite covers its material findings.</p>
-<ul><li>The review&#x27;s remaining caveat is adopted here: 5/5 shows that the extractor emits</li></ul>
-<p>the required concrete and inspectable fields. It does not establish semantic accuracy across arbitrary domains.</p>
+<ul>
+<li>Four standard-library tests pass, including an unrelated clinical-trial panel
+  and a support-plus-abstention case.</li>
+<li>The evaluator reproduces the preserved COVID output and scores all five declared
+  checks as passing.</li>
+<li>An independent code review examined specificity, abstention behavior, and the
+  basis for disagreement labels. The final test suite covers its material findings.</li>
+<li>The review's remaining caveat is adopted here: 5/5 shows that the extractor emits
+  the required concrete and inspectable fields. It does not establish semantic
+  accuracy across arbitrary domains.</li>
+</ul>
 <h2>Run it</h2>
 <p>From <code>../../demo-crux/</code>:</p>
-<pre><code class="language-sh">python3 run_demo.py covid</code></pre>
-<p>No database, model call, network request, or reference-answer input is used during extraction.</p>
+<pre><code class="language-sh">python3 run_demo.py covid
+</code></pre>
+<p>No database, model call, network request, or reference-answer input is used during
+extraction.</p>
 <h2>Evidence files</h2>
-<ul><li><code>after_crux_map.json</code> — current output over the preserved panel</li><li><code>before_after.json</code> — complete baseline and current outputs</li><li><code>oracle_score.json</code> — check-by-check score and evidence</li><li><code>exact_code_diff.patch</code> — exact baseline-to-current code diff</li><li><code>run_manifest.json</code> — implementation, input paths, hashes, and configuration</li><li><code>run_evaluation.py</code> — reproducible evaluator</li><li><code>INDEPENDENT-COMPONENT-REVIEW.md</code> — independent code and evidence review</li></ul>
+<ul>
+<li><code>after_crux_map.json</code> — current output over the preserved panel</li>
+<li><code>before_after.json</code> — complete baseline and current outputs</li>
+<li><code>oracle_score.json</code> — check-by-check score and evidence</li>
+<li><code>exact_code_diff.patch</code> — exact baseline-to-current code diff</li>
+<li><code>run_manifest.json</code> — implementation, input paths, hashes, and configuration</li>
+<li><code>run_evaluation.py</code> — reproducible evaluator</li>
+<li><code>INDEPENDENT-COMPONENT-REVIEW.md</code> — independent code and evidence review</li>
+</ul>
 <h2>Boundary</h2>
-<p>The component is included in the demo package. The supplied record does not establish that this version is merged into the deployed Atlas service. The preserved panel came from a corpus-grounded run; rerunning the extractor does not rerun ingestion or the model panel. It deterministically processes that captured record.</p>
-<hr>
+<p>The component is included in the demo package. The supplied record does not
+establish that this version is merged into the deployed Atlas service. The
+preserved panel came from a corpus-grounded run; rerunning the extractor does not
+rerun ingestion or the model panel. It deterministically processes that captured
+record.</p>
+<hr />
 <p>© 2026 Reticle Works. Released under the MIT License — see <a href="../../LICENSE">LICENSE</a>.</p>
     <a class="source-link" href="REPORT.md">View markdown source · REPORT.md</a>
   </main>

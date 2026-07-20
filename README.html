@@ -78,7 +78,7 @@
     <p><em>Epistack</em></p>
 <h1>How Many Voices Is This Really?</h1>
 <h2>Finding the claim a contested conclusion rests on—and testing whether its support is as independent as it looks</h2>
-<svg role="img" viewBox="0 0 900 180" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
+<p><svg role="img" viewBox="0 0 900 180" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
   <title>Epistack workflow: six stages from a narrow question to a versioned case record</title>
   <desc>A horizontal flow of six stages. Stage 1, narrow question, stands alone. Stages 2 and 3, traceable corpus and separate judgments, are grouped as Atlas, the existing toolkit. Stages 4 and 5, crux extractor and typed relationships, are grouped as what Epistack adds. Stage 6, versioned case record, is the output.</desc>
   <defs>
@@ -137,13 +137,16 @@
     <text x="825" y="123" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">Versioned</text>
     <text x="825" y="137" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">case record</text>
   </g>
-</svg>
+</svg></p>
 <p><em>The Epistack workflow: six stages producing an inspectable, versioned case record.</em></p>
 <h2>Introduction</h2>
 <p>A map of the earliest known COVID-19 cases in Wuhan shows a cluster around the Huanan Seafood Market. One reader sees strong evidence that the outbreak began at or near the market. Another asks whether clinicians were more likely to find early cases near a place already suspected. The dots are the same. The disagreement is about what those dots can bear as evidence.</p>
 <p>Now suppose five papers support the market interpretation. That sounds like five separate confirmations. But some may share authors, draw on the same data, respond to one another, or repeat an earlier analysis. Counting citations cannot tell us whether we have five independent reasons to believe something or one family of related work wearing five covers.</p>
 <p>Epistack is a human–AI research workflow built to answer two questions:</p>
-<ul><li>What specific claim is carrying a contested conclusion?</li><li>How independent is the support behind that claim?</li></ul>
+<ul>
+<li>What specific claim is carrying a contested conclusion?</li>
+<li>How independent is the support behind that claim?</li>
+</ul>
 <p>Epistack begins by asking several AI reviewers to answer the same narrow question. They draw from a traceable source record, sometimes through different assigned slices. Each reviewer states its position, reasons, cited sources, counter-evidence, and the evidence that could change its judgment. Their answers remain separate rather than being blended into one summary.</p>
 <p>Keeping those judgments separate exposes the point at which their reasoning differs. Epistack calls this the <strong>load-bearing claim</strong>: the assertion whose evidentiary weight changes the answer. A comparison component proposes that claim and records how each judgment bears on it. An analyst can accept, revise, or reject the proposal.</p>
 <p>Once that claim is visible, the second question becomes concrete: what stands behind it? Sources may be connected through citations, shared authors, shared data, advice, institutions, methods, or assumptions. Epistack records each documented connection as a typed relationship tied to its supporting passage. “These papers share an author” is different from “these papers use the same data.” The workflow does not silently substitute one for the other.</p>
@@ -153,7 +156,17 @@
 <p>The LHC case was not a new safety assessment. It asked whether Epistack could preserve a technically deep, largely settled argument without turning it into a false controversy. The work had two parts: map the conditional safety argument, then examine how the six documents supporting it are related.</p>
 <h3>The safety argument</h3>
 <p>Direct reading of the six-source record produced this conditional structure:</p>
-<p>~~~text Standard physics does not expect dangerous black-hole production. │ └─ If speculative production occurs: ├─ Expected result: rapid Hawking evaporation. │ └─ If a microscopic black hole is stable: ├─ If charged, cosmic-ray analogues should be trapped in Earth or the Sun. └─ If effectively neutral, dense stars should trap analogues; the continued existence of old white dwarfs and neutron stars constrains dangerous accretion scenarios. ~~~</p>
+<pre><code class="language-text">Standard physics does not expect dangerous black-hole production.
+│
+└─ If speculative production occurs:
+   ├─ Expected result: rapid Hawking evaporation.
+   │
+   └─ If a microscopic black hole is stable:
+      ├─ If charged, cosmic-ray analogues should be trapped in Earth or the Sun.
+      └─ If effectively neutral, dense stars should trap analogues;
+         the continued existence of old white dwarfs and neutron stars
+         constrains dangerous accretion scenarios.
+</code></pre>
 <p>The official 2008 safety report expressly considers the possibility that Hawking evaporation is wrong and points to astrophysical arguments that do not depend on it. The Giddings–Mangano paper develops those arguments through cosmic-ray collisions, accretion models, and the survival of compact stars. The supplied record contains no numerical probability for the joint failure of these defenses. Epistack therefore records a conditional argument structure, not a catastrophe estimate.</p>
 <h3>The documentary relationships</h3>
 <p>The six documents also contain relationships worth tracing separately from the physics. Michelangelo Mangano is an author of both the official safety report and the main paper developing the alternative safety arguments. That paper thanks the other four report authors, among others, for guidance and advice. The official report cites it for detailed accretion scenarios. Its acknowledgments also identify outside specialists consulted on narrower questions about accretion and compact stars.</p>
@@ -170,25 +183,32 @@
 <p>This process produced the ten-source COVID corpus and its retrieval record. The LHC package similarly preserves six source files, a manifest, and file fingerprints, although the supplied materials do not establish that the same gathering process assembled it.</p>
 <p><strong>Atlas</strong> is the existing research toolkit beneath Epistack. It can represent documents, claims linked to their source passages, and named entities such as people and institutions. The two case harnesses preserved documents and passages, but their linked-claim graphs were empty. They demonstrate traceable source assembly and passage storage, not the fuller graph-backed path.</p>
 <h3>Atlas retrieval</h3>
-<p>Atlas searches stored material for passages relevant to a question and supplies selected passages to a configured reviewer. Its \<code>taste_agent\</code> component can combine direct passage search with claim-graph and citation context when those stores are populated.</p>
+<p>Atlas searches stored material for passages relevant to a question and supplies selected passages to a configured reviewer. Its <code>taste_agent</code> component can combine direct passage search with claim-graph and citation context when those stores are populated.</p>
 <p>In the COVID and LHC runs, the linked-claim graph was empty, so direct passage search supplied the evidence. A local OpenAI embedding service represented each passage numerically so the software could retrieve passages similar to the question. The cases show Atlas code retrieving preserved passages for separate reviews. They do not show that every retrieval channel or graph link contributed.</p>
 <h3>Separate judgments</h3>
-<p>Atlas’s \<code>judgment_panel\</code> asks several configured reviewers the same narrow question and preserves each answer independently. Each judgment can contain a position and confidence range, supporting reasons, cited sources, counter-evidence, limitations, and evidence that could change the judgment. This is the panel structure used in both cases.</p>
+<p>Atlas’s <code>judgment_panel</code> asks several configured reviewers the same narrow question and preserves each answer independently. Each judgment can contain a position and confidence range, supporting reasons, cited sources, counter-evidence, limitations, and evidence that could change the judgment. This is the panel structure used in both cases.</p>
 <p>The reviewers in these cases were model roles with different source allocations, not independent human experts. Their value here is structural: the record shows who relied on what before a later synthesis can smooth the differences away.</p>
 <h3>Checks on generated text</h3>
 <p>Atlas includes checks intended to catch two common problems in generated research. Its faithfulness check breaks an answer into factual claims and asks whether the retrieved passages support each one. Its uncertainty component records caveats about the source set and retrieval result when assigning a range.</p>
 <p>These are diagnostic controls, not measures of truth. In the supplied runs, the support check produced useful refusals and revised outputs, but also parser warnings and truncated text. A single default source label made the uncertainty ranges uninformative about differences in source quality. Those failures remain in the case record.</p>
 <h3>Citation-graph retrieval</h3>
-<p>Atlas also includes \<code>rag_advisor\</code>, a citation-focused retrieval service. It records which papers cite which others, can search one citation step beyond an initial source set, and can identify influential papers and clusters of closely connected work.</p>
+<p>Atlas also includes <code>rag_advisor</code>, a citation-focused retrieval service. It records which papers cite which others, can search one citation step beyond an initial source set, and can identify influential papers and clusters of closely connected work.</p>
 <p>These are implemented source-relationship facilities. They can show citation connections and help organize a literature. They are not a general service for detecting shared authorship, acknowledged advice, or shared datasets across arbitrary documents. For those relationships, Epistack requires a type and the passage supporting it. In the LHC case, that complete comparison came from the source-directed audit; the panel itself did not produce the authorship and advice finding.</p>
 <h3>Load-bearing-claim comparison</h3>
 <p>The crux extractor is a deterministic reference component: the same input produces the same output. It compares preserved judgments and returns a candidate load-bearing claim, each reviewer’s position, cited sources, disagreement type, and stated change conditions. It runs over preserved panel output and is included in the reference package. On the preserved COVID panel it met all five declared structural and evidentiary checks. Four additional tests include an unrelated clinical-trial case and an abstention case.</p>
 <p>This shows that the component emits the required inspectable fields on those tests. It does not prove semantic accuracy across domains. The supplied record does not establish that this version has been merged into the deployed Atlas service.</p>
 <h3>Typed relationships and the case record</h3>
-<p>Atlas and \<code>rag_advisor\</code> already represent source, entity, and citation relationships. Epistack’s case record adds explicit types for other documented relationships, including shared authorship, advice, data, institutions, methods, and assumptions. Each accepted relationship must retain the passage supporting it. The supplied software does not contain a general automated service for detecting all of those relationship types.</p>
+<p>Atlas and <code>rag_advisor</code> already represent source, entity, and citation relationships. Epistack’s case record adds explicit types for other documented relationships, including shared authorship, advice, data, institutions, methods, and assumptions. Each accepted relationship must retain the passage supporting it. The supplied software does not contain a general automated service for detecting all of those relationship types.</p>
 <p>The intended case record combines the source ledger, separate judgments, extracted claim, typed relationships, missing-evidence requests, objections, and revision history. The supplied package already preserves the corpora, manifests, raw judgments, COVID crux record, LHC support map, and successive corrections. It does not yet provide one consolidated interface for challenging a relationship and recording the response.</p>
 <h3>One case proceeds through six stages</h3>
-<ol><li>Narrow a broad topic to a question whose central claim can be supported, challenged, or left unresolved.</li><li>Build a traceable corpus with stable identifiers, retrieval records, exclusions, and hashes.</li><li>Use Atlas retrieval to supply evidence to separate reviewers, preserving reasons, citations, counter-evidence, uncertainty, and change conditions.</li><li>Run the crux extractor to propose the load-bearing claim and record how each judgment bears on it. The proposal remains open to acceptance, revision, or rejection.</li><li>Trace that claim through citations, data, authors, advice, institutions, methods, and assumptions. Keep the type and exact passage for every accepted relationship.</li><li>Publish the artifacts as a versioned case record so later sources, objections, corrected relationships, or replacement judgments do not erase the earlier state.</li></ol>
+<ol>
+<li>Narrow a broad topic to a question whose central claim can be supported, challenged, or left unresolved.</li>
+<li>Build a traceable corpus with stable identifiers, retrieval records, exclusions, and hashes.</li>
+<li>Use Atlas retrieval to supply evidence to separate reviewers, preserving reasons, citations, counter-evidence, uncertainty, and change conditions.</li>
+<li>Run the crux extractor to propose the load-bearing claim and record how each judgment bears on it. The proposal remains open to acceptance, revision, or rejection.</li>
+<li>Trace that claim through citations, data, authors, advice, institutions, methods, and assumptions. Keep the type and exact passage for every accepted relationship.</li>
+<li>Publish the artifacts as a versioned case record so later sources, objections, corrected relationships, or replacement judgments do not erase the earlier state.</li>
+</ol>
 <p>The two case harnesses exercised direct passage search, separate judgments, evidence checking, and the reference claim-comparison component. They did not exercise the linked-claim graph or the citation-following, influence, and clustering facilities inside their panel runs. Those are implemented supporting capabilities, not evidence channels shown to have contributed to these two results.</p>
 <h2>What happened on COVID</h2>
 <p>We harvested ten source documents and preserved their URLs, retrieval records, local files, and SHA-256 fingerprints. Their canonical text totals 69,774 words. The set is deliberately plural, but it is not balanced by source quality: five sources are peer reviewed, and four of those support or synthesize the market or zoonotic account. The remaining material includes statistical criticism, Bayesian analysis, debate commentary, and advocacy. That asymmetry is part of the record.</p>
@@ -202,27 +222,90 @@
 <p>The single Deep Research run did something important. It identified the central hinge as whether the geographic signal reflects transmission or ascertainment bias. It also noticed shared authorship and debate ancestry among several sources. Deep Research can therefore find both a useful crux and real source relationships when asked directly. Epistack cannot honestly claim those capabilities are unique.</p>
 <p>The output we received was a useful 258-word synthesis plus fifteen URLs, rather than the requested full report and table. It gave no exact passages linked to its claims and no clear decision-changing observation. More importantly, it said that three papers shared “a single case dataset.” Those papers do share authors, but the supplied texts do not support the one-dataset claim: one centrally analyzes December case locations, another uses early genomes and epidemic simulations, and the third analyzes viral genomic features.</p>
 <p>That is the kind of error the workflow is designed to expose. Here, a person checked the relationship against the source record, corrected it to <strong>shared authorship</strong>, attached the supporting bylines, and left the distinct evidence types intact. A fluent sentence should not be allowed to collapse one relationship into another.</p>
-<table><thead><tr><th>Same COVID question and starting sources</th><th>Perplexity Deep Research, one instructed run</th><th>Epistack evidence supplied here</th></tr></thead><tbody><tr><td>Readable answer</td><td>Strong, concise synthesis</td><td>Separate reviews and a structured comparison rather than one final narrative</td></tr><tr><td>Names the crux</td><td>Yes, after direct instruction</td><td>Crux extractor meets all five declared structural and evidentiary checks on the preserved panel</td></tr><tr><td>Checks source relationships</td><td>Found useful relationships; one relationship was overgeneralized</td><td>LHC evidence audit records relationship types and exact supporting passages</td></tr><tr><td>Makes the check inspectable</td><td>No exact passages linked to claims or requested source-use table in the output received</td><td>Hashed provenance and raw judgments; the LHC analyst map labels relationships and cites exact source locations. The consolidated typed case record remains the specified output</td></tr><tr><td>What remains unproved</td><td>One run does not establish typical product behavior</td><td>One case-level extractor pass does not establish general semantic accuracy or overall research superiority</td></tr></tbody></table>
+<table>
+<thead>
+<tr>
+<th>Same COVID question and starting sources</th>
+<th>Perplexity Deep Research, one instructed run</th>
+<th>Epistack evidence supplied here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Readable answer</td>
+<td>Strong, concise synthesis</td>
+<td>Separate reviews and a structured comparison rather than one final narrative</td>
+</tr>
+<tr>
+<td>Names the crux</td>
+<td>Yes, after direct instruction</td>
+<td>Crux extractor meets all five declared structural and evidentiary checks on the preserved panel</td>
+</tr>
+<tr>
+<td>Checks source relationships</td>
+<td>Found useful relationships; one relationship was overgeneralized</td>
+<td>LHC evidence audit records relationship types and exact supporting passages</td>
+</tr>
+<tr>
+<td>Makes the check inspectable</td>
+<td>No exact passages linked to claims or requested source-use table in the output received</td>
+<td>Hashed provenance and raw judgments; the LHC analyst map labels relationships and cites exact source locations. The consolidated typed case record remains the specified output</td>
+</tr>
+<tr>
+<td>What remains unproved</td>
+<td>One run does not establish typical product behavior</td>
+<td>One case-level extractor pass does not establish general semantic accuracy or overall research superiority</td>
+</tr>
+</tbody>
+</table>
 <p>This is not an overall win for Epistack. Deep Research produced the better single narrative and found the COVID hinge when asked. Epistack produces a different research record: the separate judgments, extracted claim, lineage decisions, exact supporting passages, and corrections remain available for challenge. Whether that record helps people reason better than Deep Research requires a comparative user study that we have not run.</p>
 <h2>What another investigator receives</h2>
 <p>The reusable unit is a versioned case record:</p>
-<ol><li><strong>Source ledger:</strong> stable identifiers, source types, retrieval records, exclusions, duplicates, and hashes.</li><li><strong>Separate judgments:</strong> each reviewer’s position, warrant, citations, counter-evidence, uncertainty, and change conditions.</li><li><strong>Crux card:</strong> the extracted load-bearing claim, alternative candidates, position labels, disagreement type, and the evidence attached to each side.</li><li><strong>Support and relationship map:</strong> typed relationships among claims, documents, data, authors, advisers, institutions, methods, and assumptions, each tied to an exact passage.</li><li><strong>Missing-evidence note:</strong> the observation or record most likely to change the present judgments.</li><li><strong>Revision history:</strong> objections, corrected edges, replacement judgments, and unresolved questions.</li></ol>
+<ol>
+<li><strong>Source ledger:</strong> stable identifiers, source types, retrieval records, exclusions, duplicates, and hashes.</li>
+<li><strong>Separate judgments:</strong> each reviewer’s position, warrant, citations, counter-evidence, uncertainty, and change conditions.</li>
+<li><strong>Crux card:</strong> the extracted load-bearing claim, alternative candidates, position labels, disagreement type, and the evidence attached to each side.</li>
+<li><strong>Support and relationship map:</strong> typed relationships among claims, documents, data, authors, advisers, institutions, methods, and assumptions, each tied to an exact passage.</li>
+<li><strong>Missing-evidence note:</strong> the observation or record most likely to change the present judgments.</li>
+<li><strong>Revision history:</strong> objections, corrected edges, replacement judgments, and unresolved questions.</li>
+</ol>
 <p>The open verdict contract allows a model, research system, or human analyst to contribute without using the same software. It asks for a position, warrant, citations, counter-evidence, change conditions, and provenance. Cross-system adoption has not yet been demonstrated, but the contract and example records exist.</p>
 <p>This structure supports cumulative work without pretending that every contribution agrees. New evidence can be attached to the claim it bears on. A disputed relationship can remain disputed. A new model can rerun one judgment without overwriting the old one. Better retrieval, models, and compute can expand the scrutiny while the reasoning record stays legible.</p>
-<p>That cumulative design is what lets a later investigator add a source, replace one judgment, or challenge one relationship without discarding the rest of the inquiry. The open verdict contract in Appendix C makes this usable outside Epistack’s own software: it asks for a position, warrant, citations, counter-evidence, change conditions, and provenance in one shared structured format, so another tool, model, or human analyst can contribute in the same format. Compute scales with the workflow: more sources, deeper retrieval, and additional independent judgments can be added without changing the workflow’s structure. The <a href="evidence/lhc/retrieval-depth-REPORT.html">LHC retrieval-depth experiment</a> demonstrated deeper retrieval directly, raising passage retention from two to twelve per reviewer without changing the question, source allocation, or ranking.</p>
+<p>That cumulative design is what lets a later investigator add a source, replace one judgment, or challenge one relationship without discarding the rest of the inquiry. The open verdict contract makes this usable outside Epistack’s own software: it asks for a position, warrant, citations, counter-evidence, change conditions, and provenance in one shared structured format, so another tool, model, or human analyst can contribute in the same format. Compute scales with the workflow: more sources, deeper retrieval, and additional independent judgments can be added without changing the workflow’s structure. The <a href="evidence/lhc/retrieval-depth-REPORT.html">LHC retrieval-depth experiment</a> demonstrated deeper retrieval directly, raising passage retention from two to twelve per reviewer without changing the question, source allocation, or ranking.</p>
 <h2>Where the method can fail</h2>
 <p>The workflow can still mislead if its sources, reviewers, or relationship labels are poor.</p>
-<ul><li><strong>The corpus can predetermine the dispute.</strong> Missing sources and designed partitions can make one crux appear more important than it is.</li><li><strong>Model roles are not independent experts.</strong> Different prompts and source slices do not erase shared training, model behavior, or infrastructure.</li><li><strong>The extractor can select a fluent but incomplete claim.</strong> Its proposal must remain open to analyst correction and alternate candidates.</li><li><strong>Relationships can be overread.</strong> Shared authorship, advice, or citations invite closer inspection; they do not establish common data, invalid reasoning, bias, or falsity.</li><li><strong>Retrieval can hide documentary evidence.</strong> The LHC deduplication defect hid bylines, and the deeper run still missed the adviser acknowledgment.</li><li><strong>Automated evidence checks can fail noisily.</strong> Uniform source labels, parser warnings, truncated revised text, and refused output all occurred in the supplied runs.</li><li><strong>A structured record can still be unused.</strong> The supplied materials do not establish that another team will adopt the verdict contract or maintain the cases over time.</li></ul>
+<ul>
+<li><strong>The corpus can predetermine the dispute.</strong> Missing sources and designed partitions can make one crux appear more important than it is.</li>
+<li><strong>Model roles are not independent experts.</strong> Different prompts and source slices do not erase shared training, model behavior, or infrastructure.</li>
+<li><strong>The extractor can select a fluent but incomplete claim.</strong> Its proposal must remain open to analyst correction and alternate candidates.</li>
+<li><strong>Relationships can be overread.</strong> Shared authorship, advice, or citations invite closer inspection; they do not establish common data, invalid reasoning, bias, or falsity.</li>
+<li><strong>Retrieval can hide documentary evidence.</strong> The LHC deduplication defect hid bylines, and the deeper run still missed the adviser acknowledgment.</li>
+<li><strong>Automated evidence checks can fail noisily.</strong> Uniform source labels, parser warnings, truncated revised text, and refused output all occurred in the supplied runs.</li>
+<li><strong>A structured record can still be unused.</strong> The supplied materials do not establish that another team will adopt the verdict contract or maintain the cases over time.</li>
+</ul>
 <p>The strongest tests are therefore behavioral:</p>
-<ol><li>Do independent analysts accept the extracted claim, or can disagreements about it be recorded and resolved?</li><li>Does the leading claim remain stable under changes in model, prompt, source allocation, and source labels?</li><li>Do readers given the case record choose a more targeted next investigation than readers given the Deep Research synthesis?</li><li>When a known source relationship is added or removed, does the support map change without treating correlation as falsity?</li><li>On a broadly settled case, does the workflow recover conditional fallback structure instead of manufacturing disagreement?</li><li>Can an automated relationship pass return the exact passages supporting every proposed relationship?</li></ol>
+<ol>
+<li>Do independent analysts accept the extracted claim, or can disagreements about it be recorded and resolved?</li>
+<li>Does the leading claim remain stable under changes in model, prompt, source allocation, and source labels?</li>
+<li>Do readers given the case record choose a more targeted next investigation than readers given the Deep Research synthesis?</li>
+<li>When a known source relationship is added or removed, does the support map change without treating correlation as falsity?</li>
+<li>On a broadly settled case, does the workflow recover conditional fallback structure instead of manufacturing disagreement?</li>
+<li>Can an automated relationship pass return the exact passages supporting every proposed relationship?</li>
+</ol>
 <p>Two cases are not enough to establish generality. COVID and LHC exercise complementary demands on the workflow: a contested inference and a largely settled conclusion with layered support. The dietary-eggs case remains a proposed transfer test; no eggs corpus or result is claimed.</p>
 <h2>What the evidence supports</h2>
 <p>This work does not resolve COVID origins or revise the safety assessment of the LHC. It demonstrates a workflow for preserving the structure beneath a conclusion.</p>
 <p>The LHC case records both the safety argument’s alternative-support depth and a documentary relationship hidden by an ordinary citation count. The COVID work produced three inspectable, source-cited judgments and a crux extractor that met all five declared structural and evidentiary checks on the preserved real panel. The retrieval experiment showed that deeper context surfaced relevant bylines but did not connect them across judgments. The Deep Research comparison showed that a strong general research tool can identify the same hinge and useful relationships, while also showing how an unsupported relationship can disappear inside a fluent synthesis.</p>
 <p>The contribution is the combination: separate reviews, a working and contestable crux extraction step, a typed relationship audit, and a versioned case-record format supported by linked artifacts. It asks not only what conclusion the literature seems to support, but what claim carries that conclusion and which documented relationships bear on the apparent independence of its support.</p>
 <h2>Explore the package</h2>
-<ul><li><a href="demo-crux/README.html">Runnable Crux demonstration</a></li><li><a href="evidence/README.html">Evidence appendix</a></li><li><a href="index.html">Slide walkthrough (HTML)</a></li><li><a href="epistack-deck.pptx">Presentation deck (PowerPoint)</a></li><li><a href="WORKFLOW-SPEC.html">Workflow specification</a> — compact pseudocode form of the case-record workflow, intended for reuse by other tools and analysts.</li></ul>
-<hr>
+<ul>
+<li><a href="demo-crux/README.html">Runnable Crux demonstration</a></li>
+<li><a href="evidence/README.html">Evidence appendix</a></li>
+<li><a href="index.html">Slide walkthrough (HTML)</a></li>
+<li><a href="epistack-deck.pptx">Presentation deck (PowerPoint)</a></li>
+<li><a href="WORKFLOW-SPEC.html">Workflow specification</a> — compact pseudocode form of the case-record workflow, intended for reuse by other tools and analysts.</li>
+</ul>
+<hr />
 <p>© 2026 Reticle Works. Released under the MIT License — see <a href="LICENSE">LICENSE</a>.</p>
     <a class="source-link" href="README.md">View markdown source · README.md</a>
   </main>

@@ -43,7 +43,7 @@ except ImportError:
 # --------------------------------------------------------------------------
 
 _HTML_BLOCK_START = re.compile(r"^<([a-zA-Z][a-zA-Z0-9]*)[ >]")
-_FENCE_RE = re.compile(r"^```(\w*)\s*$")
+_FENCE_RE = re.compile(r"^(```|~~~)(\w*)\s*$")
 _HR_RE = re.compile(r"^\s*([-*_])(?:\s*\1){2,}\s*$")
 _HEADING_RE = re.compile(r"^(#{1,6})\s+(.*)$")
 _UL_ITEM_RE = re.compile(r"^\s*[-*]\s+(.*)$")
@@ -152,10 +152,12 @@ def convert_markdown(text: str) -> str:
         # Fenced code block
         m = _FENCE_RE.match(line)
         if m:
-            lang = m.group(1)
+            fence_marker = m.group(1)
+            lang = m.group(2)
             i += 1
             code_lines = []
-            while i < n and not re.match(r"^```\s*$", lines[i]):
+            close_pattern = re.compile(r"^" + re.escape(fence_marker) + r"\s*$")
+            while i < n and not close_pattern.match(lines[i]):
                 code_lines.append(lines[i])
                 i += 1
             i += 1  # skip closing fence

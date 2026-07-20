@@ -141,13 +141,13 @@ This process produced the ten-source COVID corpus and its retrieval record. The 
 
 ### Atlas retrieval
 
-Atlas searches stored material for passages relevant to a question and supplies selected passages to a configured reviewer. Its \`taste_agent\` component can combine direct passage search with claim-graph and citation context when those stores are populated.
+Atlas searches stored material for passages relevant to a question and supplies selected passages to a configured reviewer. Its `taste_agent` component can combine direct passage search with claim-graph and citation context when those stores are populated.
 
 In the COVID and LHC runs, the linked-claim graph was empty, so direct passage search supplied the evidence. A local OpenAI embedding service represented each passage numerically so the software could retrieve passages similar to the question. The cases show Atlas code retrieving preserved passages for separate reviews. They do not show that every retrieval channel or graph link contributed.
 
 ### Separate judgments
 
-Atlas’s \`judgment_panel\` asks several configured reviewers the same narrow question and preserves each answer independently. Each judgment can contain a position and confidence range, supporting reasons, cited sources, counter-evidence, limitations, and evidence that could change the judgment. This is the panel structure used in both cases.
+Atlas’s `judgment_panel` asks several configured reviewers the same narrow question and preserves each answer independently. Each judgment can contain a position and confidence range, supporting reasons, cited sources, counter-evidence, limitations, and evidence that could change the judgment. This is the panel structure used in both cases.
 
 The reviewers in these cases were model roles with different source allocations, not independent human experts. Their value here is structural: the record shows who relied on what before a later synthesis can smooth the differences away.
 
@@ -159,7 +159,7 @@ These are diagnostic controls, not measures of truth. In the supplied runs, the 
 
 ### Citation-graph retrieval
 
-Atlas also includes \`rag_advisor\`, a citation-focused retrieval service. It records which papers cite which others, can search one citation step beyond an initial source set, and can identify influential papers and clusters of closely connected work.
+Atlas also includes `rag_advisor`, a citation-focused retrieval service. It records which papers cite which others, can search one citation step beyond an initial source set, and can identify influential papers and clusters of closely connected work.
 
 These are implemented source-relationship facilities. They can show citation connections and help organize a literature. They are not a general service for detecting shared authorship, acknowledged advice, or shared datasets across arbitrary documents. For those relationships, Epistack requires a type and the passage supporting it. In the LHC case, that complete comparison came from the source-directed audit; the panel itself did not produce the authorship and advice finding.
 
@@ -171,7 +171,7 @@ This shows that the component emits the required inspectable fields on those tes
 
 ### Typed relationships and the case record
 
-Atlas and \`rag_advisor\` already represent source, entity, and citation relationships. Epistack’s case record adds explicit types for other documented relationships, including shared authorship, advice, data, institutions, methods, and assumptions. Each accepted relationship must retain the passage supporting it. The supplied software does not contain a general automated service for detecting all of those relationship types.
+Atlas and `rag_advisor` already represent source, entity, and citation relationships. Epistack’s case record adds explicit types for other documented relationships, including shared authorship, advice, data, institutions, methods, and assumptions. Each accepted relationship must retain the passage supporting it. The supplied software does not contain a general automated service for detecting all of those relationship types.
 
 The intended case record combines the source ledger, separate judgments, extracted claim, typed relationships, missing-evidence requests, objections, and revision history. The supplied package already preserves the corpora, manifests, raw judgments, COVID crux record, LHC support map, and successive corrections. It does not yet provide one consolidated interface for challenging a relationship and recording the response.
 
@@ -235,7 +235,7 @@ The open verdict contract allows a model, research system, or human analyst to c
 
 This structure supports cumulative work without pretending that every contribution agrees. New evidence can be attached to the claim it bears on. A disputed relationship can remain disputed. A new model can rerun one judgment without overwriting the old one. Better retrieval, models, and compute can expand the scrutiny while the reasoning record stays legible.
 
-That cumulative design is what lets a later investigator add a source, replace one judgment, or challenge one relationship without discarding the rest of the inquiry. The open verdict contract in Appendix C makes this usable outside Epistack’s own software: it asks for a position, warrant, citations, counter-evidence, change conditions, and provenance in one shared structured format, so another tool, model, or human analyst can contribute in the same format. Compute scales with the workflow: more sources, deeper retrieval, and additional independent judgments can be added without changing the workflow’s structure. The [LHC retrieval-depth experiment](evidence/lhc/retrieval-depth-REPORT.md) demonstrated deeper retrieval directly, raising passage retention from two to twelve per reviewer without changing the question, source allocation, or ranking.
+That cumulative design is what lets a later investigator add a source, replace one judgment, or challenge one relationship without discarding the rest of the inquiry. The open verdict contract makes this usable outside Epistack’s own software: it asks for a position, warrant, citations, counter-evidence, change conditions, and provenance in one shared structured format, so another tool, model, or human analyst can contribute in the same format. Compute scales with the workflow: more sources, deeper retrieval, and additional independent judgments can be added without changing the workflow’s structure. The [LHC retrieval-depth experiment](evidence/lhc/retrieval-depth-REPORT.md) demonstrated deeper retrieval directly, raising passage retention from two to twelve per reviewer without changing the question, source allocation, or ranking.
 
 ## Where the method can fail
 

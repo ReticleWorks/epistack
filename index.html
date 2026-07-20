@@ -35,7 +35,7 @@
     .js body { overflow: hidden; }
     button, a { touch-action: manipulation; }
     button { font: inherit; }
-    :focus-visible { outline: 3px solid #ffbf47; outline-offset: 3px; box-shadow: 0 0 0 6px var(--navy); }
+    :focus-visible { outline: 3px solid #ffbf47; outline-offset: 3px; }
     h1, h2, h3, p { margin-top: 0; }
     h1, h2 { font-family: var(--serif); font-weight: 600; letter-spacing: -.032em; }
     h1 { max-width: 980px; margin-bottom: .55rem; font-size: clamp(2.55rem, 5.3vw, 5rem); line-height: .96; }
@@ -306,7 +306,7 @@
     .controls { display: flex; justify-content: flex-end; gap: .45rem; }
     .controls button { min-width: 86px; min-height: 42px; padding: .55rem .8rem; color: var(--white); background: transparent; border: 1px solid rgba(255,255,255,.55); cursor: pointer; font-size: .78rem; font-weight: 800; }
     .controls button:hover:not(:disabled) { background: rgba(255,255,255,.12); }
-    .controls button:disabled { opacity: .36; cursor: default; }
+    .controls button:disabled { opacity: .55; cursor: default; }
 
     @media (max-width: 1040px) {
       .workflow { grid-template-columns: 100px 24px minmax(350px, 2fr) 24px minmax(230px, 1.3fr) 24px 120px; }
@@ -339,7 +339,7 @@
       .deck-footer { grid-template-columns: 1fr auto; gap: .35rem; }
       .copyright { grid-column: 1 / -1; max-width: none; text-align: center; }
       .progress { justify-content: start; }
-      .controls button { min-width: 68px; min-height: 38px; padding: .4rem .55rem; }
+      .controls button { min-width: 68px; min-height: 44px; padding: .55rem .7rem; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -351,7 +351,7 @@
       @page { size: 13.333in 7.5in; margin: .32in; }
       html, body, .js body { overflow: visible; background: #fff; }
       .deck, .slides { min-height: 0; }
-      .js .slide, .js .slide:not(.is-active), .slide { min-height: 6.75in; padding: .2in; display: grid !important; overflow: visible; break-after: page; background: #fff; }
+      .js .slide, .js .slide:not(.is-active), .slide { min-height: 6.75in; padding: .2in; display: block !important; overflow: visible; break-after: page; background: #fff; }
       .slide:last-child { break-after: auto; }
       .slide-inner { width: 100%; }
       .panel, .metric, .position { box-shadow: none; }
@@ -362,9 +362,9 @@
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#landing">Skip to presentation</a>
+  <a class="skip-link" href="#slides">Skip to slide content</a>
   <main class="deck" aria-label="Epistack presentation">
-    <div class="slides" id="slides">
+    <div class="slides" id="slides" tabindex="-1">
       <section class="slide is-active landing" id="landing" data-slide tabindex="-1" aria-roledescription="slide" aria-label="Opening">
         <div class="slide-inner">
           <div class="landing-hero">
@@ -404,7 +404,7 @@
       <section class="slide" id="slide-1" data-slide tabindex="-1" aria-roledescription="slide" aria-label="1 of 7">
         <div class="slide-inner">
           <div class="slide-topline"><p class="eyebrow">Epistack · inspectable research case</p><p class="slide-number">01 / 07</p></div>
-          <h1>Keep the work behind an answer inspectable.</h1>
+          <h2>Keep the work behind an answer inspectable.</h2>
           <p class="lead"><strong>Atlas is the existing research toolkit beneath Epistack.</strong> It stores traceable source records, retrieves relevant passages, preserves separate judgments, and checks generated claims against cited evidence.</p>
           <p class="note">"Crux" is the load-bearing claim on which the largest part of the panel's disagreement depends. The extractor is a deterministic component that proposes this claim from preserved judgments.</p>
           <div class="workflow" role="img" aria-label="Sources enter Atlas, which provides source records, passage retrieval, separate judgments, and evidence checks. Epistack adds deterministic Crux comparison and a typed relationship audit. The output is a revisable case record.">
@@ -663,7 +663,8 @@
           progressBar.style.width = ((current / contentSlideCount) * 100) + "%";
           if (progressTrack) progressTrack.style.display = "";
         }
-        document.title = slides[current].querySelector("h1, h2").textContent + " — Epistack";
+        var t = slides[current].querySelector("h1, h2").textContent;
+        document.title = (current === 0 ? "Epistack — How Many Voices Is This Really?" : t + " — Epistack");
         if (updateHash && window.location.hash !== "#" + slides[current].id) {
           history.pushState(null, "", "#" + slides[current].id);
         }

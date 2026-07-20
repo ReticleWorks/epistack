@@ -76,16 +76,19 @@
   </header>
   <main>
     <h1>Public Crux demonstration</h1>
-<p>This directory contains a standalone, deterministic comparison component and a sanitized fixture derived from the preserved COVID panel. It uses only Python&#x27;s standard library. It makes no network, model, database, or Atlas call.</p>
+<p>This directory contains a standalone, deterministic comparison component and a sanitized fixture derived from the preserved COVID panel. It uses only Python's standard library. It makes no network, model, database, or Atlas call.</p>
 <p>Run the demonstration:</p>
-<pre><code class="language-sh">python3 run_demo.py</code></pre>
+<pre><code class="language-sh">python3 run_demo.py
+</code></pre>
 <p>Print the complete structured output:</p>
-<pre><code class="language-sh">python3 run_demo.py --json</code></pre>
+<pre><code class="language-sh">python3 run_demo.py --json
+</code></pre>
 <p>Run the tests:</p>
-<pre><code class="language-sh">python3 test_crux_extractor.py</code></pre>
+<pre><code class="language-sh">python3 test_crux_extractor.py
+</code></pre>
 <p>The tests cover the preserved COVID panel, an unrelated clinical-trial example, a failed reviewer, and a support-plus-abstention case. Passing tests establish that the component returns the declared structure on these examples. They do not establish that its selected claim is always semantically correct or that it generalizes across arbitrary domains.</p>
 <p>The public fixture retains the original reviewer judgments and cited-source identifiers. It replaces internal reviewer names with descriptive roles, replaces local file URLs with public source URLs, omits retrieved source text, and records the SHA-256 of the preserved source panel. See <a href="PROVENANCE.html">PROVENANCE.md</a>.</p>
-<hr>
+<hr />
 <p>© 2026 Reticle Works. Released under the MIT License — see <a href="../LICENSE">LICENSE</a>.</p>
     <a class="source-link" href="README.md">View markdown source · README.md</a>
   </main>

@@ -78,14 +78,21 @@
     <h1>Crux component validation</h1>
 <p>The deterministic component processes preserved reviewer judgments after the panel finishes. It proposes a concrete claim, labels each review as supporting, challenging, or insufficient, resolves cited-source references, classifies the disagreement, and carries forward explicit evidence that could change a judgment.</p>
 <p>On the preserved COVID panel, the current component met all five declared structural and evidentiary checks:</p>
-<ol><li>return a concrete claim responsive to the common question;</li><li>preserve each reviewer&#x27;s position;</li><li>resolve cited files and sources;</li><li>classify the disagreement and preserve the original question; and</li><li>return stated decision-changing evidence.</li></ol>
+<ol>
+<li>return a concrete claim responsive to the common question;</li>
+<li>preserve each reviewer's position;</li>
+<li>resolve cited files and sources;</li>
+<li>classify the disagreement and preserve the original question; and</li>
+<li>return stated decision-changing evidence.</li>
+</ol>
 <p>Four standard-library tests also pass. They cover the preserved COVID fixture, an unrelated clinical-trial example, a failed reviewer, and a support-plus-abstention case.</p>
 <p>These checks establish that the component emits the required inspectable structure on the tested records. They do not establish general semantic accuracy, scientific correctness, or cross-domain performance. The public component is standalone reference code; the supplied record does not establish that it has been merged into a deployed Atlas service.</p>
 <p>Run the public evidence directly:</p>
 <pre><code class="language-sh">cd publication/demo-crux
 python3 test_crux_extractor.py
-python3 run_demo.py --json</code></pre>
-<hr>
+python3 run_demo.py --json
+</code></pre>
+<hr />
 <p>© 2026 Reticle Works. Released under the MIT License — see <a href="../../LICENSE">LICENSE</a>.</p>
     <a class="source-link" href="validation.md">View markdown source · validation.md</a>
   </main>

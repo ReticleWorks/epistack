@@ -76,56 +76,179 @@
   </header>
   <main>
     <h1>Controlled LHC retrieval-depth experiment</h1>
-<p><strong>Date:</strong> 2026-07-19 <strong>Status:</strong> completed, exit status 0 <strong>Scope:</strong> isolated experiment only; no proposal draft, canonical corpus, existing run artifact, production registry, deployed source file, production service, or walkthrough was edited</p>
+<p><strong>Date:</strong> 2026-07-19<br />
+<strong>Status:</strong> completed, exit status 0<br />
+<strong>Scope:</strong> isolated experiment only; no proposal draft, canonical corpus, existing run artifact, production registry, deployed source file, production service, or walkthrough was edited</p>
 <h2>Result in one paragraph</h2>
-<p>The verified treatment worked at the retrieval layer. The preserved run retained two passages per specialist—one per assigned source—because Channel B gave all passages from a file the same source UUID and the fusion stage deduplicated on that UUID. The run-local treatment kept the existing top-12 ranking but assigned each passage a deterministic source-plus-text-hash identity. Each specialist then retained 12 passages, and every one of the six baseline passages remained in its corresponding deeper set. The deeper evidence included the LSAG byline naming Michelangelo Mangano and the Giddings–Mangano byline, so shared Mangano authorship became visible across the raw panel evidence. It did <strong>not</strong> include the fallback paper&#x27;s acknowledgment of advice from the other four LSAG authors. Neither completed judgment mentioned Mangano or authorship overlap, and the auditor judgment was refused by the faithfulness gate. The test therefore establishes that the deduplication defect hid relevant bylines, but it also shows that passage depth alone is not enough to produce the dependency finding.</p>
+<p>The verified treatment worked at the retrieval layer. The preserved run retained two passages per specialist—one per assigned source—because Channel B gave all passages from a file the same source UUID and the fusion stage deduplicated on that UUID. The run-local treatment kept the existing top-12 ranking but assigned each passage a deterministic source-plus-text-hash identity. Each specialist then retained 12 passages, and every one of the six baseline passages remained in its corresponding deeper set. The deeper evidence included the LSAG byline naming Michelangelo Mangano and the Giddings–Mangano byline, so shared Mangano authorship became visible across the raw panel evidence. It did <strong>not</strong> include the fallback paper's acknowledgment of advice from the other four LSAG authors. Neither completed judgment mentioned Mangano or authorship overlap, and the auditor judgment was refused by the faithfulness gate. The test therefore establishes that the deduplication defect hid relevant bylines, but it also shows that passage depth alone is not enough to produce the dependency finding.</p>
 <h2>What was actually changed</h2>
 <p>The deployed path was inspected before the run, not inferred from the old output shape.</p>
-<ol><li><code>graph_judgment</code> defaults to <code>top_k=12</code> and passes that limit to <code>_channel_b_search</code>.</li><li>The pgvector store returns the top passages ordered by cosine distance.</li><li><code>_channel_b_search</code> labels every returned passage with <code>&quot;uuid&quot;: chunk.source_id</code>.</li><li><code>source_loader.source_id()</code> hashes the file path, so all chunks from one file share that ID.</li><li><code>_fuse_graph_facts</code> calls <code>_fact_key</code>, which returns <code>uuid</code> when present, and removes repeated keys.</li></ol>
+<ol>
+<li><code>graph_judgment</code> defaults to <code>top_k=12</code> and passes that limit to <code>_channel_b_search</code>.</li>
+<li>The pgvector store returns the top passages ordered by cosine distance.</li>
+<li><code>_channel_b_search</code> labels every returned passage with <code>"uuid": chunk.source_id</code>.</li>
+<li><code>source_loader.source_id()</code> hashes the file path, so all chunks from one file share that ID.</li>
+<li><code>_fuse_graph_facts</code> calls <code>_fact_key</code>, which returns <code>uuid</code> when present, and removes repeated keys.</li>
+</ol>
 <p>This means the existing <code>top_k=12</code> setting already requested 12 passages. Merely increasing an environment variable would not correct the within-source collapse. The treatment in <code>run/retrieval_depth_patch.py</code> calls the deployed Channel-B search unchanged and replaces only the result identity:</p>
 <pre><code class="language-text">before: uuid = source_id
-after:  uuid = source_id + &quot;:chunk:&quot; + sha256(passage_text)[0:16]</code></pre>
-<p>It retains the original source ID in <code>channel_b_source_id</code> for audit. Search query, embedding, similarity score, rank order, source allocation, chunking, result limit, and fact text are untouched. The synthesis helper reads only each fact&#x27;s text, so the added audit metadata does not enter the model prompt. The changed UUID also means <code>cited_sources</code> now contains passage identities rather than one file identity; that is a disclosed schema consequence of the treatment.</p>
+after:  uuid = source_id + &quot;:chunk:&quot; + sha256(passage_text)[0:16]
+</code></pre>
+<p>It retains the original source ID in <code>channel_b_source_id</code> for audit. Search query, embedding, similarity score, rank order, source allocation, chunking, result limit, and fact text are untouched. The synthesis helper reads only each fact's text, so the added audit metadata does not enter the model prompt. The changed UUID also means <code>cited_sources</code> now contains passage identities rather than one file identity; that is a disclosed schema consequence of the treatment.</p>
 <p>A dependency-light unit check confirmed that two different passages with the same source ID remain distinct while order and scores stay unchanged:</p>
-<pre><code class="language-text">PASS: same-source passages remain distinct; order and scores are unchanged</code></pre>
+<pre><code class="language-text">PASS: same-source passages remain distinct; order and scores are unchanged
+</code></pre>
 <p>The complete harness and registry diff from the preserved run is in <code>results/exact_harness_and_config_diff.patch</code>.</p>
 <h2>Controls and isolation</h2>
-<p>The treatment retained the preserved run&#x27;s:</p>
-<ul><li>exact research question;</li><li>official, method, and auditor focus/persona text;</li><li>two-source allocation for each specialist;</li><li><code>chunk_size: 900</code>, <code>chunk_overlap: 120</code>, and <code>late_chunking: false</code>;</li><li>native OpenAI <code>text-embedding-3-small</code> embeddings at 1,024 dimensions through the unchanged direct embedding shim;</li><li>deployed synthesis default <code>claude-sonnet-4-6</code>, temperature 0.0, one sample, 1,000 output tokens;</li><li>faithfulness mode <code>act</code> and verifier <code>gpt-4.1-mini</code>; and</li><li>panel concurrency of one.</li></ul>
-<p>No synthesis override was present in the non-interactive Trailhead environment after the run, and the run script set none. The direct embedding shim is byte-identical to the preserved one: SHA-256 <code>edb7da9e9050714cb0c54c2a2e78e508fbb38ff328635aaa9d0ed4cd2771fc93</code>.</p>
+<p>The treatment retained the preserved run's:</p>
+<ul>
+<li>exact research question;</li>
+<li>official, method, and auditor focus/persona text;</li>
+<li>two-source allocation for each specialist;</li>
+<li><code>chunk_size: 900</code>, <code>chunk_overlap: 120</code>, and <code>late_chunking: false</code>;</li>
+<li>native OpenAI <code>text-embedding-3-small</code> embeddings at 1,024 dimensions through the unchanged direct embedding shim;</li>
+<li>deployed synthesis default <code>claude-sonnet-4-6</code>, temperature 0.0, one sample, 1,000 output tokens;</li>
+<li>faithfulness mode <code>act</code> and verifier <code>gpt-4.1-mini</code>; and</li>
+<li>panel concurrency of one.</li>
+</ul>
+<p>No synthesis override was present in the non-interactive run environment after the run, and the run script set none. The direct embedding shim is byte-identical to the preserved one: SHA-256 <code>edb7da9e9050714cb0c54c2a2e78e508fbb38ff328635aaa9d0ed4cd2771fc93</code>.</p>
 <p>All six copied texts are byte-identical to the canonical corpus:</p>
-<table><thead><tr><th>Source</th><th>SHA-256</th></tr></thead><tbody><tr><td>LSAG 2008</td><td><code>6e4f5244885bae3d208a754477226c7b55c3796aa7111acb231ccb8397830b56</code></td></tr><tr><td>Giddings–Mangano 2008</td><td><code>f6a3cf1e92df21f29ab3d8475d341a4c381b3131dc55f9d90cdc5e7d5f9b2bd8</code></td></tr><tr><td>LHC Safety Study Group 2003</td><td><code>6f31a09b5eeefce082b6d41b97d62e09016939b79added6093fb6df62c7d3332</code></td></tr><tr><td>CERN background page</td><td><code>ec912d5671e6512cd9268a7ad868b1868f6f045ef29de5534d83f80d6fa8ba1c</code></td></tr><tr><td>Ord, Hillerbrand, and Sandberg 2010</td><td><code>dc9b6e06f4f7fdf60fa6d4c92cab65caa7a2cd0d09a2853b5e7e8e2881ef4ffd</code></td></tr><tr><td>Kent 2004</td><td><code>9b71b3d02320e68e8e3484c4a5d42c62ac11458a78b72d04409d9038922c7979</code></td></tr></tbody></table>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>SHA-256</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LSAG 2008</td>
+<td><code>6e4f5244885bae3d208a754477226c7b55c3796aa7111acb231ccb8397830b56</code></td>
+</tr>
+<tr>
+<td>Giddings–Mangano 2008</td>
+<td><code>f6a3cf1e92df21f29ab3d8475d341a4c381b3131dc55f9d90cdc5e7d5f9b2bd8</code></td>
+</tr>
+<tr>
+<td>LHC Safety Study Group 2003</td>
+<td><code>6f31a09b5eeefce082b6d41b97d62e09016939b79added6093fb6df62c7d3332</code></td>
+</tr>
+<tr>
+<td>CERN background page</td>
+<td><code>ec912d5671e6512cd9268a7ad868b1868f6f045ef29de5534d83f80d6fa8ba1c</code></td>
+</tr>
+<tr>
+<td>Ord, Hillerbrand, and Sandberg 2010</td>
+<td><code>dc9b6e06f4f7fdf60fa6d4c92cab65caa7a2cd0d09a2853b5e7e8e2881ef4ffd</code></td>
+</tr>
+<tr>
+<td>Kent 2004</td>
+<td><code>9b71b3d02320e68e8e3484c4a5d42c62ac11458a78b72d04409d9038922c7979</code></td>
+</tr>
+</tbody>
+</table>
 <p>The treatment used new, private identifiers:</p>
-<ul><li>specialists: <code>flf_sol_lhc_depth_official</code>, <code>flf_sol_lhc_depth_method</code>, and <code>flf_sol_lhc_depth_auditor</code>;</li><li>Postgres table: <code>public.flf_sol_lhc_depth_chunks</code>;</li><li>empty graph group: <code>flf_sol_lhc_depth_20260719</code>; and</li><li>private registry: <code>registry/registry.yaml</code>.</li></ul>
+<ul>
+<li>specialists: <code>flf_sol_lhc_depth_official</code>, <code>flf_sol_lhc_depth_method</code>, and <code>flf_sol_lhc_depth_auditor</code>;</li>
+<li>Postgres table: <code>public.flf_sol_lhc_depth_chunks</code>;</li>
+<li>empty graph group: <code>flf_sol_lhc_depth_20260719</code>; and</li>
+<li>private registry: <code>registry/registry.yaml</code>.</li>
+</ul>
 <p>A pre-run read-only query established that the new table was absent. Ingest then wrote 14, 64, and 24 chunks for the three new specialist IDs, respectively, with zero reported ingest errors. The 102 rows remain in that isolated table as the reproducible record. The production server was not started, stopped, reloaded, or called.</p>
 <p>This remained a Channel-B-only test. The new graph namespace was not ingested, so this does not establish graph retrieval or graph-backed dependency detection.</p>
 <h2>Before and after</h2>
-<table><thead><tr><th>Specialist</th><th>Preserved facts</th><th>Treatment facts</th><th>Treatment allocation</th><th>Baseline passages retained?</th><th>Returned judgment</th></tr></thead><tbody><tr><td>Official</td><td>2</td><td>12</td><td>11 LSAG, 1 CERN page</td><td>Yes</td><td>Yes; faithfulness <code>repaired</code>, ratio 0.933</td></tr><tr><td>Method</td><td>2</td><td>12</td><td>6 Giddings–Mangano, 6 2003 report</td><td>Yes</td><td>Yes; faithfulness <code>repaired</code>, ratio 0.789</td></tr><tr><td>Auditor</td><td>2</td><td>12</td><td>5 Ord et al., 7 Kent</td><td>Yes</td><td><strong>No</strong>; faithfulness <code>refused</code>, <code>gate_error</code>, evaluated coverage below 80%, ratio 0.688</td></tr></tbody></table>
-<p>The panel wrapper reports all three calls as <code>ok: true</code> because all three <code>graph_judgment</code> calls returned a result object. That count must not be described as three usable judgments: the auditor&#x27;s final <code>judgment</code> is <code>null</code> after enforcement refusal.</p>
+<table>
+<thead>
+<tr>
+<th>Specialist</th>
+<th style="text-align: right;">Preserved facts</th>
+<th style="text-align: right;">Treatment facts</th>
+<th>Treatment allocation</th>
+<th>Baseline passages retained?</th>
+<th>Returned judgment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Official</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">12</td>
+<td>11 LSAG, 1 CERN page</td>
+<td>Yes</td>
+<td>Yes; faithfulness <code>repaired</code>, ratio 0.933</td>
+</tr>
+<tr>
+<td>Method</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">12</td>
+<td>6 Giddings–Mangano, 6 2003 report</td>
+<td>Yes</td>
+<td>Yes; faithfulness <code>repaired</code>, ratio 0.789</td>
+</tr>
+<tr>
+<td>Auditor</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">12</td>
+<td>5 Ord et al., 7 Kent</td>
+<td>Yes</td>
+<td><strong>No</strong>; faithfulness <code>refused</code>, <code>gate_error</code>, evaluated coverage below 80%, ratio 0.688</td>
+</tr>
+</tbody>
+</table>
+<p>The panel wrapper reports all three calls as <code>ok: true</code> because all three <code>graph_judgment</code> calls returned a result object. That count must not be described as three usable judgments: the auditor's final <code>judgment</code> is <code>null</code> after enforcement refusal.</p>
 <p>The raw treatment output has SHA-256 <code>a0a38db2ad0b379cfd5b2d4528ffa3bea4bde762ad8191ac7867d2fd272df868</code>. The copied preserved baseline has SHA-256 <code>fe2dcf3667fef5ed62f33e5ac15ce4ebdfc9c22b1782aa00461d8c462319a6f1</code>.</p>
 <h2>Did the target dependency evidence surface?</h2>
 <h3>Shared Mangano authorship: present in retrieval, absent from judgments</h3>
-<ul><li><strong>Preserved run:</strong> neither relevant byline was among the six retained facts.</li><li><strong>Treatment official specialist:</strong> the LSAG byline was retained at rank 3. It names John Ellis, Gian Giudice, Michelangelo Mangano, Igor Tkachev, and Urs Wiedemann. Passage-text SHA-256: <code>1734ec9aa77ed8c6be97d3c586b8eafbb9a70caee1e16eb0f84f5772aa46e4f1</code>.</li><li><strong>Treatment method specialist:</strong> the fallback-paper byline was retained at rank 10. It names Steven B. Giddings and Michelangelo L. Mangano. Passage-text SHA-256: <code>dd95bf51a72bed910443ad8931c96e953b0222ead1e0246274b138dc4269d5bb</code>.</li></ul>
-<p>Comparing those two raw passages establishes shared Mangano authorship as a documentary fact. The panel did not perform that cross-specialist comparison. Neither completed judgment contains &quot;Mangano,&quot; &quot;shared author,&quot; &quot;co-author,&quot; or &quot;authorship overlap.&quot; Therefore:</p>
-<ul><li><strong>Established:</strong> deeper within-source retrieval exposed the two bylines needed for the shared-author finding.</li><li><strong>Not established as system output:</strong> that the judgment panel identified or reasoned over the shared authorship.</li></ul>
+<ul>
+<li><strong>Preserved run:</strong> neither relevant byline was among the six retained facts.</li>
+<li><strong>Treatment official specialist:</strong> the LSAG byline was retained at rank 3. It names John Ellis, Gian Giudice, Michelangelo Mangano, Igor Tkachev, and Urs Wiedemann. Passage-text SHA-256: <code>1734ec9aa77ed8c6be97d3c586b8eafbb9a70caee1e16eb0f84f5772aa46e4f1</code>.</li>
+<li><strong>Treatment method specialist:</strong> the fallback-paper byline was retained at rank 10. It names Steven B. Giddings and Michelangelo L. Mangano. Passage-text SHA-256: <code>dd95bf51a72bed910443ad8931c96e953b0222ead1e0246274b138dc4269d5bb</code>.</li>
+</ul>
+<p>Comparing those two raw passages establishes shared Mangano authorship as a documentary fact. The panel did not perform that cross-specialist comparison. Neither completed judgment contains "Mangano," "shared author," "co-author," or "authorship overlap." Therefore:</p>
+<ul>
+<li><strong>Established:</strong> deeper within-source retrieval exposed the two bylines needed for the shared-author finding.</li>
+<li><strong>Not established as system output:</strong> that the judgment panel identified or reasoned over the shared authorship.</li>
+</ul>
 <h3>Adviser acknowledgments: not retrieved</h3>
 <p>The top-12 method evidence did not contain the Giddings–Mangano acknowledgment thanking the other four LSAG authors for guidance and advice. No returned judgment mentioned that adviser relationship. The human-directed warrant map remains the only supplied artifact establishing it from the document text.</p>
-<ul><li><strong>Established:</strong> the top-12 treatment did not retrieve this acknowledgment for the unchanged research question.</li><li><strong>Not established by this run:</strong> the four adviser relationships or their effect on evidential independence.</li></ul>
+<ul>
+<li><strong>Established:</strong> the top-12 treatment did not retrieve this acknowledgment for the unchanged research question.</li>
+<li><strong>Not established by this run:</strong> the four adviser relationships or their effect on evidential independence.</li>
+</ul>
 <h3>Argument structure: richer, but not the requested personnel dependency</h3>
 <p>The official and method judgments gave a more detailed layered/fallback account than a bare Hawking-radiation chain. They discussed the cosmic-ray and compact-object fallback, charge/neutralization conditions, accretion models, and observational constraints. This is useful qualitative output. It is not a controlled accuracy score, and model/provider nondeterminism can still affect exact prose at temperature zero.</p>
 <h2>What this result establishes</h2>
-<ol><li>The prior two-fact shape came from a verified source-ID deduplication path, not from a configured per-source cap.</li><li>A run-local passage identity correction raised retained depth from 2 to 12 facts per specialist while preserving all six baseline fact texts.</li><li>Under the unchanged question and top-12 semantic ranking, the deeper evidence exposed both bylines needed to observe shared Mangano authorship.</li><li>The existing judgment-panel path did not join those bylines across specialists or state the authorship finding.</li><li>Top-12 retrieval still missed the adviser acknowledgment.</li><li>More evidence increased enforcement burden enough that the auditor output was refused rather than returned as a judgment.</li></ol>
+<ol>
+<li>The prior two-fact shape came from a verified source-ID deduplication path, not from a configured per-source cap.</li>
+<li>A run-local passage identity correction raised retained depth from 2 to 12 facts per specialist while preserving all six baseline fact texts.</li>
+<li>Under the unchanged question and top-12 semantic ranking, the deeper evidence exposed both bylines needed to observe shared Mangano authorship.</li>
+<li>The existing judgment-panel path did not join those bylines across specialists or state the authorship finding.</li>
+<li>Top-12 retrieval still missed the adviser acknowledgment.</li>
+<li>More evidence increased enforcement burden enough that the auditor output was refused rather than returned as a judgment.</li>
+</ol>
 <h2>What this result does not establish</h2>
-<ul><li>that raising retrieval depth generally improves judgment accuracy;</li><li>that the panel automatically detects personnel, citation, advice, or institutional dependencies;</li><li>that the fallback paper is inferentially invalid or its physics is wrong;</li><li>that the LHC was or is dangerous;</li><li>that the two argument layers are statistically or causally independent;</li><li>that the four LSAG authors advised on, reviewed, or endorsed the final safety conclusion rather than supplying discussion or guidance;</li><li>that graph retrieval ran;</li><li>that 12 passages is an optimal depth; or</li><li>that the same result will hold across embeddings, models, seeds, questions, or corpora.</li></ul>
+<ul>
+<li>that raising retrieval depth generally improves judgment accuracy;</li>
+<li>that the panel automatically detects personnel, citation, advice, or institutional dependencies;</li>
+<li>that the fallback paper is inferentially invalid or its physics is wrong;</li>
+<li>that the LHC was or is dangerous;</li>
+<li>that the two argument layers are statistically or causally independent;</li>
+<li>that the four LSAG authors advised on, reviewed, or endorsed the final safety conclusion rather than supplying discussion or guidance;</li>
+<li>that graph retrieval ran;</li>
+<li>that 12 passages is an optimal depth; or</li>
+<li>that the same result will hold across embeddings, models, seeds, questions, or corpora.</li>
+</ul>
 <h2>Practical implication for the proposal</h2>
-<p>The safe claim is narrower and more interesting than &quot;more context solved it&quot;:</p>
-<blockquote><p>Correcting within-source deduplication exposed the two bylines required to see shared authorship, but the panel did not connect them, and it still missed the adviser acknowledgment. Retrieval depth was one bottleneck, not the whole problem.</p></blockquote>
+<p>The safe claim is narrower and more interesting than "more context solved it":</p>
+<blockquote>
+<p>Correcting within-source deduplication exposed the two bylines required to see shared authorship, but the panel did not connect them, and it still missed the adviser acknowledgment. Retrieval depth was one bottleneck, not the whole problem.</p>
+</blockquote>
 <p>An Atlas-centered proposal can use this as evidence for a separate, explicit dependency pass over bylines, acknowledgments, citations, institutions, and advice relationships. It should not claim that the existing panel already performs that pass. A next test should predeclare a dependency-specific query or structured metadata extractor and require it to return the supporting source spans; that would test the missing function directly rather than asking a broad safety-case query to retrieve document furniture by semantic similarity.</p>
 <h2>Commands and artifacts</h2>
 <p>Core commands:</p>
 <pre><code class="language-bash"># Pre-run table check on &lt;host&gt;
 psql -h &lt;host&gt; -p &lt;port&gt; -U &lt;user&gt; -d taste \
-  -Atc &quot;SELECT COALESCE(to_regclass(&#x27;public.flf_sol_lhc_depth_chunks&#x27;)::text,&#x27;ABSENT&#x27;);&quot;
+  -Atc &quot;SELECT COALESCE(to_regclass('public.flf_sol_lhc_depth_chunks')::text,'ABSENT');&quot;
 
 # Run-local identity unit check
 python3 \
@@ -135,11 +258,22 @@ python3 \
 bash ./comparisons/strategy/lhc-retrieval-depth-test/run/run_panel.sh
 
 # Deterministic comparison/diff builder
-python3 comparisons/strategy/lhc-retrieval-depth-test/run/analyze_results.py</code></pre>
+python3 comparisons/strategy/lhc-retrieval-depth-test/run/analyze_results.py
+</code></pre>
 <p>Key artifacts:</p>
-<ul><li><code>results/panel_result_raw.json</code> — unedited treatment panel output;</li><li><code>results/retrieval_trace.json</code> — exact requested limits, source IDs, passage IDs, ranks, scores, sizes, and text hashes;</li><li><code>results/before_after_comparison.json</code> — deterministic baseline/treatment comparison and target checks;</li><li><code>results/ingest_reports.json</code> — exact ingestion results;</li><li><code>results/run.stderr.log</code>, <code>results/run.stdout.log</code>, and <code>results/run_log.json</code> — execution record;</li><li><code>results/exact_harness_and_config_diff.patch</code> — complete registry and runner diff;</li><li><code>code-snapshot/</code> — exact deployed files governing routing, source IDs, storage, synthesis, and enforcement;</li><li><code>run/retrieval_depth_patch.py</code> — sole algorithmic treatment; and</li><li><code>baseline_panel_result_raw.json</code> and <code>baseline_manifest.json</code> — copied preserved controls.</li></ul>
+<ul>
+<li><code>results/panel_result_raw.json</code> — unedited treatment panel output;</li>
+<li><code>results/retrieval_trace.json</code> — exact requested limits, source IDs, passage IDs, ranks, scores, sizes, and text hashes;</li>
+<li><code>results/before_after_comparison.json</code> — deterministic baseline/treatment comparison and target checks;</li>
+<li><code>results/ingest_reports.json</code> — exact ingestion results;</li>
+<li><code>results/run.stderr.log</code>, <code>results/run.stdout.log</code>, and <code>results/run_log.json</code> — execution record;</li>
+<li><code>results/exact_harness_and_config_diff.patch</code> — complete registry and runner diff;</li>
+<li><code>code-snapshot/</code> — exact deployed files governing routing, source IDs, storage, synthesis, and enforcement;</li>
+<li><code>run/retrieval_depth_patch.py</code> — sole algorithmic treatment; and</li>
+<li><code>baseline_panel_result_raw.json</code> and <code>baseline_manifest.json</code> — copied preserved controls.</li>
+</ul>
 <p>Native Claude Sonnet was invoked for a read-only code review before execution. Three headless processes remained active without returning review text. The two redundant processes were terminated, followed by the first after more than seven minutes without output. No review finding is claimed or relied on.</p>
-<hr>
+<hr />
 <p>© 2026 Reticle Works. Released under the MIT License — see <a href="../../LICENSE">LICENSE</a>.</p>
     <a class="source-link" href="retrieval-depth-REPORT.md">View markdown source · retrieval-depth-REPORT.md</a>
   </main>

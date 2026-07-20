@@ -76,16 +76,31 @@
   </header>
   <main>
     <h1>Independent component review</h1>
-<p>The review examined the deterministic component, its tests, and its output over the preserved COVID panel.</p>
+<p>The review examined the deterministic component, its tests, and its output over
+the preserved COVID panel.</p>
 <h2>Initial findings</h2>
-<p>The review confirmed that the current component replaced the baseline&#x27;s generic <code>different_citations</code> / <code>requires_human_review</code> output with a concrete claim, position labels, source-file resolution, dispute typing, and decision-changing evidence. It found no literal COVID, Huanan, Wuhan, zoonotic, or market-origin constants in the extractor and independently reproduced the output.</p>
+<p>The review confirmed that the current component replaced the baseline's generic
+<code>different_citations</code> / <code>requires_human_review</code> output with a concrete claim,
+position labels, source-file resolution, dispute typing, and decision-changing
+evidence. It found no literal COVID, Huanan, Wuhan, zoonotic, or market-origin
+constants in the extractor and independently reproduced the output.</p>
 <p>It nevertheless found four softer problems:</p>
-<ol><li>Several change-evidence phrases duplicated wording in the COVID panel.</li><li>The causal classifier included <code>spillover</code> and <code>introduction</code>.</li><li><code>supports</code> plus <code>insufficient_evidence</code> was labeled <code>contested_claim</code>.</li><li>Disagreement typing did not expose whether it used an explicit cue or a fallback.</li></ol>
-<p>It also cautioned that 5/5 is a structural and evidence-bearing score, not proof of semantic equivalence to every word of the hand-authored gold claim.</p>
+<ol>
+<li>Several change-evidence phrases duplicated wording in the COVID panel.</li>
+<li>The causal classifier included <code>spillover</code> and <code>introduction</code>.</li>
+<li><code>supports</code> plus <code>insufficient_evidence</code> was labeled <code>contested_claim</code>.</li>
+<li>Disagreement typing did not expose whether it used an explicit cue or a fallback.</li>
+</ol>
+<p>It also cautioned that 5/5 is a structural and evidence-bearing score, not proof
+of semantic equivalence to every word of the hand-authored gold claim.</p>
 <h2>Current behavior</h2>
-<p>The final code replaces panel-specific phrase strings with generic grammatical patterns, removes the domain-specific causal words, distinguishes <code>mixed_with_abstention</code>, and emits a classification basis plus <code>MEDIUM</code> or <code>LOW</code> confidence. The test suite now covers the latter two fields.</p>
-<p>The remaining caveat is binding: report the result as a five-check structural and evidentiary pass, not as a general semantic-accuracy result.</p>
-<hr>
+<p>The final code replaces panel-specific phrase strings with generic grammatical
+patterns, removes the domain-specific causal words, distinguishes
+<code>mixed_with_abstention</code>, and emits a classification basis plus <code>MEDIUM</code> or <code>LOW</code>
+confidence. The test suite now covers the latter two fields.</p>
+<p>The remaining caveat is binding: report the result as a five-check structural and
+evidentiary pass, not as a general semantic-accuracy result.</p>
+<hr />
 <p>© 2026 Reticle Works. Released under the MIT License — see <a href="../../LICENSE">LICENSE</a>.</p>
     <a class="source-link" href="INDEPENDENT-COMPONENT-REVIEW.md">View markdown source · INDEPENDENT-COMPONENT-REVIEW.md</a>
   </main>
