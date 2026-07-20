@@ -128,6 +128,9 @@
     .status.limited { color: var(--amber); }
     .boundary-item p { margin: 0; color: var(--muted); font-size: .84rem; }
     .boundary-callout { margin-top: .85rem; padding: .8rem 1rem; background: var(--amber-pale); border-left: 5px solid var(--amber); font-size: .88rem; }
+    .footnote { font-size: .78rem; padding-top: .8rem; margin-top: 1rem; border-top: 1px solid var(--line); }
+    .footnote strong { color: var(--ink); }
+    .footnote a { color: var(--teal); }
 
     .metrics { margin: .85rem 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .65rem; }
     .metric { padding: .8rem; background: var(--surface); border: 1px solid var(--line); }
@@ -459,13 +462,6 @@
         <div class="slide-inner">
           <div class="slide-topline"><p class="eyebrow">Epistack · COVID evidence</p><p class="slide-number">04 / 07</p></div>
           <h2>The COVID case produced a concrete claim that can be challenged.</h2>
-          <div class="metrics" role="group" aria-label="COVID case measures">
-            <div class="metric"><strong>10</strong><span>source documents</span></div>
-            <div class="metric"><strong>69,774</strong><span>canonical words</span></div>
-            <div class="metric"><strong>3</strong><span>designed reviewer roles</span></div>
-            <div class="metric"><strong>5/5</strong><span>declared output checks</span></div>
-            <div class="metric"><strong>4</strong><span>additional tests passing</span></div>
-          </div>
           <div class="claim"><p>How much of the observed concentration of early known cases around the Huanan market survives correction for the way those cases were found?</p></div>
           <div class="positions">
             <div class="position"><strong>Market-focused judgment</strong><span>Moderate weight as evidence of an early center, but not conclusive.</span></div>
@@ -503,20 +499,20 @@
 
       <section class="slide" id="slide-6" data-slide tabindex="-1" aria-roledescription="slide" aria-label="6 of 7">
         <div class="slide-inner">
-          <div class="slide-topline"><p class="eyebrow">Epistack · Perplexity Deep Research comparison</p><p class="slide-number">06 / 07</p></div>
+          <div class="slide-topline"><p class="eyebrow">Epistack · Comparison with a commercial deep research tool</p><p class="slide-number">06 / 07</p></div>
           <h2>The comparison is about the research artifact.</h2>
-          <p class="lead">One instructed Deep Research run received the same COVID question and ten-source starting set under a protocol fixed before the call.</p>
+          <p class="lead">One instructed run of a commercial deep research tool received the same COVID question and ten-source starting set under a protocol fixed before the call.</p>
           <div class="comparison">
             <article class="panel teal">
-              <h3>Deep Research produced the better single narrative.</h3>
+              <h3>The commercial tool produced the better single narrative.</h3>
               <ul>
-                <li>It returned a concise 258-word synthesis.</li>
+                <li>The tool returned a concise 258-word synthesis.</li>
                 <li>When directly asked, it named the tension between transmission signal and ascertainment bias.</li>
                 <li>It found useful shared-authorship and debate relationships.</li>
               </ul>
             </article>
             <article class="panel amber">
-              <h3>Epistack preserves a different record.</h3>
+              <h3>Epistack preserves a better record.</h3>
               <ul>
                 <li>Separate judgments, cited passages, and the proposed Crux remain inspectable.</li>
                 <li>Relationship types and corrections remain attached to source evidence.</li>
@@ -524,7 +520,12 @@
               </ul>
             </article>
           </div>
-          <p class="note spaced"><strong>Limit:</strong> one instructed run does not establish typical product behavior or an overall Epistack advantage.</p>
+          <p class="note spaced"><strong>Limit:</strong> one instructed run does not establish typical behavior of the commercial tool or an overall Epistack advantage.</p>
+          <p class="note spaced footnote">
+            <strong>Service:</strong> Perplexity Deep Research (via <code>mcp__perplexity__pplx_deep_research</code>; local MCP registry entry <code>perplexity/deep-research</code>).
+            <strong>Date:</strong> 2026-07-20 UTC (call ran 00:09:39–00:12:19).
+            <strong>Prompt:</strong> the exact prompt is preserved at <a href="evidence/perplexity/exact-prompt.html"><code>evidence/perplexity/exact-prompt</code></a>; the predeclared protocol is at <a href="evidence/perplexity/protocol.html"><code>evidence/perplexity/protocol</code></a>; the returned result is at <a href="evidence/perplexity/result.html"><code>evidence/perplexity/result</code></a>.
+          </p>
         </div>
       </section>
 
