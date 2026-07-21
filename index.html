@@ -5,612 +5,1222 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="light">
   <title>Epistack — How Many Voices Is This Really?</title>
-  <meta name="description" content="Epistack: keep the work behind an answer inspectable. FLF 2026 submission landing page and walkthrough.">
-  <script>document.documentElement.classList.add("js");</script>
+  <meta name="description" content="A research workflow that keeps the reasoning, not just the answer. Epistack from Reticle Works — FLF 2026 submission.">
   <style>
     :root {
-      --ink: #112b36;
-      --muted: #52656c;
-      --paper: #f5f1e8;
-      --surface: #fffdf8;
+      --ink: #0e1a20;
+      --body: #253339;
+      --muted: #6b7c83;
+      --paper: #fafaf7;
+      --surface: #ffffff;
+      --panel: #f2f0ea;
       --navy: #082b3a;
+      --navy-2: #0b3a4a;
       --teal: #08645f;
-      --teal-pale: #d9efea;
-      --blue-pale: #dfeefa;
+      --teal-2: #06524d;
+      --teal-pale: #e4f2ef;
+      --mint: #9fe8df;
       --amber: #86500f;
-      --amber-pale: #fff0cc;
-      --rose: #7d343a;
-      --rose-pale: #f7dedf;
-      --line: #a6b0af;
-      --white: #fff;
-      --shadow: 0 18px 48px rgba(8, 43, 58, .12);
-      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      --serif: Iowan Old Style, Baskerville, Georgia, serif;
-      --footer-height: 64px;
+      --line: #dcd8ce;
+      --line-strong: #b7b1a3;
+      --shadow-soft: 0 1px 2px rgba(8, 43, 58, .05), 0 8px 24px rgba(8, 43, 58, .06);
+      --shadow-hero: 0 20px 60px rgba(8, 43, 58, .35);
+      --sans: "Inter", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+      --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+      --radius-sm: 6px;
+      --radius: 10px;
+      --radius-lg: 14px;
+      --nav-h: 64px;
     }
 
     * { box-sizing: border-box; }
-    html { background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.42; }
-    body { margin: 0; min-width: 300px; background: var(--paper); }
-    .js body { overflow: hidden; }
-    button, a { touch-action: manipulation; }
-    button { font: inherit; }
-    :focus-visible { outline: 3px solid #ffbf47; outline-offset: 3px; box-shadow: 0 0 0 6px var(--navy); }
-    h1, h2, h3, p { margin-top: 0; }
-    h1, h2 { font-family: var(--serif); font-weight: 600; letter-spacing: -.032em; }
-    h1 { max-width: 980px; margin-bottom: .55rem; font-size: clamp(2.55rem, 5.3vw, 5rem); line-height: .96; }
-    h2 { max-width: 980px; margin-bottom: .7rem; font-size: clamp(2.05rem, 4.15vw, 3.9rem); line-height: 1; }
-    h3 { margin-bottom: .42rem; font-size: clamp(1rem, 1.7vw, 1.25rem); line-height: 1.2; }
-    p { margin-bottom: .75rem; }
-    strong { font-weight: 800; }
-    code { font: 600 .84em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-wrap: anywhere; }
+    html { background: var(--paper); color: var(--body); font-family: var(--sans); -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body { margin: 0; min-width: 320px; background: var(--paper); font-size: 16px; line-height: 1.5; }
+    body.deck-mode { overflow: hidden; }
+    h1, h2, h3, h4, p, ul, ol { margin: 0; }
+    h1, h2, h3, h4 { color: var(--ink); font-weight: 700; letter-spacing: -.022em; line-height: 1.15; }
+    a { color: var(--teal); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: .18em; }
+    button { font: inherit; cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--teal); outline-offset: 3px; border-radius: 4px; }
+    code, .mono { font-family: var(--mono); font-size: .9em; }
+    ul, ol { padding: 0; }
 
     .skip-link {
-      position: fixed;
-      z-index: 100;
-      top: .7rem;
-      left: .7rem;
-      padding: .65rem .9rem;
-      transform: translateY(-180%);
-      color: var(--navy);
-      background: var(--white);
-      border: 2px solid var(--navy);
-      font-weight: 800;
+      position: fixed; top: .6rem; left: .6rem; z-index: 200;
+      padding: .55rem .9rem; color: var(--navy); background: #fff;
+      border: 2px solid var(--navy); font-weight: 700;
+      transform: translateY(-160%); transition: transform .15s ease;
     }
     .skip-link:focus { transform: none; }
 
-    .deck { height: 100svh; display: flex; flex-direction: column; }
-    .slides { flex: 1 1 auto; min-height: 0; }
-    .slide {
-      height: 100%;
-      padding: clamp(1.1rem, 3.7vw, 3rem) clamp(1.1rem, 5.2vw, 5rem) clamp(1.5rem, 4vw, 3rem);
-      display: block;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior: contain;
-      background:
-        radial-gradient(circle at 94% 2%, rgba(8, 100, 95, .10), transparent 24rem),
-        var(--paper);
+    /* ---------- Top navigation ---------- */
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      height: var(--nav-h);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem;
+      padding: 0 clamp(1rem, 4vw, 2.4rem);
+      background: rgba(8, 43, 58, .96);
+      backdrop-filter: saturate(150%) blur(6px);
+      -webkit-backdrop-filter: saturate(150%) blur(6px);
+      color: #eaf1f3;
+      border-bottom: 1px solid rgba(159, 232, 223, .18);
     }
-    .slide-inner { padding-bottom: 2rem; width: min(100%, 1240px); margin: auto; }
-    .js .slide:not(.is-active) { display: none; }
-    .slide-topline { margin-bottom: clamp(.45rem, 1.5vw, .9rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-    .eyebrow { margin: 0; color: var(--teal); font-size: .72rem; font-weight: 900; letter-spacing: .14em; text-transform: uppercase; }
-    .slide-number { margin: 0; color: var(--muted); font-size: .75rem; font-weight: 750; font-variant-numeric: tabular-nums; }
-    .lead { max-width: 1040px; color: var(--muted); font-size: clamp(1rem, 1.75vw, 1.28rem); }
-    .note { color: var(--muted); font-size: clamp(.82rem, 1.2vw, .96rem); }
-    .note.spaced { margin-top: .75rem; }
+    .nav-brand {
+      display: flex; align-items: center; gap: .55rem;
+      color: #fff; font-weight: 800; font-size: 1.08rem; letter-spacing: -.01em;
+    }
+    .nav-brand:hover { text-decoration: none; }
+    .nav-mark {
+      width: 22px; height: 22px; border-radius: 5px;
+      display: grid; place-items: center;
+      background: linear-gradient(140deg, var(--mint), var(--teal));
+      color: var(--navy); font-weight: 900; font-size: .74rem;
+    }
+    .nav-links {
+      display: flex; align-items: center; gap: .2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      display: inline-block;
+      padding: .5rem .78rem; border-radius: 6px;
+      color: #d8e6ea; font-size: .88rem; font-weight: 500;
+    }
+    .nav-links a:hover { background: rgba(159, 232, 223, .12); color: #fff; text-decoration: none; }
+    .nav-cta {
+      margin-left: .5rem;
+      padding: .55rem .95rem !important;
+      background: var(--teal) !important; color: #fff !important;
+      border-radius: 6px; font-weight: 700 !important;
+    }
+    .nav-cta:hover { background: var(--teal-2) !important; }
+    .nav-toggle { display: none; }
 
-    /* ---- LANDING (v1 addition) ---- */
-    .landing-inner { width: min(100%, 1080px); margin: auto; padding-bottom: 2rem; }
-    .landing-hero { padding-top: clamp(.5rem, 3vw, 1.6rem); }
-    .wordmark {
-      margin: .35rem 0 .3rem;
-      font-family: var(--serif);
-      font-weight: 600;
-      letter-spacing: -.04em;
-      line-height: .9;
-      font-size: clamp(4rem, 12vw, 9rem);
-      color: var(--navy);
+    @media (max-width: 780px) {
+      .nav-links { display: none; position: absolute; top: var(--nav-h); left: 0; right: 0;
+        flex-direction: column; gap: 0; padding: .5rem; background: var(--navy); border-bottom: 1px solid rgba(159,232,223,.2); }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: .8rem 1rem; border-radius: 0; width: 100%; }
+      .nav-cta { margin: .4rem 1rem; }
+      .nav-toggle { display: inline-grid; place-items: center; width: 40px; height: 40px;
+        background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.35); border-radius: 6px; }
     }
-    .wordmark::after {
-      content: "";
-      display: block;
-      width: 3.1rem;
-      height: 6px;
-      margin-top: .55rem;
-      background: var(--teal);
+
+    /* ---------- Landing ---------- */
+    .landing { display: block; }
+    body.deck-mode .landing { display: none; }
+
+    .hero {
+      position: relative;
+      padding: clamp(3.5rem, 9vw, 6.5rem) clamp(1.2rem, 5vw, 3rem) clamp(3rem, 7vw, 5rem);
+      color: #fff;
+      background:
+        radial-gradient(ellipse 900px 500px at 82% 12%, rgba(159, 232, 223, .16), transparent 60%),
+        radial-gradient(ellipse 700px 400px at 12% 88%, rgba(8, 100, 95, .28), transparent 65%),
+        linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 55%, #093a49 100%);
+      overflow: hidden;
     }
-    .tagline {
-      margin: .9rem 0 .35rem;
-      font-family: var(--serif);
-      font-weight: 600;
-      letter-spacing: -.02em;
-      font-size: clamp(1.65rem, 3.4vw, 2.55rem);
-      line-height: 1.1;
-      max-width: 900px;
+    .hero::after {
+      content: ""; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 42px 42px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse 800px 500px at 50% 50%, black 40%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 800px 500px at 50% 50%, black 40%, transparent 80%);
     }
-    .subtitle {
-      margin: 0 0 1.2rem;
-      color: var(--muted);
-      font-size: clamp(1rem, 1.55vw, 1.15rem);
-      max-width: 780px;
-      line-height: 1.45;
+    .hero-inner { position: relative; max-width: 1160px; margin: 0 auto; }
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .3rem .7rem;
+      background: rgba(159, 232, 223, .12);
+      border: 1px solid rgba(159, 232, 223, .3);
+      border-radius: 999px;
+      color: var(--mint); font-size: .74rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
     }
-    .intro { max-width: 780px; }
-    .intro p { margin-bottom: .7rem; font-size: clamp(.98rem, 1.35vw, 1.05rem); line-height: 1.55; }
+    .hero-eyebrow::before {
+      content: ""; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--mint); box-shadow: 0 0 8px var(--mint);
+    }
+    .hero h1 {
+      margin: 1.4rem 0 .6rem;
+      color: #fff;
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 800;
+      letter-spacing: -.038em;
+      line-height: .95;
+    }
+    .hero-tagline {
+      margin: 0 0 1.1rem;
+      max-width: 820px;
+      color: #eaf1f3;
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      font-weight: 500;
+      line-height: 1.2;
+      letter-spacing: -.015em;
+    }
+    .hero-sub {
+      max-width: 680px;
+      color: rgba(234, 241, 243, .78);
+      font-size: clamp(1rem, 1.4vw, 1.15rem);
+      line-height: 1.55;
+    }
+    .hero-actions {
+      margin-top: 2rem;
+      display: flex; flex-wrap: wrap; align-items: center; gap: .85rem;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .85rem 1.35rem;
+      border-radius: 8px;
+      font-size: .98rem; font-weight: 600;
+      border: 1px solid transparent;
+      transition: transform .12s ease, background .15s ease, border-color .15s ease;
+    }
+    .btn:hover { text-decoration: none; }
+    .btn-primary {
+      background: var(--teal); color: #fff;
+      box-shadow: 0 8px 22px rgba(8, 100, 95, .35);
+    }
+    .btn-primary:hover { background: var(--teal-2); transform: translateY(-1px); }
+    .btn-ghost {
+      background: transparent; color: #eaf1f3;
+      border-color: rgba(255, 255, 255, .28);
+    }
+    .btn-ghost:hover { background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .5); }
+    .btn-arrow { transition: transform .12s ease; }
+    .btn:hover .btn-arrow { transform: translateX(3px); }
+
+    .hero-meta {
+      margin-top: 2.2rem;
+      display: flex; flex-wrap: wrap; gap: 1.6rem 2rem;
+      color: rgba(234, 241, 243, .55);
+      font-size: .83rem;
+    }
+    .hero-meta strong { color: rgba(234, 241, 243, .9); font-weight: 600; }
+
+    /* ---------- Section shell ---------- */
+    section.band { padding: clamp(3rem, 6vw, 5rem) clamp(1.2rem, 5vw, 3rem); }
+    .container { max-width: 1160px; margin: 0 auto; }
+    .section-head { max-width: 720px; margin: 0 auto clamp(2rem, 4vw, 3rem); text-align: center; }
+    .section-eyebrow {
+      display: inline-block;
+      color: var(--teal); font-size: .75rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      margin-bottom: .8rem;
+    }
+    .section-head h2 {
+      font-size: clamp(1.9rem, 3.6vw, 2.7rem);
+      margin-bottom: .7rem;
+    }
+    .section-head p { color: var(--muted); font-size: clamp(1rem, 1.4vw, 1.1rem); line-height: 1.55; }
+
+    /* ---------- Intro paragraphs ---------- */
+    .intro { padding: clamp(3rem, 6vw, 4.5rem) clamp(1.2rem, 5vw, 3rem); background: var(--paper); }
+    .intro-inner { max-width: 780px; margin: 0 auto; }
+    .intro p {
+      color: var(--ink);
+      font-size: clamp(1.05rem, 1.5vw, 1.18rem);
+      line-height: 1.6;
+      margin-bottom: 1.1rem;
+    }
     .intro p:last-child { margin-bottom: 0; }
 
-    .cta-row {
-      margin: 1.4rem 0 1.2rem;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: .8rem 1.2rem;
+    /* ---------- Feature strip (3 columns from slide 1) ---------- */
+    .features { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem;
     }
-    .cta-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: .55rem;
-      min-height: 48px;
-      padding: .75rem 1.25rem;
-      color: var(--white);
-      background: var(--navy);
-      border: 1px solid var(--navy);
-      cursor: pointer;
-      font-size: .92rem;
-      font-weight: 800;
-      letter-spacing: .01em;
-      text-decoration: none;
+    .feature {
+      padding: 1.6rem;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      display: flex; flex-direction: column; gap: .8rem;
     }
-    .cta-primary:hover { background: var(--teal); border-color: var(--teal); }
-    .cta-primary .arrow { font-family: var(--sans); font-weight: 900; font-size: 1.1rem; line-height: 1; }
-    .cta-hint { color: var(--muted); font-size: .8rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+    .feature.spotlight {
+      background: linear-gradient(180deg, var(--teal-pale) 0%, #f3f9f7 100%);
+      border-color: #b3d4ce;
+    }
+    .feature-icon {
+      width: 40px; height: 40px; border-radius: 8px;
+      display: grid; place-items: center;
+      background: var(--surface); color: var(--teal);
+      border: 1px solid var(--line);
+    }
+    .feature.spotlight .feature-icon { background: var(--teal); color: #fff; border-color: var(--teal); }
+    .feature-kicker {
+      color: var(--muted); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+    }
+    .feature h3 { font-size: 1.2rem; }
+    .feature-desc { color: var(--body); font-size: .95rem; line-height: 1.5; }
+    .feature-list { list-style: none; display: grid; gap: .35rem; margin-top: .4rem; }
+    .feature-list li { color: var(--muted); font-size: .85rem; padding-left: 1rem; position: relative; }
+    .feature-list li::before {
+      content: ""; position: absolute; left: 0; top: .55rem;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--teal);
+    }
+    .feature-boundary {
+      color: var(--muted); font-size: .85rem; font-style: italic;
+      max-width: 800px; margin: 1.5rem auto 0; text-align: center;
+    }
 
-    .link-row {
-      margin: 1.2rem 0 0;
-      padding: 1rem 0 0;
-      border-top: 1px solid var(--line);
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: .6rem;
+    @media (max-width: 880px) {
+      .feature-grid { grid-template-columns: 1fr; }
     }
-    .link-row a {
-      display: block;
-      padding: .7rem .75rem;
-      color: var(--navy);
+
+    /* ---------- How it works (6 stages) ---------- */
+    .how { background: var(--paper); }
+    .stages {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+    }
+    .stage {
+      padding: 1.4rem;
       background: var(--surface);
       border: 1px solid var(--line);
-      text-decoration: none;
+      border-radius: var(--radius);
+      position: relative;
+      transition: border-color .15s ease, transform .15s ease;
     }
-    .link-row a:hover { border-color: var(--teal); color: var(--teal); }
-    .link-row a strong { display: block; font-size: .78rem; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; color: var(--teal); }
-    .link-row a span { display: block; margin-top: .2rem; font-size: .82rem; color: var(--muted); }
-
-    .landing-foot {
-      margin-top: 1.1rem;
-      color: var(--muted);
-      font-size: .72rem;
-      letter-spacing: .04em;
+    .stage:hover { border-color: var(--teal); }
+    .stage-num {
+      display: inline-grid; place-items: center;
+      width: 28px; height: 28px; border-radius: 50%;
+      background: var(--navy); color: var(--mint);
+      font-family: var(--mono); font-size: .78rem; font-weight: 700;
+      margin-bottom: .8rem;
     }
-    /* ---- end landing ---- */
+    .stage h3 { font-size: 1rem; margin-bottom: .45rem; }
+    .stage p { color: var(--muted); font-size: .88rem; line-height: 1.5; }
 
+    @media (max-width: 900px) { .stages { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 580px) { .stages { grid-template-columns: 1fr; } }
+
+    /* ---------- Trust strip ---------- */
+    .trust { background: var(--panel); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .trust-inner {
+      max-width: 1160px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      align-items: center;
+    }
+    .trust-item { display: flex; align-items: center; gap: .85rem; }
+    .trust-icon {
+      width: 36px; height: 36px; flex: 0 0 36px;
+      border-radius: 8px; background: var(--surface); border: 1px solid var(--line);
+      display: grid; place-items: center; color: var(--teal);
+    }
+    .trust-item strong { display: block; color: var(--ink); font-size: .95rem; font-weight: 700; }
+    .trust-item span { display: block; color: var(--muted); font-size: .82rem; }
+    @media (max-width: 780px) { .trust-inner { grid-template-columns: 1fr; } }
+
+    /* ---------- Final CTA ---------- */
+    .final-cta {
+      padding: clamp(3rem, 6vw, 4.5rem) clamp(1.2rem, 5vw, 3rem);
+      background:
+        radial-gradient(ellipse 600px 300px at 50% 0%, rgba(8, 100, 95, .18), transparent 70%),
+        var(--navy);
+      color: #fff;
+      text-align: center;
+    }
+    .final-cta h2 { color: #fff; font-size: clamp(1.7rem, 3vw, 2.3rem); margin-bottom: .8rem; }
+    .final-cta p { color: rgba(234, 241, 243, .72); margin-bottom: 1.6rem; max-width: 620px; margin-left: auto; margin-right: auto; }
+    .final-cta .btn-ghost { color: #eaf1f3; }
+
+    /* ---------- Footer ---------- */
+    .site-footer {
+      padding: 2rem clamp(1.2rem, 5vw, 3rem);
+      background: #061f29;
+      color: rgba(234, 241, 243, .58);
+      font-size: .82rem;
+    }
+    .site-footer-inner {
+      max-width: 1160px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .site-footer a { color: rgba(234, 241, 243, .72); }
+    .site-footer nav { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+
+    /* ============================================================
+       DECK MODE
+       ============================================================ */
+    .deck {
+      position: fixed; inset: var(--nav-h) 0 0 0;
+      z-index: 20;
+      display: none;
+      flex-direction: column;
+      background: var(--paper);
+    }
+    body.deck-mode .deck { display: flex; }
+    .slides { flex: 1 1 auto; min-height: 0; position: relative; }
+    .slide {
+      position: absolute; inset: 0;
+      overflow-y: auto; overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(1.2rem, 5vw, 4rem);
+      background: var(--paper);
+      display: none;
+    }
+    .slide.is-active { display: block; }
+    .slide-inner { max-width: 1160px; margin: 0 auto; padding-bottom: 3rem; }
+    .slide-topline {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 1rem; margin-bottom: 1.2rem;
+    }
+    .slide-eyebrow {
+      color: var(--teal); font-size: .72rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+    }
+    .slide-num {
+      color: var(--muted); font-family: var(--mono); font-size: .78rem; font-weight: 600;
+    }
+    .slide h1, .slide h2 {
+      font-size: clamp(1.8rem, 3.6vw, 2.8rem);
+      margin-bottom: .8rem;
+      max-width: 940px;
+      letter-spacing: -.028em;
+    }
+    .slide .lead {
+      color: var(--body); font-size: clamp(1.02rem, 1.6vw, 1.2rem);
+      line-height: 1.5; max-width: 940px; margin-bottom: 1rem;
+    }
+    .slide .lead strong { color: var(--ink); }
+    .slide .note {
+      color: var(--muted); font-size: .9rem; line-height: 1.5;
+    }
+    .slide .note.spaced { margin-top: 1rem; }
+
+    /* Slide 1 workflow */
     .workflow {
-      margin-top: clamp(.9rem, 2.6vw, 1.8rem);
+      margin-top: 1.5rem;
       display: grid;
-      grid-template-columns: minmax(108px, .7fr) 28px minmax(390px, 2.55fr) 28px minmax(260px, 1.55fr) 28px minmax(140px, .85fr);
-      align-items: stretch;
+      grid-template-columns: minmax(110px, .7fr) 24px minmax(380px, 2.4fr) 24px minmax(240px, 1.5fr) 24px minmax(130px, .8fr);
       gap: 0;
     }
-    .flow-arrow { display: grid; place-items: center; color: var(--teal); font-size: 1.8rem; font-weight: 900; }
-    .flow-node { min-width: 0; padding: clamp(.85rem, 1.65vw, 1.3rem); border: 1px solid var(--line); }
-    .flow-node.dark { display: grid; align-content: center; color: var(--white); background: var(--navy); border-color: var(--navy); }
-    .flow-node.atlas { background: var(--blue-pale); border-color: #7691aa; }
-    .flow-node.adds { background: var(--rose-pale); border: 2px solid #b05f4a; }
-    .flow-kicker { margin-bottom: .35rem; color: inherit; font-size: .66rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
-    .flow-node.dark .flow-kicker { color: #9fe8df; }
-    .flow-node h3 { font-size: clamp(1.25rem, 2vw, 1.65rem); }
-    .flow-node.dark h3 { margin: 0; color: var(--white); }
-    .atlas-parts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .55rem; }
-    .atlas-part, .epistack-part { padding: .68rem .74rem; background: rgba(255,255,255,.84); border: 1px solid rgba(17,43,54,.2); }
-    .atlas-part strong, .epistack-part strong { display: block; margin-bottom: .15rem; font-size: .9rem; }
+    .flow-arrow { display: grid; place-items: center; color: var(--teal); font-size: 1.5rem; font-weight: 900; }
+    .flow-node {
+      min-width: 0;
+      padding: 1.1rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .flow-node.dark {
+      display: grid; align-content: center; text-align: center;
+      color: #fff; background: var(--navy); border-color: var(--navy);
+    }
+    .flow-node.atlas { background: #eef4f8; border-color: #b8ccd6; }
+    .flow-node.adds { background: var(--teal-pale); border: 1.5px solid var(--teal); }
+    .flow-kicker {
+      color: var(--muted); font-size: .68rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase; margin-bottom: .35rem;
+    }
+    .flow-node.dark .flow-kicker { color: var(--mint); }
+    .flow-node.adds .flow-kicker { color: var(--teal); }
+    .flow-node h3 { font-size: clamp(1.15rem, 1.9vw, 1.5rem); margin: 0; }
+    .flow-node.dark h3 { color: #fff; }
+    .atlas-parts { display: grid; grid-template-columns: repeat(2, 1fr); gap: .5rem; margin-top: .7rem; }
+    .atlas-part, .epistack-part {
+      padding: .6rem .7rem; background: rgba(255,255,255,.75);
+      border: 1px solid rgba(11, 58, 74, .15); border-radius: 6px;
+    }
+    .atlas-part strong, .epistack-part strong {
+      display: block; color: var(--ink); font-size: .88rem; font-weight: 700; margin-bottom: .15rem;
+    }
     .atlas-part span, .epistack-part span { display: block; color: var(--muted); font-size: .76rem; }
-    .epistack-parts { display: grid; gap: .55rem; }
-    .system-boundary { margin: .8rem 0 0; color: var(--muted); font-size: .83rem; }
+    .epistack-parts { display: grid; gap: .5rem; margin-top: .7rem; }
+    .system-boundary { margin-top: 1rem; color: var(--muted); font-size: .85rem; font-style: italic; }
 
-    .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(1rem, 3vw, 2.5rem); align-items: stretch; }
-    .panel { min-width: 0; padding: clamp(1rem, 2.2vw, 1.65rem); background: var(--surface); border: 1px solid var(--line); box-shadow: var(--shadow); }
-    .panel.teal { border-top: 6px solid var(--teal); }
-    .panel.amber { border-top: 6px solid var(--amber); }
-    .panel.rose { border-top: 6px solid var(--rose); }
-    .panel p:last-child { margin-bottom: 0; }
-    .plain-list { margin: .8rem 0 0; padding: 0; list-style: none; }
-    .plain-list li { padding: .72rem 0; border-top: 1px solid var(--line); }
-    .plain-list li:first-child { border-top: 0; padding-top: 0; }
-    .plain-list strong { display: block; margin-bottom: .15rem; }
-    .plain-list span { color: var(--muted); font-size: .9rem; }
-    .sequence { margin: 1rem 0 0; padding: 0; display: grid; gap: .55rem; list-style: none; counter-reset: step; }
-    .sequence li { counter-increment: step; display: grid; grid-template-columns: 2rem 1fr; align-items: start; gap: .65rem; }
-    .sequence li::before { content: counter(step); width: 2rem; height: 2rem; display: grid; place-items: center; color: var(--white); background: var(--teal); border-radius: 50%; font-weight: 900; }
-    .sequence span { padding-top: .25rem; }
-
-    .boundary-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .8rem; }
-    .boundary-item { min-width: 0; padding: 1rem; background: var(--surface); border: 1px solid var(--line); }
-    .status { display: inline-block; margin-bottom: .58rem; color: var(--teal); font-size: .65rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
-    .status.limited { color: var(--amber); }
-    .boundary-item p { margin: 0; color: var(--muted); font-size: .84rem; }
-    .boundary-callout { margin-top: .85rem; padding: .8rem 1rem; background: var(--amber-pale); border-left: 5px solid var(--amber); font-size: .88rem; }
-
-    .metrics { margin: .85rem 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: .65rem; }
-    .metric { padding: .8rem; background: var(--surface); border: 1px solid var(--line); }
-    .metric strong { display: block; color: var(--teal); font-family: var(--serif); font-size: clamp(1.8rem, 3.8vw, 3.1rem); line-height: 1; }
-    .metric span { display: block; margin-top: .3rem; color: var(--muted); font-size: .74rem; font-weight: 750; }
-    .claim { margin: .8rem 0; padding: clamp(.9rem, 2vw, 1.35rem); color: var(--white); background: var(--navy); }
-    .claim p { margin: 0; font-family: var(--serif); font-size: clamp(1.12rem, 2.15vw, 1.65rem); line-height: 1.25; }
-    .positions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; }
-    .position { padding: .75rem .85rem; background: var(--teal-pale); border: 1px solid #87aaa5; }
-    .position strong { display: block; }
-    .position span { color: var(--muted); font-size: .8rem; }
-
-    .lhc-layout { display: grid; grid-template-columns: 1.12fr .88fr; gap: 1rem; }
-    .branch { padding: 1rem 1.15rem; background: var(--surface); border: 1px solid var(--line); }
-    .branch-line { margin: 0; padding: .38rem 0; }
-    .branch-line.indent-1 { padding-left: 1.65rem; color: var(--muted); }
-    .branch-line.indent-2 { padding-left: 3.3rem; }
-    .branch-line.indent-3 { padding-left: 4.95rem; color: var(--muted); }
-    .relationship { padding: 1rem 1.15rem; background: var(--amber-pale); border: 1px solid #b48b4b; }
-    .retrieval { margin-top: .7rem; display: grid; grid-template-columns: auto 1fr; gap: .75rem; align-items: center; }
-    .retrieval strong { color: var(--amber); font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.2rem); white-space: nowrap; }
-    .retrieval span { color: var(--muted); font-size: .84rem; }
-
-    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .comparison .panel { box-shadow: none; }
-    .comparison h3 { font-size: clamp(1.25rem, 2.2vw, 1.65rem); }
-    .comparison ul { margin: .7rem 0 0; padding-left: 1.1rem; }
-    .comparison li + li { margin-top: .52rem; }
-    .comparison .limit { margin-top: .75rem; color: var(--muted); font-size: .86rem; }
-
-    .index-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .75rem; }
-    .index-item { min-width: 0; padding: .82rem .9rem; background: var(--surface); border: 1px solid var(--line); }
-    .index-item h3 { margin-bottom: .35rem; }
-    .index-item code { display: block; color: var(--teal); }
-    .index-item a { color: var(--teal); text-underline-offset: .18em; }
-    .index-item a + a { display: block; margin-top: .12rem; }
-    .index-item p { margin: .35rem 0 0; color: var(--muted); font-size: .79rem; }
-    .closing-limit { margin: .8rem 0 0; color: var(--muted); font-size: .86rem; }
-
-    .deck-footer {
-      min-height: var(--footer-height);
-      padding: .55rem max(.8rem, env(safe-area-inset-right)) calc(.55rem + env(safe-area-inset-bottom)) max(.8rem, env(safe-area-inset-left));
-      display: grid;
-      grid-template-columns: minmax(190px, 1fr) auto minmax(190px, 1fr);
-      align-items: center;
-      gap: .8rem;
-      color: #dcebed;
-      background: var(--navy);
-      border-top: 1px solid rgba(255,255,255,.2);
-    }
-    .copyright { margin: 0; color: #c9d9dc; font-size: .67rem; }
-    .progress { display: flex; align-items: center; gap: .7rem; }
-    .progress-track { width: clamp(86px, 15vw, 180px); height: 4px; overflow: hidden; background: rgba(255,255,255,.24); }
-    .progress-bar { display: block; width: 0; height: 100%; background: #9fe8df; transition: width .2s ease; }
-    .progress-text { min-width: 3.4rem; margin: 0; text-align: center; font-size: .72rem; font-weight: 800; font-variant-numeric: tabular-nums; }
-    .controls { display: flex; justify-content: flex-end; gap: .45rem; }
-    .controls button { min-width: 86px; min-height: 42px; padding: .55rem .8rem; color: var(--white); background: transparent; border: 1px solid rgba(255,255,255,.55); cursor: pointer; font-size: .78rem; font-weight: 800; }
-    .controls button:hover:not(:disabled) { background: rgba(255,255,255,.12); }
-    .controls button:disabled { opacity: .36; cursor: default; }
-
-    @media (max-width: 1040px) {
-      .workflow { grid-template-columns: 100px 24px minmax(350px, 2fr) 24px minmax(230px, 1.3fr) 24px 120px; }
-      .boundary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .link-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 980px) {
-      .workflow { grid-template-columns: 1fr; gap: .45rem; }
+    @media (max-width: 1000px) {
+      .workflow { grid-template-columns: 1fr; gap: .4rem; }
       .flow-arrow { min-height: 18px; font-size: 0; }
-      .flow-arrow::after { content: "↓"; font-size: 1.35rem; }
+      .flow-arrow::after { content: "↓"; font-size: 1.3rem; }
     }
 
-    @media (max-width: 820px) {
-      :root { --footer-height: 72px; }
-      .split, .lhc-layout, .comparison { grid-template-columns: 1fr; }
-      .metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .positions { grid-template-columns: 1fr; }
-      .index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    /* Slide 2 split */
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; margin-top: 1rem; }
+    .panel {
+      padding: 1.4rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+    }
+    .panel.teal { border-top: 4px solid var(--teal); }
+    .panel.amber { border-top: 4px solid var(--amber); }
+    .panel.rose { border-top: 4px solid #7d343a; }
+    .panel h3 { font-size: 1.15rem; margin-bottom: .8rem; }
+    .plain-list { list-style: none; display: grid; gap: 0; }
+    .plain-list li {
+      padding: .7rem 0; border-top: 1px solid var(--line);
+    }
+    .plain-list li:first-child { border-top: 0; padding-top: 0; }
+    .plain-list strong { display: block; color: var(--ink); font-weight: 700; margin-bottom: .15rem; }
+    .plain-list span { color: var(--muted); font-size: .88rem; }
+    .sequence {
+      list-style: none; display: grid; gap: .55rem; counter-reset: step;
+    }
+    .sequence li {
+      counter-increment: step; display: grid;
+      grid-template-columns: 1.9rem 1fr; gap: .7rem; align-items: start;
+    }
+    .sequence li::before {
+      content: counter(step);
+      width: 1.9rem; height: 1.9rem;
+      display: grid; place-items: center;
+      background: var(--teal); color: #fff;
+      border-radius: 50%; font-weight: 700; font-size: .85rem;
+      font-family: var(--mono);
+    }
+    .sequence span { padding-top: .25rem; color: var(--body); font-size: .95rem; line-height: 1.45; }
+
+    @media (max-width: 820px) { .split { grid-template-columns: 1fr; } }
+
+    /* Slide 3 boundary grid */
+    .boundary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: .9rem; margin-top: 1rem; }
+    .boundary-item {
+      padding: 1.1rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .status {
+      display: inline-block; margin-bottom: .5rem;
+      padding: .18rem .5rem; border-radius: 4px;
+      background: var(--teal-pale); color: var(--teal);
+      font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    }
+    .status.limited { background: #fff0cc; color: var(--amber); }
+    .boundary-item h3 { font-size: 1rem; margin-bottom: .5rem; }
+    .boundary-item p { color: var(--muted); font-size: .85rem; line-height: 1.5; }
+    .boundary-callout {
+      margin-top: 1rem; padding: .9rem 1.1rem;
+      background: #fff0cc; border-left: 4px solid var(--amber); border-radius: 6px;
+      font-size: .9rem; color: var(--ink);
+    }
+    @media (max-width: 1000px) { .boundary-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .boundary-grid { grid-template-columns: 1fr; } }
+
+    /* Slide 4 metrics + claim + positions */
+    .metrics {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: .65rem;
+      margin: 1rem 0;
+    }
+    .metric {
+      padding: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .metric strong {
+      display: block; color: var(--teal);
+      font-size: clamp(1.6rem, 3.2vw, 2.6rem); font-weight: 800;
+      letter-spacing: -.03em; line-height: 1;
+    }
+    .metric span { display: block; margin-top: .35rem; color: var(--muted); font-size: .76rem; font-weight: 600; }
+    .claim {
+      margin: 1rem 0;
+      padding: 1.4rem 1.6rem;
+      background: var(--navy); color: #fff;
+      border-radius: var(--radius);
+      border-left: 5px solid var(--mint);
+    }
+    .claim p { margin: 0; font-size: clamp(1.05rem, 1.9vw, 1.4rem); line-height: 1.35; font-weight: 500; letter-spacing: -.01em; }
+    .positions { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
+    .position {
+      padding: .95rem 1rem;
+      background: var(--teal-pale); border: 1px solid #b3d4ce;
+      border-radius: var(--radius-sm);
+    }
+    .position strong { display: block; color: var(--ink); font-size: .95rem; }
+    .position span { color: var(--muted); font-size: .82rem; }
+    @media (max-width: 820px) { .metrics { grid-template-columns: repeat(3, 1fr); } .positions { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { .metrics { grid-template-columns: repeat(2, 1fr); } }
+
+    /* Slide 5 LHC */
+    .lhc-layout { display: grid; grid-template-columns: 1.1fr .9fr; gap: 1.1rem; margin-top: 1rem; }
+    .branch, .relationship {
+      padding: 1.15rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .relationship { background: #fff8e5; border-color: #d8b876; }
+    .branch h3, .relationship h3 { font-size: 1.05rem; margin-bottom: .6rem; }
+    .branch-line { margin: 0; padding: .35rem 0; color: var(--body); font-size: .92rem; }
+    .branch-line.indent-1 { padding-left: 1.6rem; color: var(--muted); }
+    .branch-line.indent-2 { padding-left: 3.2rem; }
+    .branch-line.indent-3 { padding-left: 4.8rem; color: var(--muted); }
+    .retrieval {
+      margin-top: .8rem; display: grid;
+      grid-template-columns: auto 1fr; gap: .8rem; align-items: center;
+    }
+    .retrieval strong {
+      color: var(--amber); font-size: clamp(1.6rem, 3.2vw, 2.4rem); font-weight: 800;
+      letter-spacing: -.02em; white-space: nowrap;
+    }
+    .retrieval span { color: var(--muted); font-size: .85rem; line-height: 1.5; }
+    @media (max-width: 820px) { .lhc-layout { grid-template-columns: 1fr; } }
+
+    /* Slide 6 comparison */
+    .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1rem; }
+    .comparison .panel { box-shadow: none; }
+    .comparison h3 { font-size: 1.1rem; margin-bottom: .6rem; }
+    .comparison ul { list-style: disc; padding-left: 1.15rem; }
+    .comparison li { color: var(--body); font-size: .93rem; line-height: 1.5; }
+    .comparison li + li { margin-top: .5rem; }
+    @media (max-width: 820px) { .comparison { grid-template-columns: 1fr; } }
+
+    /* Slide 7 index */
+    .index-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; margin-top: 1rem; }
+    .index-item {
+      padding: .95rem 1rem;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+    }
+    .index-item h3 { font-size: 1rem; margin-bottom: .4rem; }
+    .index-item a { display: block; color: var(--teal); font-size: .85rem; font-family: var(--mono); }
+    .index-item a + a { margin-top: .18rem; }
+    .index-item p { margin-top: .5rem; color: var(--muted); font-size: .8rem; line-height: 1.45; }
+    .closing-limit {
+      margin-top: 1rem; color: var(--muted); font-size: .87rem;
+      padding: .8rem 1rem; background: var(--panel); border-radius: 6px;
+    }
+    @media (max-width: 900px) { .index-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) { .index-grid { grid-template-columns: 1fr; } }
+
+    /* Deck footer */
+    .deck-footer {
+      flex: 0 0 auto;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center; gap: 1rem;
+      padding: .55rem clamp(.8rem, 3vw, 1.5rem);
+      background: var(--navy);
+      color: #dcebed;
+      border-top: 1px solid rgba(159, 232, 223, .2);
+    }
+    .deck-copyright { color: #c9d9dc; font-size: .68rem; }
+    .progress { display: flex; align-items: center; gap: .7rem; justify-content: center; }
+    .progress-track { width: clamp(90px, 15vw, 180px); height: 3px; background: rgba(255,255,255,.22); border-radius: 2px; overflow: hidden; }
+    .progress-bar { display: block; height: 100%; width: 0; background: var(--mint); transition: width .2s ease; }
+    .progress-text {
+      color: #fff; font-size: .72rem; font-weight: 700;
+      font-family: var(--mono); font-variant-numeric: tabular-nums; min-width: 4rem; text-align: center;
+    }
+    .controls { display: flex; justify-content: flex-end; gap: .4rem; }
+    .controls button {
+      min-width: 82px; min-height: 38px; padding: .4rem .8rem;
+      color: #fff; background: transparent;
+      border: 1px solid rgba(255,255,255,.4); border-radius: 6px;
+      font-size: .8rem; font-weight: 700;
+    }
+    .controls button:hover:not(:disabled) { background: rgba(255,255,255,.12); }
+    .controls button:disabled { opacity: .35; cursor: default; }
+    .controls .exit {
+      background: transparent; border-color: rgba(255,255,255,.3); color: #cfd9dc;
+    }
+
+    @media (max-width: 640px) {
       .deck-footer { grid-template-columns: auto 1fr auto; }
-      .copyright { max-width: 150px; }
-      .progress-track { display: none; }
-      .controls button { min-width: 72px; }
+      .deck-copyright { display: none; }
     }
-
-    @media (max-width: 520px) {
-      :root { --footer-height: 82px; }
-      .slide { padding: 1rem .85rem 1.4rem; }
-      .atlas-parts, .boundary-grid, .index-grid { grid-template-columns: 1fr; }
-      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .link-row { grid-template-columns: 1fr; }
-      .deck-footer { grid-template-columns: 1fr auto; gap: .35rem; }
-      .copyright { grid-column: 1 / -1; max-width: none; text-align: center; }
-      .progress { justify-content: start; }
-      .controls button { min-width: 68px; min-height: 38px; padding: .4rem .55rem; }
+    @media (max-width: 480px) {
+      .controls button { min-width: 60px; padding: .35rem .5rem; font-size: .72rem; }
+      .progress-track { display: none; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+      *, *::before, *::after { animation: none !important; transition: none !important; }
     }
 
     @media print {
-      :root { --paper: #fff; --surface: #fff; --ink: #000; --muted: #222; --line: #777; }
-      @page { size: 13.333in 7.5in; margin: .32in; }
-      html, body, .js body { overflow: visible; background: #fff; }
-      .deck, .slides { min-height: 0; }
-      .js .slide, .js .slide:not(.is-active), .slide { min-height: 6.75in; padding: .2in; display: grid !important; overflow: visible; break-after: page; background: #fff; }
-      .slide:last-child { break-after: auto; }
-      .slide-inner, .landing-inner { width: 100%; }
-      .panel, .metric, .position { box-shadow: none; }
-      .deck-footer { min-height: 0; padding: .12in 0 0; display: block; color: #000; background: #fff; border-top: 1px solid #777; }
-      .copyright { color: #000; }
-      .progress, .controls, .skip-link { display: none !important; }
+      .nav, .deck-footer, .site-footer, .skip-link, .hero-actions, .final-cta { display: none !important; }
+      body.deck-mode .deck, .deck { position: static; display: block !important; }
+      .slide { display: block !important; position: static; overflow: visible; break-after: page; }
+      .landing { display: block !important; }
     }
+  
+    /* Workflow diagram section */
+    .workflow-diagram { padding: 3rem 0 3.5rem; }
+    .workflow-diagram-wrap { max-width: 960px; margin: 1.4rem auto 0; color: var(--ink); }
+    .workflow-diagram-wrap svg { max-width: 100%; height: auto; }
+    .workflow-caption { text-align: center; color: var(--muted); font-size: .9rem; margin-top: 1rem; }
+    @media (max-width: 640px) {
+      .workflow-diagram-wrap { overflow-x: auto; }
+    }
+
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#slide-1">Skip to presentation</a>
-  <main class="deck" aria-label="Epistack presentation">
-    <div class="slides" id="slides">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-      <section class="slide is-active" id="landing" data-slide data-landing tabindex="-1" aria-roledescription="landing" aria-label="Landing">
-        <div class="landing-inner">
-          <div class="landing-hero">
-            <p class="eyebrow">FLF 2026 Submission · Reticle Works</p>
-            <h1 class="wordmark">Epistack</h1>
-            <p class="tagline">How Many Voices Is This Really?</p>
-            <p class="subtitle">Finding the claim a contested conclusion rests on—and testing whether its support is as independent as it looks.</p>
+  <header class="nav" role="banner">
+    <a href="#top" class="nav-brand" aria-label="Epistack — home">
+      <span class="nav-mark" aria-hidden="true">E</span>
+      <span>Epistack</span>
+    </a>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+      <svg width="18" height="14" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M1 1h16M1 7h16M1 13h16"/></svg>
+    </button>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="README.html">Proposal</a></li>
+      <li><a href="demo-crux/README.html">Demo</a></li>
+      <li><a href="evidence/README.html">Evidence</a></li>
+      <li><a href="WORKFLOW-SPEC.html">Workflow</a></li>
+      <li><a href="#slide-1" class="nav-cta" data-enter-deck>Deck ↓</a></li>
+    </ul>
+  </header>
+
+  <main id="main">
+    <!-- ==================== LANDING ==================== -->
+    <div class="landing" id="top">
+
+      <!-- Hero -->
+      <section class="hero">
+        <div class="hero-inner">
+          <span class="hero-eyebrow">Reticle Works · FLF 2026 submission</span>
+          <h1>Epistack</h1>
+          <p class="hero-tagline">A research workflow that keeps the reasoning, not just the answer.</p>
+          <p class="hero-sub">Finding the claim a contested conclusion rests on — and testing whether its support is as independent as it looks.</p>
+          <div class="hero-actions">
+            <a href="#slide-1" class="btn btn-primary" data-enter-deck>
+              Begin walkthrough <span class="btn-arrow" aria-hidden="true">→</span>
+            </a>
+            <a href="README.html" class="btn btn-ghost">Read the proposal</a>
           </div>
-          <div class="intro">
-            <p>A map of the earliest known COVID-19 cases in Wuhan shows a cluster around the Huanan Seafood Market. One reader sees strong evidence that the outbreak began at or near the market. Another asks whether clinicians were more likely to find early cases near a place already suspected. The dots are the same. The disagreement is about what those dots can bear as evidence.</p>
-            <p>Now suppose five papers support the market interpretation. That sounds like five separate confirmations. But some may share authors, draw on the same data, respond to one another, or repeat an earlier analysis. Counting citations cannot tell us whether we have five independent reasons to believe something or one family of related work wearing five covers.</p>
+          <div class="hero-meta">
+            <span><strong>2 case runs</strong> · COVID origins, Large Hadron Collider safety</span>
+            <span><strong>1 predeclared comparison</strong> · Perplexity Deep Research</span>
+            <span><strong>Standalone Crux demo</strong> · reproducible in one command</span>
           </div>
-          <div class="cta-row">
-            <a class="cta-primary" href="#slide-1" id="begin-cta"><span>Begin walkthrough</span><span class="arrow" aria-hidden="true">→</span></a>
-            <span class="cta-hint">7 slides · arrow keys, swipe, or click</span>
+        </div>
+      </section>
+
+      <!-- Intro -->
+      <section class="intro">
+        <div class="intro-inner">
+          <p>Epistack is a human&ndash;AI research workflow for contested or technically layered questions. It builds on a hybrid RAG system and preserves the working state beneath a research synthesis: separate source-cited AI judgments, a proposed load-bearing research claim, and typed documentary relationships&mdash;shared authors, data, advisers, methods&mdash;each tied to its exact supporting passage.</p>
+          <p>This addresses a specific gap in commercial deep-research tools: a fluent narrative can hide which reviewer weighted which evidence, whether several citations represent separate support or one related body of work, and which observation would most change the picture. The output is a versioned case record another investigator can challenge, extend, or correct without recreating the whole inquiry. The walkthrough that follows exercises the workflow on two case runs (COVID origins, Large Hadron Collider safety) and one predeclared comparison with a commercial deep research tool.</p>
+        </div>
+      </section>
+
+      <!-- Workflow diagram (visual anchor) -->
+      <section class="band workflow-diagram">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-eyebrow">At a glance</span>
+            <h2>The Epistack workflow, in six stages.</h2>
           </div>
-          <nav class="link-row" aria-label="Repository links">
-            <a href="README.html"><strong>Proposal</strong><span>Plain-language writeup</span></a>
-            <a href="demo-crux/README.html"><strong>Demo</strong><span>Runnable Crux component</span></a>
-            <a href="evidence/README.html"><strong>Evidence</strong><span>Case records &amp; checksums</span></a>
-            <a href="WORKFLOW-SPEC.html"><strong>Workflow spec</strong><span>Reference specification</span></a>
-            <a href="epistack-deck.pptx"><strong>Deck (.pptx)</strong><span>PowerPoint download</span></a>
+          <div class="workflow-diagram-wrap" role="img" aria-label="Six-stage Epistack workflow diagram">
+            <svg role="img" viewBox="0 0 900 180" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;">
+        <title>Epistack workflow: six stages from a narrow question to a versioned case record</title>
+        <desc>A horizontal flow of six stages. Stage 1, narrow question, stands alone. Stages 2 and 3, traceable corpus and separate judgments, are grouped as Atlas, the existing toolkit. Stages 4 and 5, crux extractor and typed relationships, are grouped as what Epistack adds. Stage 6, versioned case record, is the output.</desc>
+        <defs>
+          <marker id="epi-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <path d="M160,90 L160,72 L440,72 L440,90" fill="none" stroke="currentColor" stroke-opacity="0.45" stroke-width="1.2"/>
+        <text x="300" y="60" text-anchor="middle" font-size="12" fill="currentColor" fill-opacity="0.75">Atlas (existing toolkit)</text>
+        <path d="M460,90 L460,72 L740,72 L740,90" fill="none" stroke="#08645f" stroke-width="1.2"/>
+        <text x="600" y="60" text-anchor="middle" font-size="12" fill="#08645f" font-weight="600">Epistack adds</text>
+        <line x1="140" y1="120" x2="157" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#epi-arrow)"/>
+        <line x1="290" y1="120" x2="307" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#epi-arrow)"/>
+        <line x1="440" y1="120" x2="457" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#epi-arrow)"/>
+        <line x1="590" y1="120" x2="607" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#epi-arrow)"/>
+        <line x1="740" y1="120" x2="757" y2="120" stroke="currentColor" stroke-width="1.4" marker-end="url(#epi-arrow)"/>
+        <g>
+          <rect x="10" y="90" width="130" height="60" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.4"/>
+          <circle cx="28" cy="104" r="9" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+          <text x="28" y="107" text-anchor="middle" font-size="10" fill="currentColor">1</text>
+          <text x="75" y="123" text-anchor="middle" font-size="11" fill="currentColor">Narrow</text>
+          <text x="75" y="137" text-anchor="middle" font-size="11" fill="currentColor">question</text>
+        </g>
+        <g>
+          <rect x="160" y="90" width="130" height="60" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.4"/>
+          <circle cx="178" cy="104" r="9" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+          <text x="178" y="107" text-anchor="middle" font-size="10" fill="currentColor">2</text>
+          <text x="225" y="123" text-anchor="middle" font-size="11" fill="currentColor">Traceable</text>
+          <text x="225" y="137" text-anchor="middle" font-size="11" fill="currentColor">corpus</text>
+        </g>
+        <g>
+          <rect x="310" y="90" width="130" height="60" rx="6" fill="currentColor" fill-opacity="0.06" stroke="currentColor" stroke-opacity="0.4"/>
+          <circle cx="328" cy="104" r="9" fill="none" stroke="currentColor" stroke-opacity="0.6"/>
+          <text x="328" y="107" text-anchor="middle" font-size="10" fill="currentColor">3</text>
+          <text x="375" y="123" text-anchor="middle" font-size="11" fill="currentColor">Separate</text>
+          <text x="375" y="137" text-anchor="middle" font-size="11" fill="currentColor">judgments</text>
+        </g>
+        <g>
+          <rect x="460" y="90" width="130" height="60" rx="6" fill="#08645f" fill-opacity="0.14" stroke="#08645f" stroke-width="1.2"/>
+          <circle cx="478" cy="104" r="9" fill="none" stroke="#08645f"/>
+          <text x="478" y="107" text-anchor="middle" font-size="10" fill="#08645f">4</text>
+          <text x="525" y="123" text-anchor="middle" font-size="11" fill="currentColor">Crux</text>
+          <text x="525" y="137" text-anchor="middle" font-size="11" fill="currentColor">extractor</text>
+        </g>
+        <g>
+          <rect x="610" y="90" width="130" height="60" rx="6" fill="#08645f" fill-opacity="0.14" stroke="#08645f" stroke-width="1.2"/>
+          <circle cx="628" cy="104" r="9" fill="none" stroke="#08645f"/>
+          <text x="628" y="107" text-anchor="middle" font-size="10" fill="#08645f">5</text>
+          <text x="675" y="123" text-anchor="middle" font-size="11" fill="currentColor">Typed</text>
+          <text x="675" y="137" text-anchor="middle" font-size="11" fill="currentColor">relationships</text>
+        </g>
+        <g>
+          <rect x="760" y="90" width="130" height="60" rx="6" fill="#08645f" fill-opacity="0.22" stroke="#08645f" stroke-width="1.6"/>
+          <circle cx="778" cy="104" r="9" fill="#08645f"/>
+          <text x="778" y="107" text-anchor="middle" font-size="10" fill="#fff">6</text>
+          <text x="825" y="123" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">Versioned</text>
+          <text x="825" y="137" text-anchor="middle" font-size="11" fill="currentColor" font-weight="600">case record</text>
+        </g>
+      </svg>
+          </div>
+          <p class="workflow-caption"><em>Six stages producing an inspectable, versioned case record.</em></p>
+        </div>
+      </section>
+
+      <!-- Feature strip -->
+      <section class="band features">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-eyebrow">The workflow</span>
+            <h2>Sources in, inspectable case record out.</h2>
+            <p>Atlas is the existing research toolkit beneath Epistack. Epistack adds the pieces that make the working state of an inquiry visible after a synthesis has been produced.</p>
+          </div>
+          <div class="feature-grid">
+            <article class="feature">
+              <div class="feature-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="3" width="14" height="14" rx="2"/>
+                  <path d="M3 8h14M8 3v14"/>
+                </svg>
+              </div>
+              <span class="feature-kicker">Existing toolkit</span>
+              <h3>Atlas</h3>
+              <p class="feature-desc">Stores traceable source records, retrieves relevant passages, preserves separate judgments, and checks generated claims against cited evidence.</p>
+              <ul class="feature-list">
+                <li>Source records &mdash; provenance and linked claims</li>
+                <li>Passage retrieval &mdash; relevant source text</li>
+                <li>Separate judgments &mdash; positions, reasons, citations</li>
+                <li>Evidence checks &mdash; support and uncertainty</li>
+              </ul>
+            </article>
+
+            <article class="feature spotlight">
+              <div class="feature-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 2v6M10 12v6M2 10h6M12 10h6"/>
+                  <circle cx="10" cy="10" r="2"/>
+                </svg>
+              </div>
+              <span class="feature-kicker">Epistack adds</span>
+              <h3>The two new pieces</h3>
+              <p class="feature-desc">A deterministic component that names the load-bearing claim, and a typed audit that records how documents actually depend on one another.</p>
+              <ul class="feature-list">
+                <li>Deterministic Crux comparison &mdash; compares preserved judgments</li>
+                <li>Typed relationship audit &mdash; records links supported by passages</li>
+              </ul>
+            </article>
+
+            <article class="feature">
+              <div class="feature-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 3h9l3 3v11a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1z"/>
+                  <path d="M13 3v3h3M6 9h8M6 12h8M6 15h5"/>
+                </svg>
+              </div>
+              <span class="feature-kicker">Output</span>
+              <h3>Case record</h3>
+              <p class="feature-desc">A versioned artifact another investigator can challenge, extend, or correct without recreating the whole inquiry. Reasoning stays legible as models and evidence change.</p>
+              <ul class="feature-list">
+                <li>Separate judgments preserved</li>
+                <li>Extracted Crux with change conditions</li>
+                <li>Typed relationships with exact passages</li>
+                <li>Revision history</li>
+              </ul>
+            </article>
+          </div>
+          <p class="feature-boundary">The pieces are combined as a case workflow. The supplied materials do not establish a single consolidated challenge-and-revision interface.</p>
+        </div>
+      </section>
+
+      <!-- How it works -->
+      <section class="band how">
+        <div class="container">
+          <div class="section-head">
+            <span class="section-eyebrow">How it works</span>
+            <h2>One case proceeds through six stages.</h2>
+            <p>Each stage leaves an inspectable artifact, so a later investigator can see where a result came from and where a later stage stopped.</p>
+          </div>
+          <ol class="stages">
+            <li class="stage">
+              <span class="stage-num">01</span>
+              <h3>Narrow the question</h3>
+              <p>Narrow a broad topic to a question whose central claim can be supported, challenged, or left unresolved.</p>
+            </li>
+            <li class="stage">
+              <span class="stage-num">02</span>
+              <h3>Build a traceable corpus</h3>
+              <p>Build a traceable corpus with stable identifiers, retrieval records, exclusions, and hashes.</p>
+            </li>
+            <li class="stage">
+              <span class="stage-num">03</span>
+              <h3>Retrieve for separate reviewers</h3>
+              <p>Use Atlas retrieval to supply evidence to separate reviewers, preserving reasons, citations, counter-evidence, uncertainty, and change conditions.</p>
+            </li>
+            <li class="stage">
+              <span class="stage-num">04</span>
+              <h3>Propose the Crux</h3>
+              <p>Run the crux extractor to propose the load-bearing claim and record how each judgment bears on it. The proposal remains open to acceptance, revision, or rejection.</p>
+            </li>
+            <li class="stage">
+              <span class="stage-num">05</span>
+              <h3>Trace typed relationships</h3>
+              <p>Trace that claim through citations, data, authors, advice, institutions, methods, and assumptions. Keep the type and exact passage for every accepted relationship.</p>
+            </li>
+            <li class="stage">
+              <span class="stage-num">06</span>
+              <h3>Publish a versioned case</h3>
+              <p>Publish the artifacts as a versioned case record so later sources, objections, corrected relationships, or replacement judgments do not erase the earlier state.</p>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- Trust strip -->
+      <section class="band trust">
+        <div class="trust-inner">
+          <div class="trust-item">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8V4l7-3z"/><path d="M6 9l2 2 4-4"/></svg>
+            </div>
+            <div>
+              <strong>SHA-256 provenance</strong>
+              <span>Every source file fingerprinted; retrieval records preserved.</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l7-3 7 3M2 4v9l7 4 7-4V4M2 4l7 4 7-4"/></svg>
+            </div>
+            <div>
+              <strong>Standalone Crux demo</strong>
+              <span>Runnable component with sanitized fixture; MIT licensed.</span>
+            </div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="14" height="12" rx="1"/><path d="M6 7h6M6 10h6M6 13h4"/></svg>
+            </div>
+            <div>
+              <strong>Predeclared protocol</strong>
+              <span>Deep Research comparison fixed before the call; audited after.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Final CTA -->
+      <section class="final-cta">
+        <h2>See the seven-slide walkthrough.</h2>
+        <p>The deck exercises the workflow on the COVID and LHC cases and shows the predeclared Perplexity Deep Research comparison.</p>
+        <div class="hero-actions" style="justify-content:center;">
+          <a href="#slide-1" class="btn btn-primary" data-enter-deck>
+            Open the deck <span class="btn-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="epistack-deck.pptx" class="btn btn-ghost">Download PPTX</a>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="site-footer-inner">
+          <div>&copy; 2026 Reticle Works. All rights reserved.</div>
+          <nav aria-label="Repository links">
+            <a href="README.html">Proposal</a>
+            <a href="demo-crux/README.html">Demo</a>
+            <a href="evidence/README.html">Evidence</a>
+            <a href="WORKFLOW-SPEC.html">Workflow</a>
+            <a href="LICENSE">License</a>
           </nav>
-          <p class="landing-foot">The supplied materials do not establish a single consolidated challenge-and-revision interface. See <a href="LICENSE">LICENSE</a>.</p>
         </div>
-      </section>
+      </footer>
+    </div>
 
-      <section class="slide" id="slide-1" data-slide tabindex="-1" aria-roledescription="slide" aria-label="1 of 7">
-        <div class="slide-inner">
-          <div class="slide-topline"><p class="eyebrow">Epistack · inspectable research case</p><p class="slide-number">01 / 07</p></div>
-          <h1>Keep the work behind an answer inspectable.</h1>
-          <p class="lead"><strong>Atlas is the existing research toolkit beneath Epistack.</strong> It stores traceable source records, retrieves relevant passages, preserves separate judgments, and checks generated claims against cited evidence.</p>
-          <p class="note">"Crux" is the load-bearing claim on which the largest part of the panel's disagreement depends. The extractor is a deterministic component that proposes this claim from preserved judgments.</p>
-          <div class="workflow" role="img" aria-label="Sources enter Atlas, which provides source records, passage retrieval, separate judgments, and evidence checks. Epistack adds deterministic Crux comparison and a typed relationship audit. The output is a revisable case record.">
-            <div class="flow-node dark"><p class="flow-kicker">Input</p><h3>Sources</h3></div>
-            <div class="flow-arrow" aria-hidden="true">→</div>
-            <div class="flow-node atlas">
-              <p class="flow-kicker">Existing toolkit</p><h3>Atlas</h3>
-              <div class="atlas-parts">
-                <div class="atlas-part"><strong>Source records</strong><span>Provenance and linked claims</span></div>
-                <div class="atlas-part"><strong>Passage retrieval</strong><span>Relevant source text</span></div>
-                <div class="atlas-part"><strong>Separate judgments</strong><span>Positions, reasons, citations</span></div>
-                <div class="atlas-part"><strong>Evidence checks</strong><span>Support and uncertainty</span></div>
-              </div>
+    <!-- ==================== DECK ==================== -->
+    <div class="deck" id="deck" aria-label="Epistack presentation">
+      <div class="slides" id="slides">
+
+        <section class="slide is-active" id="slide-1" data-slide tabindex="-1" aria-roledescription="slide" aria-label="1 of 7">
+          <div class="slide-inner">
+            <div class="slide-topline">
+              <span class="slide-eyebrow">Epistack · inspectable research case</span>
+              <span class="slide-num">01 / 07</span>
             </div>
-            <div class="flow-arrow" aria-hidden="true">→</div>
-            <div class="flow-node adds">
-              <p class="flow-kicker">Epistack adds</p>
-              <div class="epistack-parts">
-                <div class="epistack-part"><strong>Deterministic Crux comparison</strong><span>Compares preserved judgments</span></div>
-                <div class="epistack-part"><strong>Typed relationship audit</strong><span>Records links supported by passages</span></div>
+            <h1>Keep the work behind an answer inspectable.</h1>
+            <p class="lead"><strong>Atlas is the existing research toolkit beneath Epistack.</strong> It stores traceable source records, retrieves relevant passages, preserves separate judgments, and checks generated claims against cited evidence.</p>
+            <p class="note">&ldquo;Crux&rdquo; is the load-bearing claim on which the largest part of the panel&rsquo;s disagreement depends. The extractor is a deterministic component that proposes this claim from preserved judgments.</p>
+            <div class="workflow" role="img" aria-label="Sources enter Atlas, which provides source records, passage retrieval, separate judgments, and evidence checks. Epistack adds deterministic Crux comparison and a typed relationship audit. The output is a revisable case record.">
+              <div class="flow-node dark"><p class="flow-kicker">Input</p><h3>Sources</h3></div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-node atlas">
+                <p class="flow-kicker">Existing toolkit</p><h3>Atlas</h3>
+                <div class="atlas-parts">
+                  <div class="atlas-part"><strong>Source records</strong><span>Provenance and linked claims</span></div>
+                  <div class="atlas-part"><strong>Passage retrieval</strong><span>Relevant source text</span></div>
+                  <div class="atlas-part"><strong>Separate judgments</strong><span>Positions, reasons, citations</span></div>
+                  <div class="atlas-part"><strong>Evidence checks</strong><span>Support and uncertainty</span></div>
+                </div>
               </div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-node adds">
+                <p class="flow-kicker">Epistack adds</p>
+                <div class="epistack-parts">
+                  <div class="epistack-part"><strong>Deterministic Crux comparison</strong><span>Compares preserved judgments</span></div>
+                  <div class="epistack-part"><strong>Typed relationship audit</strong><span>Records links supported by passages</span></div>
+                </div>
+              </div>
+              <div class="flow-arrow" aria-hidden="true">→</div>
+              <div class="flow-node dark"><p class="flow-kicker">Output</p><h3>Case record</h3></div>
             </div>
-            <div class="flow-arrow" aria-hidden="true">→</div>
-            <div class="flow-node dark"><p class="flow-kicker">Output</p><h3>Case record</h3></div>
+            <p class="system-boundary">The pieces are combined as a case workflow. The supplied materials do not establish a single consolidated challenge-and-revision interface.</p>
           </div>
-          <p class="system-boundary">The pieces are combined as a case workflow. The supplied materials do not establish a single consolidated challenge-and-revision interface.</p>
-        </div>
-      </section>
+        </section>
 
-      <section class="slide" id="slide-2" data-slide tabindex="-1" aria-roledescription="slide" aria-label="2 of 7">
-        <div class="slide-inner">
-          <div class="slide-topline"><p class="eyebrow">Epistack · Problem and approach</p><p class="slide-number">02 / 07</p></div>
-          <h2>A polished synthesis can hide the state of the inquiry.</h2>
-          <div class="split">
-            <article class="panel rose">
-              <h3>What disappears inside one narrative</h3>
-              <ul class="plain-list">
-                <li><strong>The load-bearing claim</strong><span>Which specific claim carries the conclusion?</span></li>
-                <li><strong>The independence of support</strong><span>Do several sources share authors, data, advice, methods, or upstream analyses?</span></li>
-                <li><strong>The change condition</strong><span>What evidence would alter the current judgment?</span></li>
-              </ul>
-            </article>
-            <article class="panel teal">
-              <h3>What Epistack preserves</h3>
-              <ol class="sequence">
-                <li><span>Build a traceable corpus and record exclusions.</span></li>
-                <li><span>Keep source-cited judgments separate before synthesis.</span></li>
-                <li><span>Compare those judgments to propose a concrete Crux.</span></li>
-                <li><span>Record source relationships only with supporting passages.</span></li>
-                <li><span>Package evidence, objections, missing evidence, and revisions as a case.</span></li>
-              </ol>
-            </article>
+        <section class="slide" id="slide-2" data-slide tabindex="-1" aria-roledescription="slide" aria-label="2 of 7">
+          <div class="slide-inner">
+            <div class="slide-topline">
+              <span class="slide-eyebrow">Epistack · Problem and approach</span>
+              <span class="slide-num">02 / 07</span>
+            </div>
+            <h2>A polished synthesis can hide the state of the inquiry.</h2>
+            <div class="split">
+              <article class="panel rose">
+                <h3>What disappears inside one narrative</h3>
+                <ul class="plain-list">
+                  <li><strong>The load-bearing claim</strong><span>Which specific claim carries the conclusion?</span></li>
+                  <li><strong>The independence of support</strong><span>Do several sources share authors, data, advice, methods, or upstream analyses?</span></li>
+                  <li><strong>The change condition</strong><span>What evidence would alter the current judgment?</span></li>
+                </ul>
+              </article>
+              <article class="panel teal">
+                <h3>What Epistack preserves</h3>
+                <ol class="sequence">
+                  <li><span>Build a traceable corpus and record exclusions.</span></li>
+                  <li><span>Keep source-cited judgments separate before synthesis.</span></li>
+                  <li><span>Compare those judgments to propose a concrete Crux.</span></li>
+                  <li><span>Record source relationships only with supporting passages.</span></li>
+                  <li><span>Package evidence, objections, missing evidence, and revisions as a case.</span></li>
+                </ol>
+              </article>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="slide" id="slide-3" data-slide tabindex="-1" aria-roledescription="slide" aria-label="3 of 7">
-        <div class="slide-inner">
-          <div class="slide-topline"><p class="eyebrow">Epistack · Implemented pieces and boundaries</p><p class="slide-number">03 / 07</p></div>
-          <h2>The current evidence supports a working path, not a finished application.</h2>
-          <div class="boundary-grid">
-            <article class="boundary-item"><span class="status">Implemented in Atlas</span><h3>Records, retrieval, and checks</h3><p>Atlas stores source-linked claims and entities, retrieves passages, and checks generated text against evidence. The case runs used direct passage retrieval.</p></article>
-            <article class="boundary-item"><span class="status">Executed</span><h3>Separate judgments</h3><p>COVID and LHC panels returned source-cited positions with reasons, counter-evidence, uncertainty, and evidence that could change the result.</p></article>
-            <article class="boundary-item"><span class="status">Included component</span><h3>Crux comparison</h3><p>The deterministic extractor met all five declared structural and evidentiary checks on one preserved COVID panel; four additional tests pass.</p><p class="note" style="margin-top:.4rem;"><a href="evidence/crux/validation.html">See extractor validation →</a></p></article>
-            <article class="boundary-item"><span class="status limited">Manual audit</span><h3>Typed relationships</h3><p>A person read the six LHC sources and recorded authorship and citation relationships with supporting passages. The supplied materials do not establish an automated relationship-detection service.</p><p class="note" style="margin-top:.4rem;"><a href="evidence/lhc/SUPPORT-RELATIONSHIP-MAP.html">See LHC relationship map →</a></p></article>
+        <section class="slide" id="slide-3" data-slide tabindex="-1" aria-roledescription="slide" aria-label="3 of 7">
+          <div class="slide-inner">
+            <div class="slide-topline">
+              <span class="slide-eyebrow">Epistack · Implemented pieces and boundaries</span>
+              <span class="slide-num">03 / 07</span>
+            </div>
+            <h2>The current evidence supports a working path, not a finished application.</h2>
+            <div class="boundary-grid">
+              <article class="boundary-item"><span class="status">Implemented in Atlas</span><h3>Records, retrieval, and checks</h3><p>Atlas stores source-linked claims and entities, retrieves passages, and checks generated text against evidence. The case runs used direct passage retrieval.</p></article>
+              <article class="boundary-item"><span class="status">Executed</span><h3>Separate judgments</h3><p>COVID and LHC panels returned source-cited positions with reasons, counter-evidence, uncertainty, and evidence that could change the result.</p></article>
+              <article class="boundary-item"><span class="status">Included component</span><h3>Crux comparison</h3><p>The deterministic extractor met all five declared structural and evidentiary checks on one preserved COVID panel; four additional tests pass.</p><p class="note" style="margin-top:.4rem;"><a href="evidence/crux/validation.html">See extractor validation &rarr;</a></p></article>
+              <article class="boundary-item"><span class="status limited">Manual audit</span><h3>Typed relationships</h3><p>A person read the six LHC sources and recorded authorship and citation relationships with supporting passages. The supplied materials do not establish an automated relationship-detection service.</p><p class="note" style="margin-top:.4rem;"><a href="evidence/lhc/SUPPORT-RELATIONSHIP-MAP.html">See LHC relationship map &rarr;</a></p></article>
+            </div>
+            <p class="boundary-callout"><strong>Important boundary:</strong> Atlas retrieves passages, follows citations, and stores authorship in its source records. Advisory acknowledgments, shared datasets, and other relationships beyond authorship and citation were surfaced by a person reading the sources for the LHC case; no automated service is claimed for them.</p>
           </div>
-          <p class="boundary-callout"><strong>Important boundary:</strong> Atlas retrieves passages, follows citations, and stores authorship in its source records. Advisory acknowledgments, shared datasets, and other relationships beyond authorship and citation were surfaced by a person reading the sources for the LHC case; no automated service is claimed for them.</p>
-        </div>
-      </section>
+        </section>
 
-      <section class="slide" id="slide-4" data-slide tabindex="-1" aria-roledescription="slide" aria-label="4 of 7">
-        <div class="slide-inner">
-          <div class="slide-topline"><p class="eyebrow">Epistack · COVID evidence</p><p class="slide-number">04 / 07</p></div>
-          <h2>The COVID case produced a concrete claim that can be challenged.</h2>
-          <div class="metrics" role="group" aria-label="COVID case measures">
-            <div class="metric"><strong>10</strong><span>source documents</span></div>
-            <div class="metric"><strong>69,774</strong><span>canonical words</span></div>
-            <div class="metric"><strong>3</strong><span>designed reviewer roles</span></div>
-            <div class="metric"><strong>5/5</strong><span>declared output checks</span></div>
-            <div class="metric"><strong>4</strong><span>additional tests passing</span></div>
+        <section class="slide" id="slide-4" data-slide tabindex="-1" aria-roledescription="slide" aria-label="4 of 7">
+          <div class="slide-inner">
+            <div class="slide-topline">
+              <span class="slide-eyebrow">Epistack · COVID evidence</span>
+              <span class="slide-num">04 / 07</span>
+            </div>
+            <h2>The COVID case produced a concrete claim that can be challenged.</h2>
+            <div class="metrics" role="group" aria-label="COVID case measures">
+              <div class="metric"><strong>10</strong><span>source documents</span></div>
+              <div class="metric"><strong>69,774</strong><span>canonical words</span></div>
+              <div class="metric"><strong>3</strong><span>designed reviewer roles</span></div>
+              <div class="metric"><strong>5/5</strong><span>declared output checks</span></div>
+              <div class="metric"><strong>4</strong><span>additional tests passing</span></div>
+            </div>
+            <div class="claim"><p>How much of the observed concentration of early known cases around the Huanan market survives correction for the way those cases were found?</p></div>
+            <div class="positions">
+              <div class="position"><strong>Market-focused judgment</strong><span>Moderate weight as evidence of an early center, but not conclusive.</span></div>
+              <div class="position"><strong>Skeptical judgment</strong><span>Weak-to-moderate weight because case-finding may have favored the market.</span></div>
+              <div class="position"><strong>Method judgment</strong><span>Some weight, materially weakened by the same ascertainment concern.</span></div>
+            </div>
+            <p class="note spaced"><strong>Limit:</strong> the source set was quality-asymmetric, the partitions were designed, and the reviewers were not independent experts. The checks establish a structured, evidence-bearing output on these tests&mdash;not scientific correctness or general semantic accuracy.</p>
           </div>
-          <div class="claim"><p>How much of the observed concentration of early known cases around the Huanan market survives correction for the way those cases were found?</p></div>
-          <div class="positions">
-            <div class="position"><strong>Market-focused judgment</strong><span>Moderate weight as evidence of an early center, but not conclusive.</span></div>
-            <div class="position"><strong>Skeptical judgment</strong><span>Weak-to-moderate weight because case-finding may have favored the market.</span></div>
-            <div class="position"><strong>Method judgment</strong><span>Some weight, materially weakened by the same ascertainment concern.</span></div>
-          </div>
-          <p class="note spaced"><strong>Limit:</strong> the source set was quality-asymmetric, the partitions were designed, and the reviewers were not independent experts. The checks establish a structured, evidence-bearing output on these tests—not scientific correctness or general semantic accuracy.</p>
-        </div>
-      </section>
+        </section>
 
-      <section class="slide" id="slide-5" data-slide tabindex="-1" aria-roledescription="slide" aria-label="5 of 7">
-        <div class="slide-inner">
-          <div class="slide-topline"><p class="eyebrow">Epistack · LHC evidence</p><p class="slide-number">05 / 07</p></div>
-          <h2>The LHC case needs both argument logic and source relationships.</h2>
-          <p class="lead">This was not a new safety assessment. A six-source record was used to examine the structure and documentary relationships of an established safety argument.</p>
-          <div class="lhc-layout">
-            <article class="branch">
-              <h3>Preserve the branching defense</h3>
-              <p class="branch-line"><strong>Standard physics does not expect dangerous production.</strong></p>
-              <p class="branch-line indent-1">↓ if speculative production occurs</p>
-              <p class="branch-line indent-2"><strong>Rapid Hawking evaporation</strong></p>
-              <p class="branch-line indent-3">↓ if a microscopic black hole is stable</p>
-              <p class="branch-line indent-2">Charged: cosmic-ray analogues</p>
-              <p class="branch-line indent-2">Neutral: dense-star survival and accretion bounds</p>
-            </article>
-            <article class="relationship">
-              <h3>Compare relationships across the case</h3>
-              <p>Mangano coauthored both the official report and the principal fallback paper. The fallback paper acknowledges the report’s other four authors among colleagues who supplied guidance and advice.</p>
-              <div class="retrieval"><strong>2 → 12</strong><span>passages retained per reviewer in a deeper retrieval run. Both bylines appeared; the panel judgments did not connect them, and the adviser acknowledgment was not retrieved.</span></div>
-            </article>
+        <section class="slide" id="slide-5" data-slide tabindex="-1" aria-roledescription="slide" aria-label="5 of 7">
+          <div class="slide-inner">
+            <div class="slide-topline">
+              <span class="slide-eyebrow">Epistack · LHC evidence</span>
+              <span class="slide-num">05 / 07</span>
+            </div>
+            <h2>The LHC case needs both argument logic and source relationships.</h2>
+            <p class="lead">This was not a new safety assessment. A six-source record was used to examine the structure and documentary relationships of an established safety argument.</p>
+            <div class="lhc-layout">
+              <article class="branch">
+                <h3>Preserve the branching defense</h3>
+                <p class="branch-line"><strong>Standard physics does not expect dangerous production.</strong></p>
+                <p class="branch-line indent-1">&darr; if speculative production occurs</p>
+                <p class="branch-line indent-2"><strong>Rapid Hawking evaporation</strong></p>
+                <p class="branch-line indent-3">&darr; if a microscopic black hole is stable</p>
+                <p class="branch-line indent-2">Charged: cosmic-ray analogues</p>
+                <p class="branch-line indent-2">Neutral: dense-star survival and accretion bounds</p>
+              </article>
+              <article class="relationship">
+                <h3>Compare relationships across the case</h3>
+                <p>Mangano coauthored both the official report and the principal fallback paper. The fallback paper acknowledges the report&rsquo;s other four authors among colleagues who supplied guidance and advice.</p>
+                <div class="retrieval"><strong>2 &rarr; 12</strong><span>passages retained per reviewer in a deeper retrieval run. Both bylines appeared; the panel judgments did not connect them, and the adviser acknowledgment was not retrieved.</span></div>
+              </article>
+            </div>
+            <p class="note spaced">These links do not establish shared data, invalid reasoning, adviser endorsement, or danger. They show why the case record must preserve typed, passage-supported relationships instead of treating citation count as independence.</p>
           </div>
-          <p class="note spaced">These links do not establish shared data, invalid reasoning, adviser endorsement, or danger. They show why the case record must preserve typed, passage-supported relationships instead of treating citation count as independence.</p>
-        </div>
-      </section>
+        </section>
 
-      <section class="slide" id="slide-6" data-slide tabindex="-1" aria-roledescription="slide" aria-label="6 of 7">
-        <div class="slide-inner">
-          <div class="slide-topline"><p class="eyebrow">Epistack · Perplexity Deep Research comparison</p><p class="slide-number">06 / 07</p></div>
-          <h2>The comparison is about the research artifact.</h2>
-          <p class="lead">One instructed Deep Research run received the same COVID question and ten-source starting set under a protocol fixed before the call.</p>
-          <div class="comparison">
-            <article class="panel teal">
-              <h3>Deep Research produced the better single narrative.</h3>
-              <ul>
-                <li>It returned a concise 258-word synthesis.</li>
-                <li>When directly asked, it named the tension between transmission signal and ascertainment bias.</li>
-                <li>It found useful shared-authorship and debate relationships.</li>
-              </ul>
-            </article>
-            <article class="panel amber">
-              <h3>Epistack preserves a different record.</h3>
-              <ul>
-                <li>Separate judgments, cited passages, and the proposed Crux remain inspectable.</li>
-                <li>Relationship types and corrections remain attached to source evidence.</li>
-                <li>The comparison audit corrected an unsupported expansion from shared authorship to a shared-dataset claim.</li>
-              </ul>
-            </article>
+        <section class="slide" id="slide-6" data-slide tabindex="-1" aria-roledescription="slide" aria-label="6 of 7">
+          <div class="slide-inner">
+            <div class="slide-topline">
+              <span class="slide-eyebrow">Epistack · Perplexity Deep Research comparison</span>
+              <span class="slide-num">06 / 07</span>
+            </div>
+            <h2>The comparison is about the research artifact.</h2>
+            <p class="lead">One instructed Deep Research run received the same COVID question and ten-source starting set under a protocol fixed before the call.</p>
+            <div class="comparison">
+              <article class="panel teal">
+                <h3>Deep Research produced the better single narrative.</h3>
+                <ul>
+                  <li>It returned a concise 258-word synthesis.</li>
+                  <li>When directly asked, it named the tension between transmission signal and ascertainment bias.</li>
+                  <li>It found useful shared-authorship and debate relationships.</li>
+                </ul>
+              </article>
+              <article class="panel amber">
+                <h3>Epistack preserves a different record.</h3>
+                <ul>
+                  <li>Separate judgments, cited passages, and the proposed Crux remain inspectable.</li>
+                  <li>Relationship types and corrections remain attached to source evidence.</li>
+                  <li>The comparison audit corrected an unsupported expansion from shared authorship to a shared-dataset claim.</li>
+                </ul>
+              </article>
+            </div>
+            <p class="note spaced"><strong>Limit:</strong> one instructed run does not establish typical product behavior or an overall Epistack advantage.</p>
           </div>
-          <p class="note spaced"><strong>Limit:</strong> one instructed run does not establish typical product behavior or an overall Epistack advantage.</p>
-        </div>
-      </section>
+        </section>
 
-      <section class="slide" id="slide-7" data-slide tabindex="-1" aria-roledescription="slide" aria-label="7 of 7">
-        <div class="slide-inner">
-          <div class="slide-topline"><p class="eyebrow">Epistack · Evidence index</p><p class="slide-number">07 / 07</p></div>
-          <h2>The repository keeps the proposal, evidence, and reproduction path together.</h2>
-          <div class="index-grid">
-            <article class="index-item"><h3>Proposal</h3><a href="README.html"><code>README.md</code></a><a href="WORKFLOW-SPEC.html"><code>WORKFLOW-SPEC.md</code></a><p>Plain-language proposal, workflow specification, implementation account, cases, limitations, and evidence links.</p></article>
-            <article class="index-item"><h3>COVID case</h3><a href="evidence/covid/README.html"><code>evidence/covid/README.md</code></a><a href="evidence/covid/source-manifest.json"><code>evidence/covid/source-manifest.json</code></a><p>Ten-source record, preserved judgments, public source references, and hashes.</p></article>
-            <article class="index-item"><h3>LHC case</h3><a href="evidence/lhc/README.html"><code>evidence/lhc/README.md</code></a><a href="evidence/lhc/SUPPORT-RELATIONSHIP-MAP.html"><code>evidence/lhc/SUPPORT-RELATIONSHIP-MAP.md</code></a><a href="evidence/lhc/retrieval-depth-REPORT.html"><code>evidence/lhc/retrieval-depth-REPORT.md</code></a><p>Six-source manifest, branching argument, relationship map, and retrieval-depth report.</p></article>
-            <article class="index-item"><h3>Comparison</h3><a href="evidence/perplexity/AUDITED-COMPARISON.html"><code>evidence/perplexity/AUDITED-COMPARISON.md</code></a><a href="evidence/perplexity/exact-prompt.html"><code>evidence/perplexity/exact-prompt.md</code></a><p>Predeclared protocol, exact prompt, returned result, and audited comparison.</p></article>
-            <article class="index-item"><h3>Runnable component</h3><a href="demo-crux/README.html"><code>demo-crux/README.md</code></a><a href="demo-crux/run_demo.py"><code>demo-crux/run_demo.py</code></a><p>Standalone Crux component, sanitized fixture, and a runnable demo script.</p></article>
-            <article class="index-item"><h3>Crux validation</h3><a href="evidence/crux/REPORT.html"><code>evidence/crux/REPORT.md</code></a><a href="evidence/crux/INDEPENDENT-COMPONENT-REVIEW.html"><code>evidence/crux/INDEPENDENT-COMPONENT-REVIEW.md</code></a><p>Declared structural and evidentiary checks, additional tests, and an independent component review.</p></article>
-            <article class="index-item"><h3>Deck download</h3><a href="epistack-deck.pptx"><code>epistack-deck.pptx</code></a><p>The presentation deck as a downloadable PowerPoint file.</p></article>
-            <article class="index-item"><h3>Integrity and scope</h3><a href="evidence/README.html"><code>evidence/README.md</code></a><a href="evidence/SHA256SUMS.txt"><code>evidence/SHA256SUMS.txt</code></a><p>Evidence map, public source references, checksums, and redistribution boundaries.</p></article>
+        <section class="slide" id="slide-7" data-slide tabindex="-1" aria-roledescription="slide" aria-label="7 of 7">
+          <div class="slide-inner">
+            <div class="slide-topline">
+              <span class="slide-eyebrow">Epistack · Evidence index</span>
+              <span class="slide-num">07 / 07</span>
+            </div>
+            <h2>The repository keeps the proposal, evidence, and reproduction path together.</h2>
+            <div class="index-grid">
+              <article class="index-item"><h3>Proposal</h3><a href="README.html"><code>README.md</code></a><a href="WORKFLOW-SPEC.html"><code>WORKFLOW-SPEC.md</code></a><p>Plain-language proposal, workflow specification, implementation account, cases, limitations, and evidence links.</p></article>
+              <article class="index-item"><h3>COVID case</h3><a href="evidence/covid/README.html"><code>evidence/covid/README.md</code></a><a href="evidence/covid/source-manifest.json"><code>evidence/covid/source-manifest.json</code></a><p>Ten-source record, preserved judgments, public source references, and hashes.</p></article>
+              <article class="index-item"><h3>LHC case</h3><a href="evidence/lhc/README.html"><code>evidence/lhc/README.md</code></a><a href="evidence/lhc/SUPPORT-RELATIONSHIP-MAP.html"><code>evidence/lhc/SUPPORT-RELATIONSHIP-MAP.md</code></a><a href="evidence/lhc/retrieval-depth-REPORT.html"><code>evidence/lhc/retrieval-depth-REPORT.md</code></a><p>Six-source manifest, branching argument, relationship map, and retrieval-depth report.</p></article>
+              <article class="index-item"><h3>Comparison</h3><a href="evidence/perplexity/AUDITED-COMPARISON.html"><code>evidence/perplexity/AUDITED-COMPARISON.md</code></a><a href="evidence/perplexity/exact-prompt.html"><code>evidence/perplexity/exact-prompt.md</code></a><p>Predeclared protocol, exact prompt, returned result, and audited comparison.</p></article>
+              <article class="index-item"><h3>Runnable component</h3><a href="demo-crux/README.html"><code>demo-crux/README.md</code></a><a href="demo-crux/run_demo.py"><code>demo-crux/run_demo.py</code></a><p>Standalone Crux component, sanitized fixture, and a runnable demo script.</p></article>
+              <article class="index-item"><h3>Crux validation</h3><a href="evidence/crux/REPORT.html"><code>evidence/crux/REPORT.md</code></a><a href="evidence/crux/INDEPENDENT-COMPONENT-REVIEW.html"><code>evidence/crux/INDEPENDENT-COMPONENT-REVIEW.md</code></a><p>Declared structural and evidentiary checks, additional tests, and an independent component review.</p></article>
+              <article class="index-item"><h3>Deck download</h3><a href="epistack-deck.pptx"><code>epistack-deck.pptx</code></a><p>The presentation deck as a downloadable PowerPoint file.</p></article>
+              <article class="index-item"><h3>Integrity and scope</h3><a href="evidence/README.html"><code>evidence/README.md</code></a><a href="evidence/SHA256SUMS.txt"><code>evidence/SHA256SUMS.txt</code></a><p>Evidence map, public source references, checksums, and redistribution boundaries.</p></article>
+            </div>
+            <p class="closing-limit"><strong>Publication boundary:</strong> the public repository should contain the reviewed site, writeup, compact evidence records, tests, and a standalone Crux component. It should not expose proprietary Atlas code or redistribute full source texts without confirmed permission.</p>
           </div>
-          <p class="closing-limit"><strong>Publication boundary:</strong> the public repository should contain the reviewed site, writeup, compact evidence records, tests, and a standalone Crux component. It should not expose proprietary Atlas code or redistribute full source texts without confirmed permission.</p>
+        </section>
+      </div>
+
+      <footer class="deck-footer">
+        <p class="deck-copyright">&copy; 2026 Reticle Works. All rights reserved.</p>
+        <div class="progress" role="group" aria-label="Presentation progress">
+          <span class="progress-track" aria-hidden="true"><span class="progress-bar" id="progress-bar"></span></span>
+          <p class="progress-text" id="progress-text" aria-live="polite">01 / 07</p>
         </div>
-      </section>
+        <nav class="controls" aria-label="Presentation controls">
+          <button type="button" class="exit" id="exit-deck" aria-label="Exit deck and return to landing">&larr; Landing</button>
+          <button type="button" id="previous" aria-label="Previous slide" disabled>Prev</button>
+          <button type="button" id="next" aria-label="Next slide">Next</button>
+        </nav>
+      </footer>
     </div>
   </main>
-
-  <footer class="deck-footer">
-    <p class="copyright">© 2026 Reticle Works. All rights reserved.</p>
-    <div class="progress" role="group" aria-label="Presentation progress">
-      <span class="progress-track" aria-hidden="true"><span class="progress-bar" id="progress-bar"></span></span>
-      <p class="progress-text" id="progress-text" aria-live="polite">Landing</p>
-    </div>
-    <nav class="controls" aria-label="Presentation controls">
-      <button type="button" id="previous" aria-label="Previous slide" disabled>Previous</button>
-      <button type="button" id="next" aria-label="Next slide">Next</button>
-    </nav>
-  </footer>
 
   <script>
     (function () {
       "use strict";
+
+      /* --- Nav toggle (mobile) --- */
+      var navToggle = document.getElementById("nav-toggle");
+      var navLinks = document.getElementById("nav-links");
+      if (navToggle && navLinks) {
+        navToggle.addEventListener("click", function () {
+          var open = navLinks.classList.toggle("open");
+          navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      }
+
+      /* --- Deck --- */
       var slides = Array.prototype.slice.call(document.querySelectorAll("[data-slide]"));
       var previous = document.getElementById("previous");
       var next = document.getElementById("next");
+      var exitBtn = document.getElementById("exit-deck");
       var progressText = document.getElementById("progress-text");
       var progressBar = document.getElementById("progress-bar");
-      var beginCta = document.getElementById("begin-cta");
       var current = 0;
-      var slideCount = slides.length;
-      // Number of numbered deck slides (excludes the landing section).
-      var deckSlideCount = slides.filter(function (s) { return !s.hasAttribute("data-landing"); }).length;
+      var touchStartX = null, touchStartY = null;
+
+      function enterDeck() {
+        document.body.classList.add("deck-mode");
+      }
+      function exitDeck(updateHash) {
+        document.body.classList.remove("deck-mode");
+        if (updateHash) {
+          history.pushState(null, "", "#top");
+          window.scrollTo(0, 0);
+        }
+      }
 
       function indexFromHash() {
-        var hash = window.location.hash;
-        if (!hash || hash === "#" || hash === "#landing") return 0;
-        var match = hash.match(/^#slide-(\d+)$/);
-        if (!match) return 0;
-        var id = "slide-" + match[1];
+        var m = window.location.hash.match(/^#slide-(\d+)$/);
+        if (!m) return -1;
+        var target = "slide-" + m[1];
         for (var i = 0; i < slides.length; i++) {
-          if (slides[i].id === id) return i;
+          if (slides[i].id === target) return i;
         }
-        return 0;
+        return -1;
       }
 
       function show(index, focusSlide, updateHash) {
         current = Math.max(0, Math.min(index, slides.length - 1));
-        slides.forEach(function (slide, slideIndex) {
-          var active = slideIndex === current;
-          slide.classList.toggle("is-active", active);
-          slide.setAttribute("aria-hidden", active ? "false" : "true");
-          if (active) slide.setAttribute("aria-current", "step");
-          else slide.removeAttribute("aria-current");
+        slides.forEach(function (s, i) {
+          var active = i === current;
+          s.classList.toggle("is-active", active);
+          s.setAttribute("aria-hidden", active ? "false" : "true");
+          if (active) s.setAttribute("aria-current", "step"); else s.removeAttribute("aria-current");
+          if (active) s.scrollTop = 0;
         });
         previous.disabled = current === 0;
         next.disabled = current === slides.length - 1;
-
-        var activeSlide = slides[current];
-        if (activeSlide.hasAttribute("data-landing")) {
-          progressText.textContent = "Landing";
-          progressBar.style.width = "0%";
-          document.title = "Epistack — an inspectable research case";
-        } else {
-          var deckIndex = current; // landing is index 0, slide-N is index N.
-          progressText.textContent = deckIndex + " / " + deckSlideCount;
-          progressBar.style.width = ((deckIndex / deckSlideCount) * 100) + "%";
-          var heading = activeSlide.querySelector("h1, h2");
-          if (heading) document.title = heading.textContent + " — Epistack";
-        }
-
+        var human = String(current + 1).padStart(2, "0") + " / " + String(slides.length).padStart(2, "0");
+        progressText.textContent = human;
+        progressBar.style.width = (((current + 1) / slides.length) * 100) + "%";
+        var heading = slides[current].querySelector("h1, h2");
+        document.title = (heading ? heading.textContent : "Epistack") + " — Epistack";
         if (updateHash) {
-          var targetHash = activeSlide.hasAttribute("data-landing") ? "#" : "#" + activeSlide.id;
-          if (window.location.hash !== targetHash && !(targetHash === "#" && window.location.hash === "")) {
-            if (targetHash === "#") {
-              history.pushState(null, "", window.location.pathname + window.location.search);
-            } else {
-              history.pushState(null, "", targetHash);
-            }
-          }
+          var newHash = "#" + slides[current].id;
+          if (window.location.hash !== newHash) history.pushState(null, "", newHash);
         }
         if (focusSlide) {
-          activeSlide.setAttribute("tabindex", "-1");
-          activeSlide.focus({ preventScroll: true });
+          slides[current].setAttribute("tabindex", "-1");
+          slides[current].focus({ preventScroll: true });
         }
       }
 
@@ -618,43 +1228,66 @@
 
       previous.addEventListener("click", function () { change(-1); });
       next.addEventListener("click", function () { change(1); });
+      exitBtn.addEventListener("click", function () { exitDeck(true); });
 
-      if (beginCta) {
-        beginCta.addEventListener("click", function (event) {
-          event.preventDefault();
-          show(1, true, true);
+      /* Deck-entry links */
+      Array.prototype.forEach.call(document.querySelectorAll("[data-enter-deck]"), function (el) {
+        el.addEventListener("click", function (e) {
+          var href = el.getAttribute("href") || "";
+          if (href.indexOf("#slide-") === 0) {
+            e.preventDefault();
+            var idx = 0;
+            for (var i = 0; i < slides.length; i++) if (slides[i].id === href.slice(1)) { idx = i; break; }
+            enterDeck();
+            show(idx, true, true);
+          }
         });
-      }
-
-      document.addEventListener("keydown", function (event) {
-        var tag = event.target && event.target.tagName ? event.target.tagName.toLowerCase() : "";
-        if (tag === "input" || tag === "textarea" || tag === "select" || tag === "button" || tag === "a" || event.altKey || event.ctrlKey || event.metaKey) return;
-        if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") { event.preventDefault(); change(1); }
-        if (event.key === "ArrowLeft" || event.key === "PageUp") { event.preventDefault(); change(-1); }
-        if (event.key === "Home") { event.preventDefault(); show(0, true, true); }
-        if (event.key === "End") { event.preventDefault(); show(slides.length - 1, true, true); }
       });
 
-      var touchStartX = null;
-      var touchStartY = null;
-      document.addEventListener("touchstart", function (event) {
+      document.addEventListener("keydown", function (event) {
+        if (!document.body.classList.contains("deck-mode")) return;
+        var tag = event.target && event.target.tagName ? event.target.tagName.toLowerCase() : "";
+        if (tag === "input" || tag === "textarea" || tag === "select" || event.altKey || event.ctrlKey || event.metaKey) return;
+        if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") { event.preventDefault(); change(1); }
+        else if (event.key === "ArrowLeft" || event.key === "PageUp") { event.preventDefault(); change(-1); }
+        else if (event.key === "Home") { event.preventDefault(); show(0, true, true); }
+        else if (event.key === "End") { event.preventDefault(); show(slides.length - 1, true, true); }
+        else if (event.key === "Escape") { event.preventDefault(); exitDeck(true); }
+      });
+
+      var slidesEl = document.getElementById("slides");
+      slidesEl.addEventListener("touchstart", function (event) {
         if (!event.changedTouches || !event.changedTouches.length) return;
         touchStartX = event.changedTouches[0].clientX;
         touchStartY = event.changedTouches[0].clientY;
       }, { passive: true });
-
-      document.addEventListener("touchend", function (event) {
+      slidesEl.addEventListener("touchend", function (event) {
         if (touchStartX === null || !event.changedTouches || !event.changedTouches.length) return;
-        var deltaX = event.changedTouches[0].clientX - touchStartX;
-        var deltaY = event.changedTouches[0].clientY - touchStartY;
-        touchStartX = null;
-        touchStartY = null;
-        if (Math.abs(deltaX) < 56 || Math.abs(deltaX) <= Math.abs(deltaY) * 1.2) return;
-        change(deltaX < 0 ? 1 : -1);
+        var dx = event.changedTouches[0].clientX - touchStartX;
+        var dy = event.changedTouches[0].clientY - touchStartY;
+        touchStartX = touchStartY = null;
+        if (Math.abs(dx) < 56 || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
+        change(dx < 0 ? 1 : -1);
       }, { passive: true });
 
-      window.addEventListener("hashchange", function () { show(indexFromHash(), false, false); });
-      show(indexFromHash(), false, false);
+      window.addEventListener("hashchange", function () {
+        var idx = indexFromHash();
+        if (idx >= 0) {
+          enterDeck();
+          show(idx, false, false);
+        } else {
+          exitDeck(false);
+        }
+      });
+
+      /* Initial state from hash */
+      var startIdx = indexFromHash();
+      if (startIdx >= 0) {
+        enterDeck();
+        show(startIdx, false, false);
+      } else {
+        show(0, false, false);
+      }
     }());
   </script>
 </body>
