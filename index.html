@@ -22,6 +22,10 @@
       --rose: #7d343a;
       --rose-pale: #f7dedf;
       --line: #a6b0af;
+      --atlas-line: #7691aa;
+      --adds-line: #b05f4a;
+      --position-line: #87aaa5;
+      --relationship-line: #b48b4b;
       --white: #fff;
       --shadow: 0 18px 48px rgba(8, 43, 58, .12);
       --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -93,8 +97,8 @@
     .flow-arrow { display: grid; place-items: center; color: var(--teal); font-size: 1.8rem; font-weight: 900; }
     .flow-node { min-width: 0; padding: clamp(.85rem, 1.65vw, 1.3rem); border: 1px solid var(--line); }
     .flow-node.dark { display: grid; align-content: center; color: var(--white); background: var(--navy); border-color: var(--navy); }
-    .flow-node.atlas { background: var(--blue-pale); border-color: #7691aa; }
-    .flow-node.adds { background: var(--rose-pale); border: 2px solid #b05f4a; }
+    .flow-node.atlas { background: var(--blue-pale); border-color: var(--atlas-line); }
+    .flow-node.adds { background: var(--rose-pale); border: 2px solid var(--adds-line); }
     .flow-kicker { margin-bottom: .35rem; color: inherit; font-size: .66rem; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
     .flow-node.dark .flow-kicker { color: #9fe8df; }
     .flow-node h3 { font-size: clamp(1.25rem, 2vw, 1.65rem); }
@@ -139,7 +143,7 @@
     .claim { margin: .8rem 0; padding: clamp(.9rem, 2vw, 1.35rem); color: var(--white); background: var(--navy); }
     .claim p { margin: 0; font-family: var(--serif); font-size: clamp(1.12rem, 2.15vw, 1.65rem); line-height: 1.25; }
     .positions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .65rem; }
-    .position { padding: .75rem .85rem; background: var(--teal-pale); border: 1px solid #87aaa5; }
+    .position { padding: .75rem .85rem; background: var(--teal-pale); border: 1px solid var(--position-line); }
     .position strong { display: block; }
     .position span { color: var(--muted); font-size: .8rem; }
 
@@ -150,7 +154,7 @@
     .branch-line.indent-1 { padding-left: 1.65rem; color: var(--muted); }
     .branch-line.indent-2 { padding-left: 3.3rem; }
     .branch-line.indent-3 { padding-left: 4.95rem; color: var(--muted); }
-    .relationship { padding: 1rem 1.15rem; background: var(--amber-pale); border: 1px solid #b48b4b; }
+    .relationship { padding: 1rem 1.15rem; background: var(--amber-pale); border: 1px solid var(--relationship-line); }
     .retrieval { margin-top: .7rem; display: grid; grid-template-columns: auto 1fr; gap: .75rem; align-items: center; }
     .retrieval strong { color: var(--amber); font-family: var(--serif); font-size: clamp(2rem, 4vw, 3.2rem); white-space: nowrap; }
     .retrieval span { color: var(--muted); font-size: .84rem; }
@@ -299,7 +303,10 @@
       background: var(--navy);
       border-top: 1px solid rgba(255,255,255,.2);
     }
-    .copyright { margin: 0; color: #c9d9dc; font-size: .67rem; }
+    .deck-mark { position:fixed; right:max(.9rem, env(safe-area-inset-right)); bottom:calc(var(--footer-height) + .35rem + env(safe-area-inset-bottom)); z-index:5; margin:0; color:var(--muted); font-size:.62rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; pointer-events:auto; }
+    .deck-mark a { color:var(--muted); text-decoration:none; border-bottom:1px solid rgba(82,101,108,.35); }
+    .deck-mark a:hover { color:var(--ink); border-bottom-color:var(--ink); }
+    @media print { .deck-mark { position:static; color:#000; border:0; } .deck-mark a { color:#000; } }
     .progress { display: flex; align-items: center; gap: .7rem; }
     .progress-track { width: clamp(86px, 15vw, 180px); height: 4px; overflow: hidden; background: rgba(255,255,255,.24); }
     .progress-bar { display: block; width: 0; height: 100%; background: #9fe8df; transition: width .2s ease; }
@@ -327,7 +334,6 @@
       .positions { grid-template-columns: 1fr; }
       .index-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .deck-footer { grid-template-columns: auto 1fr auto; }
-      .copyright { max-width: 150px; }
       .progress-track { display: none; }
       .controls button { min-width: 72px; }
     }
@@ -338,7 +344,6 @@
       .atlas-parts, .boundary-grid, .index-grid { grid-template-columns: 1fr; }
       .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .deck-footer { grid-template-columns: 1fr auto; gap: .35rem; }
-      .copyright { grid-column: 1 / -1; max-width: none; text-align: center; }
       .progress { justify-content: start; }
       .controls button { min-width: 68px; min-height: 44px; padding: .55rem .7rem; }
     }
@@ -357,7 +362,6 @@
       .slide-inner { width: 100%; }
       .panel, .metric, .position { box-shadow: none; }
       .deck-footer { min-height: 0; padding: .12in 0 0; display: block; color: #000; background: #fff; border-top: 1px solid #777; }
-      .copyright { color: #000; }
       .progress, .controls, .skip-link { display: none !important; }
     }
   </style>
@@ -608,7 +612,6 @@
   </main>
 
   <footer class="deck-footer">
-    <p class="copyright">© 2026 Reticle Works. All rights reserved.</p>
     <div class="progress" role="group" aria-label="Presentation progress">
       <span class="progress-track" aria-hidden="true"><span class="progress-bar" id="progress-bar"></span></span>
       <p class="progress-text" id="progress-text" aria-live="polite">Cover</p>
@@ -618,6 +621,7 @@
       <button type="button" id="next" aria-label="Next slide">Next</button>
     </nav>
   </footer>
+  <p class="deck-mark">© 2026 Reticle Works · <a href="https://github.com/ReticleWorks/epistack/blob/main/LICENSE">MIT License</a></p>
 
   <script>
     (function () {

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Implementation — Epistack</title>
+  <style>
+    :root {
+      --ink: #112b36;
+      --muted: #52656c;
+      --paper: #f5f1e8;
+      --surface: #fffdf8;
+      --navy: #082b3a;
+      --teal: #08645f;
+      --teal-pale: #d9efea;
+      --line: #a6b0af;
+      --sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --serif: Iowan Old Style, Baskerville, Georgia, serif;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.55; }
+    body { margin: 0; }
+    .doc-header {
+      padding: 1.15rem clamp(1rem, 4vw, 3rem);
+      color: #fff;
+      background: linear-gradient(135deg, var(--navy) 0%, #0b3a4a 100%);
+      border-bottom: 4px solid var(--teal);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .doc-header .brand { display: flex; align-items: baseline; gap: .8rem; }
+    .doc-header .wordmark { margin: 0; font-family: var(--serif); font-weight: 700; font-size: 1.55rem; letter-spacing: -.01em; color: #fff; text-decoration: none; }
+    .doc-header .doc-crumb { margin: 0; color: #9fe8df; font-size: .78rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .doc-header .back { color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.55); padding: .55rem 1rem; font-weight: 800; font-size: .82rem; text-decoration: none; }
+    .doc-header .back:hover { background: rgba(255,255,255,.12); }
+    main { max-width: 820px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem); }
+    main h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.75rem); line-height: 1.1; letter-spacing: -.01em; margin-top: 0; margin-bottom: 1rem; }
+    main h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.4rem, 2.8vw, 1.85rem); line-height: 1.15; margin-top: 2rem; margin-bottom: .7rem; }
+    main h3 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.1rem, 2vw, 1.35rem); margin-top: 1.6rem; margin-bottom: .5rem; }
+    main p { margin: 0 0 1rem; }
+    main strong { font-weight: 700; color: var(--ink); }
+    main a { color: var(--teal); }
+    main code { background: rgba(8,100,95,.09); padding: .1rem .35rem; border-radius: 3px; font-size: .9em; }
+    main pre { background: var(--navy); color: #eaf1f3; padding: 1rem 1.1rem; overflow-x: auto; }
+    main pre code { background: transparent; color: inherit; padding: 0; }
+    main blockquote { border-left: 4px solid var(--teal); padding: .35rem 0 .35rem 1rem; margin: 1rem 0; color: var(--muted); }
+    main table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+    main th, main td { padding: .55rem .7rem; border: 1px solid var(--line); text-align: left; vertical-align: top; font-size: .95rem; }
+    main th { background: var(--teal-pale); }
+    main ul, main ol { margin: 0 0 1rem; padding-left: 1.5rem; }
+    main hr { border: 0; border-top: 1px solid var(--line); margin: 2rem 0; }
+    .doc-footer {
+      padding: 1rem clamp(1rem, 4vw, 3rem);
+      color: #dcebed;
+      background: var(--navy);
+      font-size: .78rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+    }
+    .doc-footer a { color: #9fe8df; }
+    .doc-mark { color: #c9d9dc; font-size: .68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+    .doc-mark a { color: #9fe8df; text-decoration: none; border-bottom: 1px solid rgba(159,232,223,.4); }
+    .doc-return { color: #9fe8df; font-size: .78rem; }
+    .source-link { display: inline-block; margin-top: 1rem; color: var(--muted); font-size: .82rem; }
+    @media (prefers-color-scheme: dark) {
+      /* keep light — content is designed for print/light */
+    }
+    @media print {
+      .doc-header .back, .doc-footer { display: none; }
+      main { max-width: none; padding: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="doc-header">
+    <div class="brand">
+      <a class="wordmark" href="index.html">Epistack</a>
+      <p class="doc-crumb">EPISTACK</p>
+    </div>
+    <a class="back" href="index.html">← Back to walkthrough</a>
+  </header>
+  <main>
+    <h1>Epistack — Implementation</h1>
+<p>Epistack combines existing research functions around a common case record. Some collect and preserve sources. Some find relevant passages and produce separate judgments. A deterministic comparison component proposes the load-bearing claim. Other implemented facilities follow citations and organize source relationships. For relationships those facilities do not encode, the case record requires a typed relationship and its supporting passage. Each function leaves an inspectable artifact, so a later investigator can see where a result came from and where a later stage stopped.</p>
+<h3>Source harvesting and records</h3>
+<p>The source-harvest workflow searches for material, retrieves documents, records failures and exclusions, and stores a file fingerprint. A fingerprint is calculated from a file’s contents; if the file changes, its fingerprint changes. It lets another investigator confirm that they are reading the same source used in the analysis.</p>
+<p>This process produced the ten-source COVID corpus and its retrieval record. The LHC package similarly preserves six source files, a manifest, and file fingerprints, although the supplied materials do not establish that the same gathering process assembled it.</p>
+<p><strong>Atlas</strong> is the existing research toolkit beneath Epistack. It can represent documents, claims linked to their source passages, and named entities such as people and institutions. The two case harnesses preserved documents and passages, but their linked-claim graphs were empty. They demonstrate traceable source assembly and passage storage, not the fuller graph-backed path.</p>
+<h3>Atlas retrieval</h3>
+<p>Atlas searches stored material for passages relevant to a question and supplies selected passages to a configured reviewer. Its <code>taste_agent</code> component can combine direct passage search with claim-graph and citation context when those stores are populated.</p>
+<p>In the COVID and LHC runs, the linked-claim graph was empty, so direct passage search supplied the evidence. A local OpenAI embedding service represented each passage numerically so the software could retrieve passages similar to the question. The cases show Atlas code retrieving preserved passages for separate reviews. They do not show that every retrieval channel or graph link contributed.</p>
+<h3>Separate judgments</h3>
+<p>Atlas’s <code>judgment_panel</code> asks several configured reviewers the same narrow question and preserves each answer independently. Each judgment can contain a position and confidence range, supporting reasons, cited sources, counter-evidence, limitations, and evidence that could change the judgment. This is the panel structure used in both cases.</p>
+<p>The reviewers in these cases were model roles with different source allocations, not independent human experts. Their value here is structural: the record shows who relied on what before a later synthesis can smooth the differences away.</p>
+<h3>Checks on generated text</h3>
+<p>Atlas includes checks intended to catch two common problems in generated research. Its faithfulness check breaks an answer into factual claims and asks whether the retrieved passages support each one. Its uncertainty component records caveats about the source set and retrieval result when assigning a range.</p>
+<p>These are diagnostic controls, not measures of truth. In the supplied runs, the support check produced useful refusals and revised outputs, but also parser warnings and truncated text. A single default source label made the uncertainty ranges uninformative about differences in source quality. Those failures remain in the case record.</p>
+<h3>Citation-graph retrieval</h3>
+<p>Atlas also includes <code>rag_advisor</code>, a citation-focused retrieval service. It records which papers cite which others, can search one citation step beyond an initial source set, and can identify influential papers and clusters of closely connected work.</p>
+<p>These are implemented source-relationship facilities. They can show citation connections and help organize a literature. They are not a general service for detecting shared authorship, acknowledged advice, or shared datasets across arbitrary documents. For those relationships, Epistack requires a type and the passage supporting it. In the LHC case, that complete comparison came from the source-directed audit; the panel itself did not produce the authorship and advice finding.</p>
+<h3>Load-bearing-claim comparison</h3>
+<p>The crux extractor is a deterministic reference component: the same input produces the same output. It compares preserved judgments and returns a candidate load-bearing claim, each reviewer’s position, cited sources, disagreement type, and stated change conditions. It runs over preserved panel output and is included in the reference package. On the preserved COVID panel it met all five declared structural and evidentiary checks. Four additional tests include an unrelated clinical-trial case and an abstention case.</p>
+<p>This shows that the component emits the required inspectable fields on those tests. It does not prove semantic accuracy across domains. The supplied record does not establish that this version has been merged into the deployed Atlas service.</p>
+<h3>Typed relationships and the case record</h3>
+<p>Atlas and <code>rag_advisor</code> already represent source, entity, and citation relationships. Epistack’s case record adds explicit types for other documented relationships, including shared authorship, advice, data, institutions, methods, and assumptions. Each accepted relationship must retain the passage supporting it. The supplied software does not contain a general automated service for detecting all of those relationship types.</p>
+<p>The intended case record combines the source ledger, separate judgments, extracted claim, typed relationships, missing-evidence requests, objections, and revision history. The supplied package already preserves the corpora, manifests, raw judgments, COVID crux record, LHC support map, and successive corrections. It does not yet provide one consolidated interface for challenging a relationship and recording the response.</p>
+
+    <a class="source-link" href="IMPLEMENTATION.md">View markdown source · IMPLEMENTATION.md</a>
+  </main>
+  <footer class="doc-footer">
+    <span class="doc-mark">© 2026 Reticle Works · <a href="https://github.com/ReticleWorks/epistack/blob/main/LICENSE">MIT License</a></span>
+    <a class="doc-return" href="index.html">Return to walkthrough</a>
+  </footer>
+</body>
+</html>

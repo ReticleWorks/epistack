@@ -246,8 +246,14 @@ def render_body(md_text: str) -> str:
             lambda m: f'href="{_rewrite_local_md_href(m.group(1))}"',
             body,
         )
-        return body
-    return convert_markdown(md_text)
+    else:
+        body = convert_markdown(md_text)
+    body = re.sub(
+        r'<hr\s*/?>\s*<p>© 2026 Reticle Works[^<]*<a href="[^"]*">LICENSE</a>[^<]*</p>\s*$',
+        '',
+        body,
+    )
+    return body
 
 
 # --------------------------------------------------------------------------
@@ -316,9 +322,9 @@ TEMPLATE = """<!DOCTYPE html>
     .doc-header .back {{ color: #fff; background: transparent; border: 1px solid rgba(255,255,255,.55); padding: .55rem 1rem; font-weight: 800; font-size: .82rem; text-decoration: none; }}
     .doc-header .back:hover {{ background: rgba(255,255,255,.12); }}
     main {{ max-width: 820px; margin: 0 auto; padding: clamp(1.4rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem); }}
-    main h1 {{ font-family: var(--serif); font-weight: 700; font-size: clamp(1.9rem, 4vw, 2.75rem); line-height: 1.1; letter-spacing: -.01em; margin-top: 0; margin-bottom: 1rem; }}
-    main h2 {{ font-family: var(--serif); font-weight: 700; font-size: clamp(1.4rem, 2.8vw, 1.85rem); line-height: 1.15; margin-top: 2rem; margin-bottom: .7rem; }}
-    main h3 {{ font-family: var(--serif); font-weight: 700; font-size: clamp(1.1rem, 2vw, 1.35rem); margin-top: 1.6rem; margin-bottom: .5rem; }}
+    main h1 {{ font-family: var(--serif); font-weight: 600; font-size: clamp(1.9rem, 4vw, 2.75rem); line-height: 1.1; letter-spacing: -.01em; margin-top: 0; margin-bottom: 1rem; }}
+    main h2 {{ font-family: var(--serif); font-weight: 600; font-size: clamp(1.4rem, 2.8vw, 1.85rem); line-height: 1.15; margin-top: 2rem; margin-bottom: .7rem; }}
+    main h3 {{ font-family: var(--serif); font-weight: 600; font-size: clamp(1.1rem, 2vw, 1.35rem); margin-top: 1.6rem; margin-bottom: .5rem; }}
     main p {{ margin: 0 0 1rem; }}
     main strong {{ font-weight: 700; color: var(--ink); }}
     main a {{ color: var(--teal); }}
@@ -336,8 +342,15 @@ TEMPLATE = """<!DOCTYPE html>
       color: #dcebed;
       background: var(--navy);
       font-size: .78rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
     }}
     .doc-footer a {{ color: #9fe8df; }}
+    .doc-mark {{ color: #c9d9dc; font-size: .68rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }}
+    .doc-mark a {{ color: #9fe8df; text-decoration: none; border-bottom: 1px solid rgba(159,232,223,.4); }}
+    .doc-return {{ color: #9fe8df; font-size: .78rem; }}
     .source-link {{ display: inline-block; margin-top: 1rem; color: var(--muted); font-size: .82rem; }}
     @media (prefers-color-scheme: dark) {{
       /* keep light — content is designed for print/light */
@@ -361,7 +374,8 @@ TEMPLATE = """<!DOCTYPE html>
     <a class="source-link" href="{md_href}">View markdown source · {md_href}</a>
   </main>
   <footer class="doc-footer">
-    © 2026 Reticle Works. Released under the MIT License — see <a href="{license_href}">LICENSE</a>. Return to <a href="{root_index}">walkthrough</a>.
+    <span class="doc-mark">© 2026 Reticle Works · <a href="{license_href}">MIT License</a></span>
+    <a class="doc-return" href="{root_index}">Return to walkthrough</a>
   </footer>
 </body>
 </html>
@@ -376,6 +390,8 @@ def build_page(md_path: Path) -> str:
 
     md_text = md_path.read_text(encoding="utf-8")
     page_title = html.escape(extract_title(md_text, md_path.stem))
+    if page_title.lower().startswith("epistack"):
+        page_title = re.sub(r"^epistack\s*[—–-]\s*", "", page_title, flags=re.I) or page_title
     if not rel_dir_parts and md_path.stem == "README":
         breadcrumb = "PROPOSAL"
     else:
