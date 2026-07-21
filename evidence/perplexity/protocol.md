@@ -37,7 +37,7 @@ The audit records:
 - whether the distinct Deep Research mode was used;
 - whether it used the ten fixed sources and clearly marked additions;
 - its answer and confidence or qualification;
-- the precision of its load-bearing claim;
+- the precision of its critical claim;
 - its strongest alternative explanation and proposed discriminating evidence;
 - whether it found source dependencies, and which ones;
 - whether citations support nearby claims;

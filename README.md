@@ -80,13 +80,13 @@ Epistack is a human–AI research workflow built to answer two questions:
 
 Epistack begins by asking several AI reviewers to answer the same narrow question. They draw from a traceable source record, sometimes through different assigned slices. Each reviewer states its position, reasons, cited sources, counter-evidence, and the evidence that could change its judgment. Their answers remain separate rather than being blended into one summary.
 
-Keeping those judgments separate exposes the point at which their reasoning differs. Epistack calls this the **load-bearing claim**: the assertion whose evidentiary weight changes the answer. A comparison component proposes that claim and records how each judgment bears on it. An analyst can accept, revise, or reject the proposal.
+Keeping those judgments separate exposes the point at which their reasoning differs. Epistack calls this the **critical claim**: the assertion whose evidentiary weight changes the answer. A comparison component proposes that claim and records how each judgment bears on it. An analyst can accept, revise, or reject the proposal.
 
 Once that claim is visible, the second question becomes concrete: what stands behind it? Sources may be connected through citations, shared authors, shared data, advice, institutions, methods, or assumptions. Epistack records each documented connection as a typed relationship tied to its supporting passage. “These papers share an author” is different from “these papers use the same data.” The workflow does not silently substitute one for the other.
 
-The result is not another essay arguing for one answer. It is a versioned case record: the separate judgments, the proposed load-bearing claim, a map of its documented support, the evidence most likely to change the picture, and a history of corrections. Another investigator can challenge or replace one part without recreating the entire inquiry.
+The result is not another essay arguing for one answer. It is a versioned case record: the separate judgments, the proposed critical claim, a map of its documented support, the evidence most likely to change the picture, and a history of corrections. Another investigator can challenge or replace one part without recreating the entire inquiry.
 
-We exercised this workflow on two cases chosen to test different demands. COVID origins remain disputed, so it tests whether the workflow can expose a contested load-bearing claim. The safety conclusion concerning the Large Hadron Collider is largely settled, but its supporting argument is technically layered. It tests whether the workflow can preserve a conditional argument and inspect relationships among its sources without manufacturing a dispute. We also gave the COVID question and the same starting sources to Perplexity Deep Research under a predeclared protocol. The comparison concerns the records the two processes produced; one run cannot establish overall superiority.
+We exercised this workflow on two cases chosen to test different demands. COVID origins remain disputed, so it tests whether the workflow can expose a contested critical claim. The safety conclusion concerning the Large Hadron Collider is largely settled, but its supporting argument is technically layered. It tests whether the workflow can preserve a conditional argument and inspect relationships among its sources without manufacturing a dispute. We also gave the COVID question and the same starting sources to Perplexity Deep Research under a predeclared protocol. The comparison concerns the records the two processes produced; one run cannot establish overall superiority.
 
 ## The LHC case: a layered argument and its documentary relationships
 
@@ -136,7 +136,7 @@ Implementation details — source harvesting, Atlas retrieval, separate judgment
 1. Narrow a broad topic to a question whose central claim can be supported, challenged, or left unresolved.
 2. Build a traceable corpus with stable identifiers, retrieval records, exclusions, and hashes.
 3. Use Atlas retrieval to supply evidence to separate reviewers, preserving reasons, citations, counter-evidence, uncertainty, and change conditions.
-4. Run the crux extractor to propose the load-bearing claim and record how each judgment bears on it. The proposal remains open to acceptance, revision, or rejection.
+4. Run the crux extractor to propose the critical claim and record how each judgment bears on it. The proposal remains open to acceptance, revision, or rejection.
 5. Trace that claim through citations, data, authors, advice, institutions, methods, and assumptions. Keep the type and exact passage for every accepted relationship.
 6. Publish the artifacts as a versioned case record so later sources, objections, corrected relationships, or replacement judgments do not erase the earlier state.
 
@@ -158,7 +158,7 @@ The crux extractor ran on the preserved real panel after the reviewers finished.
 
 ## Comparison with Perplexity Deep Research
 
-We gave the distinct Perplexity Deep Research tool the same COVID question and the same ten-source starting set. Before the call, we fixed a protocol asking for a direct answer, a load-bearing claim, the strongest alternative, evidence that would change the conclusion, source dependencies, uncertainty, citations, and a source-use table. The prompt did not supply Epistack’s judgments, validation criteria, or conclusions.
+We gave the distinct Perplexity Deep Research tool the same COVID question and the same ten-source starting set. Before the call, we fixed a protocol asking for a direct answer, a critical claim, the strongest alternative, evidence that would change the conclusion, source dependencies, uncertainty, citations, and a source-use table. The prompt did not supply Epistack’s judgments, validation criteria, or conclusions.
 
 The single Deep Research run did something important. It identified the central hinge as whether the geographic signal reflects transmission or ascertainment bias. It also noticed shared authorship and debate ancestry among several sources. Deep Research can therefore find both a useful crux and real source relationships when asked directly. Epistack cannot honestly claim those capabilities are unique.
 
@@ -182,7 +182,7 @@ The reusable unit is a versioned case record:
 
 1. **Source ledger:** stable identifiers, source types, retrieval records, exclusions, duplicates, and hashes.
 2. **Separate judgments:** each reviewer’s position, warrant, citations, counter-evidence, uncertainty, and change conditions.
-3. **Crux card:** the extracted load-bearing claim, alternative candidates, position labels, disagreement type, and the evidence attached to each side.
+3. **Crux card:** the extracted critical claim, alternative candidates, position labels, disagreement type, and the evidence attached to each side.
 4. **Support and relationship map:** typed relationships among claims, documents, data, authors, advisers, institutions, methods, and assumptions, each tied to an exact passage.
 5. **Missing-evidence note:** the observation or record most likely to change the present judgments.
 6. **Revision history:** objections, corrected edges, replacement judgments, and unresolved questions.

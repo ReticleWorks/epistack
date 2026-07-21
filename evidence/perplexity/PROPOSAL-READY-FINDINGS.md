@@ -25,7 +25,7 @@ This is not an overall win for Epistack. Deep Research produced the better singl
 - State that the prompt explicitly requested hinge and dependency analysis. Do not imply that these appeared unprompted.
 - Do not use Perplexity's 65–80% figure as a scientific result; the returned record did not show how it was calibrated.
 - Do not claim a win, benchmark result, or typical behavior from one run.
-- Describe Epistack as a human-AI workflow: AI produces separate source-cited reviews; a person identifies the load-bearing claim and checks lineage.
+- Describe Epistack as a human-AI workflow: AI produces separate source-cited reviews; a person identifies the critical claim and checks lineage.
 
 ---
 

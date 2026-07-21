@@ -6,7 +6,7 @@ The genuine Perplexity Deep Research call did something important: after an expl
 
 The returned product is not the requested full report. It is a 258-word summary plus fifteen search results. It provides no source table, no sentence-level citation map, no supporting spans for its dependency claims, and no method for its 65–80% confidence range. One dependency claim is materially too broad: sources 1–3 do share authors, but the supplied source texts do not use "a single case dataset." Source 1 analyzes December case locations from the WHO mission report; source 2 analyzes early viral genomes, phylodynamic models, and simulations; source 3 analyzes viral genomic features. Shared authorship is established. One shared case dataset across all three is not.
 
-This result narrows the honest case for Epistack. Deep Research can name a hinge and can notice source relationships when directly instructed. The value of the Epistack workflow cannot rest on a claim that deep research is unable to do either. The stronger distinction is the **research process and record**: AI produces separate source-cited reviews; a person compares them to identify the load-bearing claim, checks the lineage of its support, and preserves the judgments, warrants, typed dependency edges, and revisions in a versioned case record. The supplied tools support parts of that process; they do not automate the person's analysis.
+This result narrows the honest case for Epistack. Deep Research can name a hinge and can notice source relationships when directly instructed. The value of the Epistack workflow cannot rest on a claim that deep research is unable to do either. The stronger distinction is the **research process and record**: AI produces separate source-cited reviews; a person compares them to identify the critical claim, checks the lineage of its support, and preserves the judgments, warrants, typed dependency edges, and revisions in a versioned case record. The supplied tools support parts of that process; they do not automate the person's analysis.
 
 ## What actually ran
 
@@ -23,7 +23,7 @@ No new authentication was attempted. No fallback model or second Perplexity tool
 | Added sources marked | Fifteen search results were returned, but the answer marks only one as an "added preprint" and does not separate all additions | Incomplete |
 | Direct answer | Market-associated zoonotic origin is described as better supported, at 65–80% confidence | Present; numerical calibration is not established by the returned record |
 | Spatial evidence separated from full origin inference | Yes: unusual geographic pattern versus probable but unproven zoonotic origin | Present |
-| Load-bearing claim | Whether the geographic signal is causal or an ascertainment artifact | Concrete and useful |
+| Critical claim | Whether the geographic signal is causal or an ascertainment artifact | Concrete and useful |
 | Strongest alternative explanation | Ascertainment bias is named; prior human transmission is not developed as a causal account | Partial |
 | Evidence that would change the conclusion | The answer mentions unresolved host identity and one-versus-two introductions, but does not state a clear decision-changing observation | Missing |
 | Source dependencies | Shared authorship among 1–3; reply relationship between 5 and an added preprint; Rootclaim debate relationship among 6, 7, and 10 | Present but not source-spanned; one claim overstates shared data |

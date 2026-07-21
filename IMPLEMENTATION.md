@@ -1,6 +1,6 @@
 # Epistack — Implementation
 
-Epistack combines existing research functions around a common case record. Some collect and preserve sources. Some find relevant passages and produce separate judgments. A deterministic comparison component proposes the load-bearing claim. Other implemented facilities follow citations and organize source relationships. For relationships those facilities do not encode, the case record requires a typed relationship and its supporting passage. Each function leaves an inspectable artifact, so a later investigator can see where a result came from and where a later stage stopped.
+Epistack combines existing research functions around a common case record. Some collect and preserve sources. Some find relevant passages and produce separate judgments. A deterministic comparison component proposes the critical claim. Other implemented facilities follow citations and organize source relationships. For relationships those facilities do not encode, the case record requires a typed relationship and its supporting passage. Each function leaves an inspectable artifact, so a later investigator can see where a result came from and where a later stage stopped.
 
 ### Source harvesting and records
 
@@ -34,9 +34,9 @@ Atlas also includes `rag_advisor`, a citation-focused retrieval service. It reco
 
 These are implemented source-relationship facilities. They can show citation connections and help organize a literature. They are not a general service for detecting shared authorship, acknowledged advice, or shared datasets across arbitrary documents. For those relationships, Epistack requires a type and the passage supporting it. In the LHC case, that complete comparison came from the source-directed audit; the panel itself did not produce the authorship and advice finding.
 
-### Load-bearing-claim comparison
+### Critical-claim comparison
 
-The crux extractor is a deterministic reference component: the same input produces the same output. It compares preserved judgments and returns a candidate load-bearing claim, each reviewer’s position, cited sources, disagreement type, and stated change conditions. It runs over preserved panel output and is included in the reference package. On the preserved COVID panel it met all five declared structural and evidentiary checks. Four additional tests include an unrelated clinical-trial case and an abstention case.
+The crux extractor is a deterministic reference component: the same input produces the same output. It compares preserved judgments and returns a candidate critical claim, each reviewer’s position, cited sources, disagreement type, and stated change conditions. It runs over preserved panel output and is included in the reference package. On the preserved COVID panel it met all five declared structural and evidentiary checks. Four additional tests include an unrelated clinical-trial case and an abstention case.
 
 This shows that the component emits the required inspectable fields on those tests. It does not prove semantic accuracy across domains. The supplied record does not establish that this version has been merged into the deployed Atlas service.
 
